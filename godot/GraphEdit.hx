@@ -77,11 +77,11 @@ extern class GraphEdit extends godot.Control {
 	/**
 		`delete_nodes_request` signal.
 		
-		Emitted when a GraphNode is attempted to be removed from the GraphEdit.
+		Emitted when a GraphNode is attempted to be removed from the GraphEdit. Provides a list of node names to be removed (all selected nodes, excluding nodes without closing button).
 	**/
-	public var onDeleteNodesRequest(get, never):Signal<Void->Void>;
-	@:dox(hide) @:noCompletion inline function get_onDeleteNodesRequest():Signal<Void->Void> {
-		return new Signal(this, "delete_nodes_request", Signal.SignalHandlerVoidVoid.connectSignal, Signal.SignalHandlerVoidVoid.disconnectSignal, Signal.SignalHandlerVoidVoid.isSignalConnected);
+	public var onDeleteNodesRequest(get, never):Signal<(nodes:godot.collections.Array)->Void>;
+	@:dox(hide) @:noCompletion inline function get_onDeleteNodesRequest():Signal<(nodes:godot.collections.Array)->Void> {
+		return new Signal(this, "delete_nodes_request", Signal.SignalHandlerArrayVoid.connectSignal, Signal.SignalHandlerArrayVoid.disconnectSignal, Signal.SignalHandlerArrayVoid.isSignalConnected);
 	}
 
 	/**

@@ -47,9 +47,9 @@ extern class EditorProperty extends godot.Container {
 		
 		Emitted when a property was checked. Used internally.
 	**/
-	public var onPropertyChecked(get, never):Signal<(property:std.String, bool:std.String)->Void>;
-	@:dox(hide) @:noCompletion inline function get_onPropertyChecked():Signal<(property:std.String, bool:std.String)->Void> {
-		return new Signal(this, "property_checked", Signal.SignalHandlerStringStringVoid.connectSignal, Signal.SignalHandlerStringStringVoid.disconnectSignal, Signal.SignalHandlerStringStringVoid.isSignalConnected);
+	public var onPropertyChecked(get, never):Signal<(property:std.String, checked:Bool)->Void>;
+	@:dox(hide) @:noCompletion inline function get_onPropertyChecked():Signal<(property:std.String, checked:Bool)->Void> {
+		return new Signal(this, "property_checked", Signal.SignalHandlerStringBoolVoid.connectSignal, Signal.SignalHandlerStringBoolVoid.disconnectSignal, Signal.SignalHandlerStringBoolVoid.isSignalConnected);
 	}
 
 	/**
@@ -70,6 +70,17 @@ extern class EditorProperty extends godot.Container {
 	public var onPropertyKeyedWithValue(get, never):Signal<(property:std.String, value:Any)->Void>;
 	@:dox(hide) @:noCompletion inline function get_onPropertyKeyedWithValue():Signal<(property:std.String, value:Any)->Void> {
 		return new Signal(this, "property_keyed_with_value", Signal.SignalHandlerStringVariantVoid.connectSignal, Signal.SignalHandlerStringVariantVoid.disconnectSignal, Signal.SignalHandlerStringVariantVoid.isSignalConnected);
+	}
+
+	/**
+		`property_pinned` signal.
+		
+		Emit it if you want to mark (or unmark) the value of a property for being saved regardless of being equal to the default value.
+		The default value is the one the property will get when the node is just instantiated and can come from an ancestor scene in the inheritance/instancing chain, a script or a builtin class.
+	**/
+	public var onPropertyPinned(get, never):Signal<(property:std.String, pinned:Bool)->Void>;
+	@:dox(hide) @:noCompletion inline function get_onPropertyPinned():Signal<(property:std.String, pinned:Bool)->Void> {
+		return new Signal(this, "property_pinned", Signal.SignalHandlerStringBoolVoid.connectSignal, Signal.SignalHandlerStringBoolVoid.disconnectSignal, Signal.SignalHandlerStringBoolVoid.isSignalConnected);
 	}
 
 	/**

@@ -14,6 +14,26 @@ Note: The `Range.changed` and `Range.value_changed` signals are part of the `god
 @:native("Godot.Slider")
 @:autoBuild(godot.Godot.buildUserClass())
 extern abstract class Slider extends godot.Range {
+	/**
+		`drag_ended` signal.
+		
+		Emitted when dragging stops. If `value_changed` is true, `range.value` is different from the value when you started the dragging.
+	**/
+	public var onDragEnded(get, never):Signal<(valueChanged:Bool)->Void>;
+	@:dox(hide) @:noCompletion inline function get_onDragEnded():Signal<(valueChanged:Bool)->Void> {
+		return new Signal(this, "drag_ended", Signal.SignalHandlerBoolVoid.connectSignal, Signal.SignalHandlerBoolVoid.disconnectSignal, Signal.SignalHandlerBoolVoid.isSignalConnected);
+	}
+
+	/**
+		`drag_started` signal.
+		
+		Emitted when dragging is started.
+	**/
+	public var onDragStarted(get, never):Signal<Void->Void>;
+	@:dox(hide) @:noCompletion inline function get_onDragStarted():Signal<Void->Void> {
+		return new Signal(this, "drag_started", Signal.SignalHandlerVoidVoid.connectSignal, Signal.SignalHandlerVoidVoid.disconnectSignal, Signal.SignalHandlerVoidVoid.isSignalConnected);
+	}
+
 	/**		
 		If `true`, the slider will display ticks for minimum and maximum values.
 	**/

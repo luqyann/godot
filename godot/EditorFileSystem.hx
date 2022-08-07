@@ -61,7 +61,7 @@ extern abstract class EditorFileSystem extends godot.Node {
 	public function getFilesystem():godot.EditorFileSystemDirectory;
 
 	/**		
-		Returns `true` of the filesystem is being scanned.
+		Returns `true` if the filesystem is being scanned.
 	**/
 	@:native("IsScanning")
 	public function isScanning():Bool;

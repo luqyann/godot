@@ -57,7 +57,7 @@ extern class ArrayMesh extends godot.Mesh {
 	public static var ARRAY_WEIGHTS_SIZE(default, never):Int;
 
 	/**		
-		Default value used for index_array_len when no indices are present.
+		Value used internally when no indices are present.
 	**/
 	@:native("NoIndexArray")
 	public static var NO_INDEX_ARRAY(default, never):Int;

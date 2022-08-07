@@ -13,7 +13,7 @@ A directional light is a type of `godot.Light` node that models an infinite numb
 @:autoBuild(godot.Godot.buildUserClass())
 extern class DirectionalLight extends godot.Light {
 	/**		
-		The maximum distance for shadow splits.
+		The maximum distance for shadow splits. Increasing this value will make directional shadows visible from further away, at the cost of lower overall shadow detail and performance (since more objects need to be included in the directional shadow rendering).
 	**/
 	@:native("DirectionalShadowMaxDistance")
 	public var directionalShadowMaxDistance:Single;
@@ -25,7 +25,7 @@ extern class DirectionalLight extends godot.Light {
 	public var directionalShadowDepthRange:godot.DirectionalLight_ShadowDepthRange;
 
 	/**		
-		Amount of extra bias for shadow splits that are far away. If self-shadowing occurs only on the splits far away, increasing this value can fix them.
+		Amount of extra bias for shadow splits that are far away. If self-shadowing occurs only on the splits far away, increasing this value can fix them. This is ignored when `godot.DirectionalLight.directionalShadowMode` is `godot.DirectionalLight_ShadowMode.orthogonal`.
 	**/
 	@:native("DirectionalShadowBiasSplitScale")
 	public var directionalShadowBiasSplitScale:Single;
@@ -37,25 +37,25 @@ extern class DirectionalLight extends godot.Light {
 	public var directionalShadowNormalBias:Single;
 
 	/**		
-		If `true`, shadow detail is sacrificed in exchange for smoother transitions between splits.
+		If `true`, shadow detail is sacrificed in exchange for smoother transitions between splits. Enabling shadow blend splitting also has a moderate performance cost. This is ignored when `godot.DirectionalLight.directionalShadowMode` is `godot.DirectionalLight_ShadowMode.orthogonal`.
 	**/
 	@:native("DirectionalShadowBlendSplits")
 	public var directionalShadowBlendSplits:Bool;
 
 	/**		
-		The distance from shadow split 2 to split 3. Relative to `godot.DirectionalLight.directionalShadowMaxDistance`. Only used when `godot.DirectionalLight.directionalShadowMode` is `SHADOW_PARALLEL_4_SPLITS`.
+		The distance from shadow split 2 to split 3. Relative to `godot.DirectionalLight.directionalShadowMaxDistance`. Only used when `godot.DirectionalLight.directionalShadowMode` is `godot.DirectionalLight_ShadowMode.parallel4Splits`.
 	**/
 	@:native("DirectionalShadowSplit3")
 	public var directionalShadowSplit3:Single;
 
 	/**		
-		The distance from shadow split 1 to split 2. Relative to `godot.DirectionalLight.directionalShadowMaxDistance`. Only used when `godot.DirectionalLight.directionalShadowMode` is `SHADOW_PARALLEL_2_SPLITS` or `SHADOW_PARALLEL_4_SPLITS`.
+		The distance from shadow split 1 to split 2. Relative to `godot.DirectionalLight.directionalShadowMaxDistance`. Only used when `godot.DirectionalLight.directionalShadowMode` is `godot.DirectionalLight_ShadowMode.parallel2Splits` or `godot.DirectionalLight_ShadowMode.parallel4Splits`.
 	**/
 	@:native("DirectionalShadowSplit2")
 	public var directionalShadowSplit2:Single;
 
 	/**		
-		The distance from camera to shadow split 1. Relative to `godot.DirectionalLight.directionalShadowMaxDistance`. Only used when `godot.DirectionalLight.directionalShadowMode` is `SHADOW_PARALLEL_2_SPLITS` or `SHADOW_PARALLEL_4_SPLITS`.
+		The distance from camera to shadow split 1. Relative to `godot.DirectionalLight.directionalShadowMaxDistance`. Only used when `godot.DirectionalLight.directionalShadowMode` is `godot.DirectionalLight_ShadowMode.parallel2Splits` or `godot.DirectionalLight_ShadowMode.parallel4Splits`.
 	**/
 	@:native("DirectionalShadowSplit1")
 	public var directionalShadowSplit1:Single;

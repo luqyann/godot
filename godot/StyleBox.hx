@@ -101,9 +101,9 @@ extern abstract class StyleBox extends godot.Resource {
 	public function getCurrentItemDrawn():godot.CanvasItem;
 
 	/**		
-		Draws this stylebox using a `godot.CanvasItem` with given `godot.RID`.
+		Draws this stylebox using a canvas item identified by the given `godot.RID`.
 		
-		You can get a `godot.RID` value using `godot.Object.getInstanceId` on a `godot.CanvasItem`-derived node.
+		The `godot.RID` value can either be the result of `godot.CanvasItem.getCanvasItem` called on an existing `godot.CanvasItem`-derived node, or directly from creating a canvas item in the `godot.VisualServer` with `godot.VisualServer.canvasItemCreate`.
 	**/
 	@:native("Draw")
 	public function draw(canvasItem:godot.RID, rect:godot.Rect2):Void;

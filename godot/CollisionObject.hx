@@ -49,7 +49,7 @@ extern abstract class CollisionObject extends godot.Spatial {
 	public var inputCaptureOnDrag:Bool;
 
 	/**		
-		If `true`, the `godot.CollisionObject`'s shapes will respond to `godot.RayCast`s.
+		If `true`, this object is pickable. A pickable object can detect the mouse pointer entering/leaving, and if the mouse is inside it, report input events. Requires at least one `godot.CollisionObject.collisionLayer` bit to be set.
 	**/
 	@:native("InputRayPickable")
 	public var inputRayPickable:Bool;
@@ -57,7 +57,7 @@ extern abstract class CollisionObject extends godot.Spatial {
 	/**		
 		The physics layers this CollisionObject3D scans. Collision objects can scan one or more of 32 different layers. See also `godot.CollisionObject.collisionLayer`.
 		
-		Note: A contact is detected if object A is in any of the layers that object B scans, or object B is in any layers that object A scans. See [https://docs.godotengine.org/en/latest/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
+		Note: A contact is detected if object A is in any of the layers that object B scans, or object B is in any layers that object A scans. See [$DOCS_URL/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
 	**/
 	@:native("CollisionMask")
 	public var collisionMask:UInt;
@@ -65,7 +65,7 @@ extern abstract class CollisionObject extends godot.Spatial {
 	/**		
 		The physics layers this CollisionObject3D is in. Collision objects can exist in one or more of 32 different layers. See also `godot.CollisionObject.collisionMask`.
 		
-		Note: A contact is detected if object A is in any of the layers that object B scans, or object B is in any layers that object A scans. See [https://docs.godotengine.org/en/latest/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
+		Note: A contact is detected if object A is in any of the layers that object B scans, or object B is in any layers that object A scans. See [$DOCS_URL/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
 	**/
 	@:native("CollisionLayer")
 	public var collisionLayer:UInt;

@@ -5,7 +5,9 @@ package godot;
 import cs.system.*;
 
 /**
-Editor export plugins are automatically activated whenever the user exports the project. Their most common use is to determine what files are being included in the exported project. For each plugin, `godot.EditorExportPlugin._ExportBegin` is called at the beginning of the export process and then `godot.EditorExportPlugin._ExportFile` is called for each exported file.
+`godot.EditorExportPlugin`s are automatically invoked whenever the user exports the project. Their most common use is to determine what files are being included in the exported project. For each plugin, `godot.EditorExportPlugin._ExportBegin` is called at the beginning of the export process and then `godot.EditorExportPlugin._ExportFile` is called for each exported file.
+
+To use `godot.EditorExportPlugin`, register it using the `godot.EditorPlugin.addExportPlugin` method first.
 **/
 @:libType
 @:csNative
@@ -36,7 +38,11 @@ extern class EditorExportPlugin extends godot.Reference {
 	public function _ExportFile(path:std.String, type:std.String, features:HaxeArray<std.String>):Void;
 
 	/**		
-		Adds a shared object with the given `tags` and destination `path`.
+		Adds a shared object or a directory containing only shared objects with the given `tags` and destination `path`.
+		
+		Note: In case of macOS exports, those shared objects will be added to `Frameworks` directory of app bundle.
+		
+		In case of a directory code-sign will error if you place non code object in directory.
 	**/
 	@:native("AddSharedObject")
 	public function addSharedObject(path:std.String, tags:HaxeArray<std.String>):Void;
@@ -92,6 +98,14 @@ extern class EditorExportPlugin extends godot.Reference {
 	**/
 	@:native("AddIosCppCode")
 	public function addIosCppCode(code:std.String):Void;
+
+	/**		
+		Adds file or directory matching `path` to `PlugIns` directory of macOS app bundle.
+		
+		Note: This is useful only for macOS exports.
+	**/
+	@:native("AddOsxPluginFile")
+	public function addOsxPluginFile(path:std.String):Void;
 
 	/**		
 		To be called inside `godot.EditorExportPlugin._ExportFile`. Skips the current file, so it's not included in the export.

@@ -74,13 +74,13 @@ extern class Geometry {
 	public static function segmentIntersectsCircle(segmentFrom:godot.Vector2, segmentTo:godot.Vector2, circlePosition:godot.Vector2, circleRadius:Single):Single;
 
 	/**		
-		Checks if the two segments (`from_a`, `to_a`) and (`from_b`, `to_b`) intersect. If yes, return the point of intersection as `godot.Vector2`. If no intersection takes place, returns an empty `Variant`.
+		Checks if the two segments (`from_a`, `to_a`) and (`from_b`, `to_b`) intersect. If yes, return the point of intersection as `godot.Vector2`. If no intersection takes place, returns `null`.
 	**/
 	@:native("SegmentIntersectsSegment2d")
 	public static function segmentIntersectsSegment2d(fromA:godot.Vector2, toA:godot.Vector2, fromB:godot.Vector2, toB:godot.Vector2):Dynamic;
 
 	/**		
-		Checks if the two lines (`from_a`, `dir_a`) and (`from_b`, `dir_b`) intersect. If yes, return the point of intersection as `godot.Vector2`. If no intersection takes place, returns an empty `Variant`.
+		Checks if the two lines (`from_a`, `dir_a`) and (`from_b`, `dir_b`) intersect. If yes, return the point of intersection as `godot.Vector2`. If no intersection takes place, returns `null`.
 		
 		Note: The lines are specified using direction vectors, not end points.
 	**/
@@ -183,7 +183,7 @@ extern class Geometry {
 	public static function isPointInPolygon(point:godot.Vector2, polygon:HaxeArray<godot.Vector2>):Bool;
 
 	/**		
-		Triangulates the polygon specified by the points in `polygon`. Returns a `Int` where each triangle consists of three consecutive point indices into `polygon` (i.e. the returned array will have `n * 3` elements, with `n` being the number of found triangles). If the triangulation did not succeed, an empty `Int` is returned.
+		Triangulates the polygon specified by the points in `polygon`. Returns a `Int` where each triangle consists of three consecutive point indices into `polygon` (i.e. the returned array will have `n * 3` elements, with `n` being the number of found triangles). Output triangles will always be counter clockwise, and the contour will be flipped if it's clockwise. If the triangulation did not succeed, an empty `Int` is returned.
 	**/
 	public static extern inline function triangulatePolygon(polygon:HaxeArray<godot.Vector2>):std.Array<Int> {
 		return cs.Lib.array(cs.Syntax.code("TriangulatePolygon({0})", polygon));
@@ -370,7 +370,7 @@ extern class Geometry {
 	#end
 
 	/**		
-		Given an array of `godot.Vector2`s representing tiles, builds an atlas. The returned dictionary has two keys: `points` is a vector of `godot.Vector2` that specifies the positions of each tile, `size` contains the overall size of the whole atlas as `godot.Vector2`.
+		Given an array of `godot.Vector2`s representing tiles, builds an atlas. The returned dictionary has two keys: `points` is an array of `godot.Vector2` that specifies the positions of each tile, `size` contains the overall size of the whole atlas as `godot.Vector2`.
 	**/
 	@:native("MakeAtlas")
 	public static function makeAtlas(sizes:HaxeArray<godot.Vector2>):godot.collections.Dictionary;

@@ -19,6 +19,12 @@ extern class DynamicFontData extends godot.Resource {
 	public var fontPath:std.String;
 
 	/**		
+		If set to a value greater than `0.0`, it will override default font oversampling, ignoring `godot.SceneTree.useFontOversampling` value and viewport stretch mode.
+	**/
+	@:native("OverrideOversampling")
+	public var overrideOversampling:Single;
+
+	/**		
 		The font hinting mode used by FreeType. See `godot.DynamicFontData_HintingEnum` for options.
 	**/
 	@:native("Hinting")
@@ -50,4 +56,10 @@ extern class DynamicFontData extends godot.Resource {
 
 	@:native("GetHinting")
 	public function getHinting():godot.DynamicFontData_HintingEnum;
+
+	@:native("GetOverrideOversampling")
+	public function getOverrideOversampling():Single;
+
+	@:native("SetOverrideOversampling")
+	public function setOverrideOversampling(oversampling:Single):Void;
 }

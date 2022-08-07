@@ -5,7 +5,7 @@ package godot;
 import cs.system.*;
 
 /**
-Range is a base class for `godot.Control` nodes that change a floating-point value between a minimum and a maximum, using step and page, for example a `godot.ScrollBar`.
+Range is a base class for `godot.Control` nodes that change a floating-point `godot.Range.value` between a `godot.Range.minValue` and `godot.Range.maxValue`, using a configured `godot.Range.step` and `godot.Range.page` size. See e.g. `godot.ScrollBar` and `godot.Slider` for examples of higher level nodes using Range.
 **/
 @:libType
 @:csNative
@@ -25,7 +25,8 @@ extern abstract class Range extends godot.Control {
 	/**
 		`value_changed` signal.
 		
-		Emitted when `value` changes.
+		Emitted when `value` changes. When used on a `Slider`, this is called continuously while dragging (potentially every frame). If you are performing an expensive operation in a function connected to `onValueChanged`, consider using a `i`debouncing`/i` `Timer` to call the function less often.
+		`b`Note:`/b` Unlike signals such as `onLineEdit.textChanged`, `onValueChanged` is also emitted when `value` is set directly via code.
 	**/
 	public var onValueChanged(get, never):Signal<(value:Float)->Void>;
 	@:dox(hide) @:noCompletion inline function get_onValueChanged():Signal<(value:Float)->Void> {
@@ -153,13 +154,13 @@ extern abstract class Range extends godot.Control {
 	public function isLesserAllowed():Bool;
 
 	/**		
-		Binds two ranges together along with any ranges previously grouped with either of them. When any of range's member variables change, it will share the new value with all other ranges in its group.
+		Binds two `godot.Range`s together along with any ranges previously grouped with either of them. When any of range's member variables change, it will share the new value with all other ranges in its group.
 	**/
 	@:native("Share")
 	public function share(with:godot.Node):Void;
 
 	/**		
-		Stops range from sharing its member variables with any other.
+		Stops the `godot.Range` from sharing its member variables with any other.
 	**/
 	@:native("Unshare")
 	public function unshare():Void;

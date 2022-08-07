@@ -5,7 +5,7 @@ package godot;
 import cs.system.*;
 
 /**
-Class that has everything pertaining to a 2D world. A physics space, a visual scenario and a sound space. 2D nodes register their resources into the current 2D world.
+Class that has everything pertaining to a 2D world. A physics space, a visual scenario, a navigation map and a sound space. 2D nodes register their resources into the current 2D world.
 **/
 @:libType
 @:csNative
@@ -17,6 +17,12 @@ extern class World2D extends godot.Resource {
 	**/
 	@:native("DirectSpaceState")
 	public var directSpaceState(default, never):godot.Physics2DDirectSpaceState;
+
+	/**		
+		The `godot.RID` of this world's navigation map. Used by the `godot.Navigation2DServer`.
+	**/
+	@:native("NavigationMap")
+	public var navigationMap(default, never):godot.RID;
 
 	/**		
 		The `godot.RID` of this world's physics space resource. Used by the `godot.Physics2DServer` for 2D physics, treating it as both a space and an area.
@@ -38,6 +44,9 @@ extern class World2D extends godot.Resource {
 
 	@:native("GetSpace")
 	public function getSpace():godot.RID;
+
+	@:native("GetNavigationMap")
+	public function getNavigationMap():godot.RID;
 
 	@:native("GetDirectSpaceState")
 	public function getDirectSpaceState():godot.Physics2DDirectSpaceState;

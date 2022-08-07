@@ -84,7 +84,7 @@ extern class RigidBody extends godot.PhysicsBody {
 	}
 
 	/**		
-		Damps RigidBody's rotational forces.
+		Damps the body's rotational forces. If this value is different from -1.0 it will be added to any angular damp derived from the world or areas.
 		
 		See  for more details about damping.
 	**/
@@ -92,13 +92,13 @@ extern class RigidBody extends godot.PhysicsBody {
 	public var angularDamp:Single;
 
 	/**		
-		RigidBody's rotational velocity.
+		The body's rotational velocity in axis-angle format. The magnitude of the vector is the rotation rate in radians per second.
 	**/
 	@:native("AngularVelocity")
 	public var angularVelocity:godot.Vector3;
 
 	/**		
-		The body's linear damp. Cannot be less than -1.0. If this value is different from -1.0, any linear damp derived from the world or areas will be overridden.
+		The body's linear damp. Cannot be less than -1.0. If this value is different from -1.0 it will be added to any linear damp derived from the world or areas.
 		
 		See  for more details about damping.
 	**/
@@ -106,7 +106,7 @@ extern class RigidBody extends godot.PhysicsBody {
 	public var linearDamp:Single;
 
 	/**		
-		The body's linear velocity. Can be used sporadically, but don't set this every frame, because physics may run in another thread and runs at a different granularity. Use `godot.RigidBody._IntegrateForces` as your process loop for precise control of the body state.
+		The body's linear velocity in units per second. Can be used sporadically, but don't set this every frame, because physics may run in another thread and runs at a different granularity. Use `godot.RigidBody._IntegrateForces` as your process loop for precise control of the body state.
 	**/
 	@:native("LinearVelocity")
 	public var linearVelocity:godot.Vector3;

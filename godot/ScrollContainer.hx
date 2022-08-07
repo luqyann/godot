@@ -122,6 +122,16 @@ extern class ScrollContainer extends godot.Container {
 
 	/**		
 		Ensures the given `control` is visible (must be a direct or indirect child of the ScrollContainer). Used by `godot.ScrollContainer.followFocus`.
+		
+		Note: This will not work on a node that was just added during the same frame. If you want to scroll to a newly added child, you must wait until the next frame using `SceneTree.idle_frame`:
+		
+		```
+		
+		add_child(child_node)
+		yield(get_tree(), "idle_frame")
+		ensure_control_visible(child_node)
+		
+		```
 	**/
 	@:native("EnsureControlVisible")
 	public function ensureControlVisible(control:godot.Control):Void;

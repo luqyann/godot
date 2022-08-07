@@ -5,7 +5,7 @@ package godot;
 import cs.system.*;
 
 /**
-MeshInstance is a node that takes a `godot.Mesh` resource and adds it to the current scenario by creating an instance of it. This is the class most often used to get 3D geometry rendered and can be used to instance a single `godot.Mesh` in many places. This allows to reuse geometry and save on resources. When a `godot.Mesh` has to be instanced more than thousands of times at close proximity, consider using a `godot.MultiMesh` in a `godot.MultiMeshInstance` instead.
+MeshInstance is a node that takes a `godot.Mesh` resource and adds it to the current scenario by creating an instance of it. This is the class most often used to get 3D geometry rendered and can be used to instance a single `godot.Mesh` in many places. This allows reusing geometry, which can save on resources. When a `godot.Mesh` has to be instanced more than thousands of times at close proximity, consider using a `godot.MultiMesh` in a `godot.MultiMeshInstance` instead.
 **/
 @:libType
 @:csNative
@@ -60,19 +60,21 @@ extern class MeshInstance extends godot.GeometryInstance {
 	public function getSkin():godot.Skin;
 
 	/**		
-		Returns the number of surface materials.
+		Returns the number of surface override materials.
 	**/
 	@:native("GetSurfaceMaterialCount")
 	public function getSurfaceMaterialCount():Int;
 
 	/**		
-		Sets the `godot.Material` for a surface of the `godot.Mesh` resource.
+		Sets the override `godot.Material` for the specified surface of the `godot.Mesh` resource. This material is associated with this `godot.MeshInstance` rather than with the `godot.Mesh` resource.
 	**/
 	@:native("SetSurfaceMaterial")
 	public function setSurfaceMaterial(surface:Int, material:godot.Material):Void;
 
 	/**		
-		Returns the `godot.Material` for a surface of the `godot.Mesh` resource.
+		Returns the override `godot.Material` for a surface of the `godot.Mesh` resource.
+		
+		Note: This function only returns override materials associated with this `godot.MeshInstance`. Consider using `godot.MeshInstance.getActiveMaterial` or `godot.Mesh.surfaceGetMaterial` to get materials associated with the `godot.Mesh` resource.
 	**/
 	@:native("GetSurfaceMaterial")
 	public function getSurfaceMaterial(surface:Int):godot.Material;
@@ -148,4 +150,104 @@ extern class MeshInstance extends godot.GeometryInstance {
 	**/
 	@:native("CreateDebugTangents")
 	public function createDebugTangents():Void;
+
+	/**		
+		Returns `true` if this `godot.MeshInstance` can be merged with the specified `other_mesh_instance`, using the `godot.MeshInstance.mergeMeshes` function.
+		
+		In order to be mergeable, properties of the `godot.MeshInstance` must match, and each surface must match, in terms of material, attributes and vertex format.
+	**/
+	@:native("IsMergeableWith")
+	public function isMergeableWith(otherMeshInstance:godot.Node):Bool;
+
+	#if doc_gen
+	/**		
+		This function can merge together the data from several source `godot.MeshInstance`s into a single destination `godot.MeshInstance` (the MeshInstance the function is called from). This is primarily useful for improving performance by reducing the number of drawcalls and `godot.Node`s.
+		
+		Merging should only be attempted for simple meshes that do not contain animation.
+		
+		The final vertices can either be returned in global space, or in local space relative to the destination `godot.MeshInstance` global transform (the destination Node must be inside the `godot.SceneTree` for local space to work).
+		
+		The function will make a final check for compatibility between the `godot.MeshInstance`s by default, this should always be used unless you have previously checked for compatibility using `godot.MeshInstance.isMergeableWith`. If the compatibility check is omitted and the meshes are merged, you may see rendering errors.
+		
+		Note: The requirements for similarity between meshes are quite stringent. They can be checked using the `godot.MeshInstance.isMergeableWith` function prior to calling `godot.MeshInstance.mergeMeshes`.
+		
+		Also note that any initial data in the destination `godot.MeshInstance` data will be discarded.
+		
+		@param meshInstances If the parameter is null, then the default value is new Godot.Collections.Array { }
+	**/
+	@:native("MergeMeshes")
+	public function mergeMeshes(?meshInstances:godot.collections.Array, ?useGlobalSpace:Bool, ?checkCompatibility:Bool):Bool;
+	#else
+	/**		
+		This function can merge together the data from several source `godot.MeshInstance`s into a single destination `godot.MeshInstance` (the MeshInstance the function is called from). This is primarily useful for improving performance by reducing the number of drawcalls and `godot.Node`s.
+		
+		Merging should only be attempted for simple meshes that do not contain animation.
+		
+		The final vertices can either be returned in global space, or in local space relative to the destination `godot.MeshInstance` global transform (the destination Node must be inside the `godot.SceneTree` for local space to work).
+		
+		The function will make a final check for compatibility between the `godot.MeshInstance`s by default, this should always be used unless you have previously checked for compatibility using `godot.MeshInstance.isMergeableWith`. If the compatibility check is omitted and the meshes are merged, you may see rendering errors.
+		
+		Note: The requirements for similarity between meshes are quite stringent. They can be checked using the `godot.MeshInstance.isMergeableWith` function prior to calling `godot.MeshInstance.mergeMeshes`.
+		
+		Also note that any initial data in the destination `godot.MeshInstance` data will be discarded.
+		
+		@param meshInstances If the parameter is null, then the default value is new Godot.Collections.Array { }
+	**/
+	@:native("MergeMeshes")
+	public overload function mergeMeshes():Bool;
+
+	/**		
+		This function can merge together the data from several source `godot.MeshInstance`s into a single destination `godot.MeshInstance` (the MeshInstance the function is called from). This is primarily useful for improving performance by reducing the number of drawcalls and `godot.Node`s.
+		
+		Merging should only be attempted for simple meshes that do not contain animation.
+		
+		The final vertices can either be returned in global space, or in local space relative to the destination `godot.MeshInstance` global transform (the destination Node must be inside the `godot.SceneTree` for local space to work).
+		
+		The function will make a final check for compatibility between the `godot.MeshInstance`s by default, this should always be used unless you have previously checked for compatibility using `godot.MeshInstance.isMergeableWith`. If the compatibility check is omitted and the meshes are merged, you may see rendering errors.
+		
+		Note: The requirements for similarity between meshes are quite stringent. They can be checked using the `godot.MeshInstance.isMergeableWith` function prior to calling `godot.MeshInstance.mergeMeshes`.
+		
+		Also note that any initial data in the destination `godot.MeshInstance` data will be discarded.
+		
+		@param meshInstances If the parameter is null, then the default value is new Godot.Collections.Array { }
+	**/
+	@:native("MergeMeshes")
+	public overload function mergeMeshes(meshInstances:godot.collections.Array):Bool;
+
+	/**		
+		This function can merge together the data from several source `godot.MeshInstance`s into a single destination `godot.MeshInstance` (the MeshInstance the function is called from). This is primarily useful for improving performance by reducing the number of drawcalls and `godot.Node`s.
+		
+		Merging should only be attempted for simple meshes that do not contain animation.
+		
+		The final vertices can either be returned in global space, or in local space relative to the destination `godot.MeshInstance` global transform (the destination Node must be inside the `godot.SceneTree` for local space to work).
+		
+		The function will make a final check for compatibility between the `godot.MeshInstance`s by default, this should always be used unless you have previously checked for compatibility using `godot.MeshInstance.isMergeableWith`. If the compatibility check is omitted and the meshes are merged, you may see rendering errors.
+		
+		Note: The requirements for similarity between meshes are quite stringent. They can be checked using the `godot.MeshInstance.isMergeableWith` function prior to calling `godot.MeshInstance.mergeMeshes`.
+		
+		Also note that any initial data in the destination `godot.MeshInstance` data will be discarded.
+		
+		@param meshInstances If the parameter is null, then the default value is new Godot.Collections.Array { }
+	**/
+	@:native("MergeMeshes")
+	public overload function mergeMeshes(meshInstances:godot.collections.Array, useGlobalSpace:Bool):Bool;
+
+	/**		
+		This function can merge together the data from several source `godot.MeshInstance`s into a single destination `godot.MeshInstance` (the MeshInstance the function is called from). This is primarily useful for improving performance by reducing the number of drawcalls and `godot.Node`s.
+		
+		Merging should only be attempted for simple meshes that do not contain animation.
+		
+		The final vertices can either be returned in global space, or in local space relative to the destination `godot.MeshInstance` global transform (the destination Node must be inside the `godot.SceneTree` for local space to work).
+		
+		The function will make a final check for compatibility between the `godot.MeshInstance`s by default, this should always be used unless you have previously checked for compatibility using `godot.MeshInstance.isMergeableWith`. If the compatibility check is omitted and the meshes are merged, you may see rendering errors.
+		
+		Note: The requirements for similarity between meshes are quite stringent. They can be checked using the `godot.MeshInstance.isMergeableWith` function prior to calling `godot.MeshInstance.mergeMeshes`.
+		
+		Also note that any initial data in the destination `godot.MeshInstance` data will be discarded.
+		
+		@param meshInstances If the parameter is null, then the default value is new Godot.Collections.Array { }
+	**/
+	@:native("MergeMeshes")
+	public overload function mergeMeshes(meshInstances:godot.collections.Array, useGlobalSpace:Bool, checkCompatibility:Bool):Bool;
+	#end
 }

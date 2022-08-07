@@ -29,6 +29,9 @@ $Button.connect("pressed", self, "_on_Button_pressed")
 
 webxr_interface = ARVRServer.find_interface("WebXR")
 if webxr_interface:
+# Map to the standard button/axis ids when possible.
+webxr_interface.xr_standard_mapping = true
+
 # WebXR uses a lot of asynchronous callbacks, so we connect to various
 # signals in order to receive them.
 webxr_interface.connect("session_supported", self, "_webxr_session_supported")
@@ -101,7 +104,7 @@ There are several ways to handle "controller" input:
 
 - Using the `select`, `squeeze` and related signals. This method will work for both advanced VR controllers, and non-traditional "controllers" like a tap on the screen, a spoken voice command or a button press on the device itself. The `controller_id` passed to these signals is the same id as used in `godot.ARVRController.controllerId`.
 
-You can use one or all of these methods to allow your game or app to support a wider or narrower set of devices and input methods, or to allow more advanced interations with more advanced devices.
+You can use one or all of these methods to allow your game or app to support a wider or narrower set of devices and input methods, or to allow more advanced interactions with more advanced devices.
 **/
 @:libType
 @:csNative
@@ -203,6 +206,14 @@ extern abstract class WebXRInterface extends godot.ARVRInterface {
 	@:dox(hide) @:noCompletion inline function get_onVisibilityStateChanged():Signal<Void->Void> {
 		return new Signal(this, "visibility_state_changed", Signal.SignalHandlerVoidVoid.connectSignal, Signal.SignalHandlerVoidVoid.disconnectSignal, Signal.SignalHandlerVoidVoid.isSignalConnected);
 	}
+
+	/**		
+		If set to true, the button and axes ids will be converted to match the standard ids used by other AR/VR interfaces, when possible.
+		
+		Otherwise, the ids will be passed through unaltered from WebXR.
+	**/
+	@:native("XrStandardMapping")
+	public var xrStandardMapping:Bool;
 
 	/**		
 		The vertices of a polygon which defines the boundaries of the user's play area.
@@ -335,10 +346,24 @@ extern abstract class WebXRInterface extends godot.ARVRInterface {
 	@:native("GetController")
 	public function getController(controllerId:Int):godot.ARVRPositionalTracker;
 
+	/**		
+		Returns the target ray mode for the given `controller_id`.
+		
+		This can help interpret the input coming from that controller. See [https://developer.mozilla.org/en-US/docs/Web/API/XRInputSource/targetRayMode](XRInputSource.targetRayMode) for more information.
+	**/
+	@:native("GetControllerTargetRayMode")
+	public function getControllerTargetRayMode(controllerId:Int):godot.WebXRInterface_TargetRayMode;
+
 	@:native("GetVisibilityState")
 	public function getVisibilityState():std.String;
 
 	public extern inline function getBoundsGeometry():std.Array<godot.Vector3> {
 		return cs.Lib.array(cs.Syntax.code("{0}.GetBoundsGeometry()", this));
 	}
+
+	@:native("SetXrStandardMapping")
+	public function setXrStandardMapping(arg0:Bool):Void;
+
+	@:native("GetXrStandardMapping")
+	public function getXrStandardMapping():Bool;
 }

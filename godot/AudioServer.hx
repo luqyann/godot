@@ -32,7 +32,13 @@ extern class AudioServer {
 	public static var GLOBAL_RATE_SCALE:Single;
 
 	/**		
-		Name of the current device for audio output (see `godot.AudioServer.getDeviceList`).
+		Name of the current device for audio input (see `godot.AudioServer.getDeviceList`). On systems with multiple audio inputs (such as analog, USB and HDMI audio), this can be used to select the audio input device. The value `"Default"` will record audio on the system-wide default audio input. If an invalid device name is set, the value will be reverted back to `"Default"`.
+	**/
+	@:native("CaptureDevice")
+	public static var CAPTURE_DEVICE:std.String;
+
+	/**		
+		Name of the current device for audio output (see `godot.AudioServer.getDeviceList`). On systems with multiple audio outputs (such as analog, USB and HDMI audio), this can be used to select the audio output device. The value `"Default"` will play audio on the system-wide default audio output. If an invalid device name is set, the value will be reverted back to `"Default"`.
 	**/
 	@:native("Device")
 	public static var DEVICE:std.String;
@@ -321,15 +327,9 @@ extern class AudioServer {
 	@:native("CaptureGetDeviceList")
 	public static function captureGetDeviceList():godot.collections.Array;
 
-	/**		
-		Name of the current device for audio input (see `godot.AudioServer.captureGetDeviceList`).
-	**/
 	@:native("CaptureGetDevice")
 	public static function captureGetDevice():std.String;
 
-	/**		
-		Sets which audio input device is used for audio capture.
-	**/
 	@:native("CaptureSetDevice")
 	public static function captureSetDevice(name:std.String):Void;
 

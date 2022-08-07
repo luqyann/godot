@@ -350,6 +350,31 @@ extern class VisualServer {
 	public static function textureSetShrinkAllX2OnSetData(shrink:Bool):Void;
 
 	/**		
+		Creates an update link between two textures, similar to how `godot.ViewportTexture`s operate. When the base texture is the texture of a `godot.Viewport`, every time the viewport renders a new frame, the proxy texture automatically receives an update.
+		
+		For example, this code links a generic `godot.ImageTexture` to the texture output of the `godot.Viewport` using the VisualServer API:
+		
+		```
+		
+		func _ready():
+		var viewport_rid = get_viewport().get_viewport_rid()
+		var viewport_texture_rid = VisualServer.viewport_get_texture(viewport_rid)
+		
+		var proxy_texture = ImageTexture.new()
+		var viewport_texture_image_data = VisualServer.texture_get_data(viewport_texture_rid)
+		
+		proxy_texture.create_from_image(viewport_texture_image_data)
+		var proxy_texture_rid = proxy_texture.get_rid()
+		VisualServer.texture_set_proxy(proxy_texture_rid, viewport_texture_rid)
+		
+		$TextureRect.texture = proxy_texture
+		
+		```
+	**/
+	@:native("TextureSetProxy")
+	public static function textureSetProxy(proxy:godot.RID, base:godot.RID):Void;
+
+	/**		
 		Binds the texture to a texture slot.
 	**/
 	@:native("TextureBind")
@@ -420,6 +445,16 @@ extern class VisualServer {
 	public static function shaderGetDefaultTextureParam(shader:godot.RID, name:std.String):godot.RID;
 
 	/**		
+		If asynchronous shader compilation is enabled, this controls whether `godot.SpatialMaterial_AsyncModeEnum.hidden` is obeyed.
+		
+		For instance, you may want to enable this temporarily before taking a screenshot. This ensures everything is visible even if shaders with async mode hidden are not ready yet.
+		
+		Reflection probes use this internally to ensure they capture everything regardless the shaders are ready or not.
+	**/
+	@:native("SetShaderAsyncHiddenForbidden")
+	public static function setShaderAsyncHiddenForbidden(forbidden:Bool):Void;
+
+	/**		
 		Creates an empty material and adds it to the VisualServer. It can be accessed with the RID that is returned. This RID will be used in all `material_*` VisualServer functions.
 		
 		Once finished with your RID, you will want to free the RID using the VisualServer's `godot.VisualServer.freeRid` static method.
@@ -452,7 +487,7 @@ extern class VisualServer {
 	public static function materialGetParam(material:godot.RID, parameter:std.String):Dynamic;
 
 	/**		
-		Returns the default value for the param if available. Otherwise returns an empty `Variant`.
+		Returns the default value for the param if available. Returns `null` otherwise.
 	**/
 	@:native("MaterialGetParamDefault")
 	public static function materialGetParamDefault(material:godot.RID, parameter:std.String):Dynamic;
@@ -1610,7 +1645,7 @@ extern class VisualServer {
 		
 		```
 		
-		Using this can result in significant optimization, especially on lower-end devices. However, it comes at the cost of having to manage your viewports manually. For a further optimization see, `godot.VisualServer.viewportSetRenderDirectToScreen`.
+		Using this can result in significant optimization, especially on lower-end devices. However, it comes at the cost of having to manage your viewports manually. For further optimization, see `godot.VisualServer.viewportSetRenderDirectToScreen`.
 		
 		@param rect If the parameter is null, then the default value is new Rect2(new Vector2(0, 0), new Vector2(0, 0))
 	**/
@@ -1630,7 +1665,7 @@ extern class VisualServer {
 		
 		```
 		
-		Using this can result in significant optimization, especially on lower-end devices. However, it comes at the cost of having to manage your viewports manually. For a further optimization see, `godot.VisualServer.viewportSetRenderDirectToScreen`.
+		Using this can result in significant optimization, especially on lower-end devices. However, it comes at the cost of having to manage your viewports manually. For further optimization, see `godot.VisualServer.viewportSetRenderDirectToScreen`.
 		
 		@param rect If the parameter is null, then the default value is new Rect2(new Vector2(0, 0), new Vector2(0, 0))
 	**/
@@ -1650,7 +1685,7 @@ extern class VisualServer {
 		
 		```
 		
-		Using this can result in significant optimization, especially on lower-end devices. However, it comes at the cost of having to manage your viewports manually. For a further optimization see, `godot.VisualServer.viewportSetRenderDirectToScreen`.
+		Using this can result in significant optimization, especially on lower-end devices. However, it comes at the cost of having to manage your viewports manually. For further optimization, see `godot.VisualServer.viewportSetRenderDirectToScreen`.
 		
 		@param rect If the parameter is null, then the default value is new Rect2(new Vector2(0, 0), new Vector2(0, 0))
 	**/
@@ -1670,7 +1705,7 @@ extern class VisualServer {
 		
 		```
 		
-		Using this can result in significant optimization, especially on lower-end devices. However, it comes at the cost of having to manage your viewports manually. For a further optimization see, `godot.VisualServer.viewportSetRenderDirectToScreen`.
+		Using this can result in significant optimization, especially on lower-end devices. However, it comes at the cost of having to manage your viewports manually. For further optimization, see `godot.VisualServer.viewportSetRenderDirectToScreen`.
 		
 		@param rect If the parameter is null, then the default value is new Rect2(new Vector2(0, 0), new Vector2(0, 0))
 	**/
@@ -1829,10 +1864,20 @@ extern class VisualServer {
 	public static function viewportSetSharpenIntensity(viewport:godot.RID, intensity:Single):Void;
 
 	/**		
-		If `true`, the viewport renders to hdr.
+		If `true`, the viewport renders to high dynamic range (HDR) instead of standard dynamic range (SDR). See also `godot.VisualServer.viewportSetUse32BpcDepth`.
+		
+		Note: Only available on the GLES3 backend.
 	**/
 	@:native("ViewportSetHdr")
 	public static function viewportSetHdr(viewport:godot.RID, enabled:Bool):Void;
+
+	/**		
+		If `true`, allocates the viewport's framebuffer with full floating-point precision (32-bit) instead of half floating-point precision (16-bit). Only effective if `godot.VisualServer.viewportSetUse32BpcDepth` is used on the same `godot.Viewport` to set HDR to `true`.
+		
+		Note: Only available on the GLES3 backend.
+	**/
+	@:native("ViewportSetUse32BpcDepth")
+	public static function viewportSetUse32BpcDepth(viewport:godot.RID, enabled:Bool):Void;
 
 	/**		
 		Sets the viewport's 2D/3D mode. See `godot.VisualServer_ViewportUsage` constants for options.
@@ -2163,6 +2208,12 @@ extern class VisualServer {
 	**/
 	@:native("InstanceGeometrySetMaterialOverride")
 	public static function instanceGeometrySetMaterialOverride(instance:godot.RID, material:godot.RID):Void;
+
+	/**		
+		Sets a material that will be rendered for all surfaces on top of active materials for the mesh associated with this instance. Equivalent to `godot.GeometryInstance.materialOverlay`.
+	**/
+	@:native("InstanceGeometrySetMaterialOverlay")
+	public static function instanceGeometrySetMaterialOverlay(instance:godot.RID, material:godot.RID):Void;
 
 	/**		
 		Not implemented in Godot 3.x.
@@ -3138,11 +3189,31 @@ extern class VisualServer {
 	@:native("RequestFrameDrawnCallback")
 	public static function requestFrameDrawnCallback(where:godot.Object, method:std.String, userdata:Dynamic):Void;
 
+	#if doc_gen
 	/**		
 		Returns `true` if changes have been made to the VisualServer's data. `godot.VisualServer.draw` is usually called if this happens.
+		
+		As changes are registered as either high or low priority (e.g. dynamic shaders), this function takes an optional argument to query either low or high priority changes, or any changes.
 	**/
 	@:native("HasChanged")
-	public static function hasChanged():Bool;
+	public static function hasChanged(?queriedPriority:godot.VisualServer_ChangedPriority):Bool;
+	#else
+	/**		
+		Returns `true` if changes have been made to the VisualServer's data. `godot.VisualServer.draw` is usually called if this happens.
+		
+		As changes are registered as either high or low priority (e.g. dynamic shaders), this function takes an optional argument to query either low or high priority changes, or any changes.
+	**/
+	@:native("HasChanged")
+	public static overload function hasChanged():Bool;
+
+	/**		
+		Returns `true` if changes have been made to the VisualServer's data. `godot.VisualServer.draw` is usually called if this happens.
+		
+		As changes are registered as either high or low priority (e.g. dynamic shaders), this function takes an optional argument to query either low or high priority changes, or any changes.
+	**/
+	@:native("HasChanged")
+	public static overload function hasChanged(queriedPriority:godot.VisualServer_ChangedPriority):Bool;
+	#end
 
 	/**		
 		Initializes the visual server. This function is called internally by platform-dependent code during engine initialization. If called from a running game, it will not do anything.

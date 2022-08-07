@@ -65,7 +65,7 @@ extern class EditorResourcePicker extends godot.HBoxContainer {
 		This virtual method can be implemented to handle context menu items not handled by default. See `godot.EditorResourcePicker.setCreateOptions`.
 	**/
 	@:native("HandleMenuSelected")
-	public function handleMenuSelected(id:Int):Void;
+	public function handleMenuSelected(id:Int):Bool;
 
 	/**		
 		This virtual method is called when updating the context menu of `godot.EditorResourcePicker`. Implement this method to override the "New ..." items with your own options. `menu_node` is a reference to the `godot.PopupMenu` node.

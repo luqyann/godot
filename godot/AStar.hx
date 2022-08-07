@@ -60,7 +60,7 @@ extern class AStar extends godot.Reference {
 
 	#if doc_gen
 	/**		
-		Adds a new point at the given position with the given identifier. The `id` must be 0 or larger, and the `weight_scale` must be 1 or larger.
+		Adds a new point at the given position with the given identifier. The `id` must be 0 or larger, and the `weight_scale` must be 0.0 or greater.
 		
 		The `weight_scale` is multiplied by the result of `godot.AStar._ComputeCost` when determining the overall cost of traveling across a segment from a neighboring point to this point. Thus, all else being equal, the algorithm prefers points with lower `weight_scale`s to form a path.
 		
@@ -77,7 +77,7 @@ extern class AStar extends godot.Reference {
 	public function addPoint(id:Int, position:godot.Vector3, ?weightScale:Single):Void;
 	#else
 	/**		
-		Adds a new point at the given position with the given identifier. The `id` must be 0 or larger, and the `weight_scale` must be 1 or larger.
+		Adds a new point at the given position with the given identifier. The `id` must be 0 or larger, and the `weight_scale` must be 0.0 or greater.
 		
 		The `weight_scale` is multiplied by the result of `godot.AStar._ComputeCost` when determining the overall cost of traveling across a segment from a neighboring point to this point. Thus, all else being equal, the algorithm prefers points with lower `weight_scale`s to form a path.
 		
@@ -94,7 +94,7 @@ extern class AStar extends godot.Reference {
 	public overload function addPoint(id:Int, position:godot.Vector3):Void;
 
 	/**		
-		Adds a new point at the given position with the given identifier. The `id` must be 0 or larger, and the `weight_scale` must be 1 or larger.
+		Adds a new point at the given position with the given identifier. The `id` must be 0 or larger, and the `weight_scale` must be 0.0 or greater.
 		
 		The `weight_scale` is multiplied by the result of `godot.AStar._ComputeCost` when determining the overall cost of traveling across a segment from a neighboring point to this point. Thus, all else being equal, the algorithm prefers points with lower `weight_scale`s to form a path.
 		

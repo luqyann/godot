@@ -460,6 +460,35 @@ extern class Vector2_ extends cs.system.ValueType implements cs.system.IEquatabl
 	@:native("LinearInterpolate")
 	public overload function linearInterpolate(to:godot.Vector2, weight:godot.Vector2):godot.Vector2;
 
+	#if doc_gen
+	/**		
+		Returns the vector with a maximum length by limiting its length to `length`.
+		
+		@param length The length to limit to.
+		@returns The vector with its length limited.
+	**/
+	@:native("LimitLength")
+	public function limitLength(?length:Single):godot.Vector2;
+	#else
+	/**		
+		Returns the vector with a maximum length by limiting its length to `length`.
+		
+		@param length The length to limit to.
+		@returns The vector with its length limited.
+	**/
+	@:native("LimitLength")
+	public overload function limitLength():godot.Vector2;
+
+	/**		
+		Returns the vector with a maximum length by limiting its length to `length`.
+		
+		@param length The length to limit to.
+		@returns The vector with its length limited.
+	**/
+	@:native("LimitLength")
+	public overload function limitLength(length:Single):godot.Vector2;
+	#end
+
 	/**		
 		Returns the axis of the vector's largest value. See `godot.Vector2_Axis`.
 		If both components are equal, this method returns `godot.Vector2_Axis.x`.
@@ -546,13 +575,13 @@ extern class Vector2_ extends cs.system.ValueType implements cs.system.IEquatabl
 	public function reflect(normal:godot.Vector2):godot.Vector2;
 
 	/**		
-		Rotates this vector by `phi` radians.
+		Rotates this vector by `angle` radians.
 		
-		@param phi The angle to rotate by, in radians.
+		@param angle The angle to rotate by, in radians.
 		@returns The rotated vector.
 	**/
 	@:native("Rotated")
-	public function rotated(phi:Single):godot.Vector2;
+	public function rotated(angle:Single):godot.Vector2;
 
 	/**		
 		Returns this vector with all components rounded to the nearest integer,

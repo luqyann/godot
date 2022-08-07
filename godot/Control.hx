@@ -92,6 +92,12 @@ extern class Control extends godot.CanvasItem {
 		
 		Emitted when the mouse leaves the control's `Rect` area, provided its `mouseFilter` lets the event reach it.
 		`b`Note:`/b` `onMouseExited` will be emitted if the mouse enters a child `Control` node, even if the mouse cursor is still inside the parent's `Rect` area.
+		If you want to check whether the mouse truly left the area, ignoring any top nodes, you can use code like this:
+		`codeblock`
+		func _on_mouse_exited():
+		if not Rect2(Vector2(), rect_size).has_point(get_local_mouse_position()):
+		# Not hovering over area.
+		`/codeblock`
 	**/
 	public var onMouseExited(get, never):Signal<Void->Void>;
 	@:dox(hide) @:noCompletion inline function get_onMouseExited():Signal<Void->Void> {
@@ -117,6 +123,18 @@ extern class Control extends godot.CanvasItem {
 	@:dox(hide) @:noCompletion inline function get_onSizeFlagsChanged():Signal<Void->Void> {
 		return new Signal(this, "size_flags_changed", Signal.SignalHandlerVoidVoid.connectSignal, Signal.SignalHandlerVoidVoid.disconnectSignal, Signal.SignalHandlerVoidVoid.isSignalConnected);
 	}
+
+	/**		
+		The name of a theme type variation used by this `godot.Control` to look up its own theme items. When empty, the class name of the node is used (e.g. `Button` for the `godot.Button` control), as well as the class names of all parent classes (in order of inheritance).
+		
+		When set, this property gives the highest priority to the type of the specified name. This type can in turn extend another type, forming a dependency chain. See `godot.Theme.setTypeVariation`. If the theme item cannot be found using this type or its base types, lookup falls back on the class names.
+		
+		Note: To look up `godot.Control`'s own items use various `get_*` methods without specifying `theme_type`.
+		
+		Note: Theme items are looked for in the tree order, from branch to root, where each `godot.Control` node is checked for its `godot.Control.theme` property. The earliest match against any type/class name is returned. The project-level Theme and the default Theme are checked last.
+	**/
+	@:native("ThemeTypeVariation")
+	public var themeTypeVariation:std.String;
 
 	/**		
 		Changing this property replaces the current `godot.Theme` resource this node and all its `godot.Control` children use.
@@ -236,7 +254,7 @@ extern class Control extends godot.CanvasItem {
 	public var rectClipContent:Bool;
 
 	/**		
-		By default, the node's pivot is its top-left corner. When you change its `godot.Control.rectScale`, it will scale around this pivot. Set this property to `godot.Control.rectSize` / 2 to center the pivot in the node's rectangle.
+		By default, the node's pivot is its top-left corner. When you change its `godot.Control.rectRotation` or `godot.Control.rectScale`, it will rotate or scale around this pivot. Set this property to `godot.Control.rectSize` / 2 to pivot around the Control's center.
 	**/
 	@:native("RectPivotOffset")
 	public var rectPivotOffset:godot.Vector2;
@@ -244,7 +262,7 @@ extern class Control extends godot.CanvasItem {
 	/**		
 		The node's scale, relative to its `godot.Control.rectSize`. Change this property to scale the node around its `godot.Control.rectPivotOffset`. The Control's `godot.Control.hintTooltip` will also scale according to this value.
 		
-		Note: This property is mainly intended to be used for animation purposes. Text inside the Control will look pixelated or blurry when the Control is scaled. To support multiple resolutions in your project, use an appropriate viewport stretch mode as described in the [https://docs.godotengine.org/en/3.4/tutorials/viewports/multiple_resolutions.html](documentation) instead of scaling Controls individually.
+		Note: This property is mainly intended to be used for animation purposes. Text inside the Control will look pixelated or blurry when the Control is scaled. To support multiple resolutions in your project, use an appropriate viewport stretch mode as described in the [$DOCS_URL/tutorials/rendering/multiple_resolutions.html](documentation) instead of scaling Controls individually.
 		
 		Note: If the Control node is a child of a `godot.Container` node, the scale will be reset to `Vector2(1, 1)` when the scene is instanced. To set the Control's scale when it's instanced, wait for one frame using `yield(get_tree(), "idle_frame")` then set its `godot.Control.rectScale` property.
 	**/
@@ -418,6 +436,8 @@ extern class Control extends godot.CanvasItem {
 		Virtual method to be implemented by the user. Returns the minimum size for this control. Alternative to `godot.Control.rectMinSize` for controlling minimum size via code. The actual minimum size will be the max value of these two (in each axis separately).
 		
 		If not overridden, defaults to `Vector2.ZERO`.
+		
+		Note: This method will not be called when the script is attached to a `godot.Control` node that already overrides its minimum size (e.g. `godot.Label`, `godot.Button`, `godot.PanelContainer` etc.). It can only be used with most basic GUI nodes, like `godot.Control`, `godot.Container`, `godot.Panel` etc.
 	**/
 	@:native("_GetMinimumSize")
 	public function _GetMinimumSize():godot.Vector2;
@@ -996,8 +1016,16 @@ extern class Control extends godot.CanvasItem {
 	@:native("GetTheme")
 	public function getTheme():godot.Theme;
 
+	@:native("SetThemeTypeVariation")
+	public function setThemeTypeVariation(themeType:std.String):Void;
+
+	@:native("GetThemeTypeVariation")
+	public function getThemeTypeVariation():std.String;
+
 	/**		
-		Creates a local override for a theme icon with the specified `name`. Local overrides always take precedence when fetching theme items for the control. An override can be removed by assigning it a `null` value.
+		Creates a local override for a theme icon with the specified `name`. Local overrides always take precedence when fetching theme items for the control.
+		
+		Note: An override can be removed by assigning it a `null` value. This behavior is deprecated and will be removed in 4.0, use `godot.Control.removeIconOverride` instead.
 		
 		See also `godot.Control.getIcon`.
 	**/
@@ -1005,13 +1033,17 @@ extern class Control extends godot.CanvasItem {
 	public function addIconOverride(name:std.String, texture:godot.Texture):Void;
 
 	/**		
-		Creates a local override for a theme shader with the specified `name`. Local overrides always take precedence when fetching theme items for the control. An override can be removed by assigning it a `null` value.
+		Creates a local override for a theme shader with the specified `name`. Local overrides always take precedence when fetching theme items for the control.
+		
+		Note: An override can be removed by assigning it a `null` value. This behavior is deprecated and will be removed in 4.0, use `godot.Control.removeShaderOverride` instead.
 	**/
 	@:native("AddShaderOverride")
 	public function addShaderOverride(name:std.String, shader:godot.Shader):Void;
 
 	/**		
-		Creates a local override for a theme `godot.StyleBox` with the specified `name`. Local overrides always take precedence when fetching theme items for the control. An override can be removed by assigning it a `null` value.
+		Creates a local override for a theme `godot.StyleBox` with the specified `name`. Local overrides always take precedence when fetching theme items for the control.
+		
+		Note: An override can be removed by assigning it a `null` value. This behavior is deprecated and will be removed in 4.0, use `godot.Control.removeStyleboxOverride` instead.
 		
 		See also `godot.Control.getStylebox`.
 		
@@ -1035,7 +1067,9 @@ extern class Control extends godot.CanvasItem {
 	public function addStyleboxOverride(name:std.String, stylebox:godot.StyleBox):Void;
 
 	/**		
-		Creates a local override for a theme `godot.Font` with the specified `name`. Local overrides always take precedence when fetching theme items for the control. An override can be removed by assigning it a `null` value.
+		Creates a local override for a theme `godot.Font` with the specified `name`. Local overrides always take precedence when fetching theme items for the control.
+		
+		Note: An override can be removed by assigning it a `null` value. This behavior is deprecated and will be removed in 4.0, use `godot.Control.removeFontOverride` instead.
 		
 		See also `godot.Control.getFont`.
 	**/
@@ -1043,9 +1077,9 @@ extern class Control extends godot.CanvasItem {
 	public function addFontOverride(name:std.String, font:godot.Font):Void;
 
 	/**		
-		Creates a local override for a theme `godot.Color` with the specified `name`. Local overrides always take precedence when fetching theme items for the control. An override cannot be removed, but it can be overridden with the corresponding default value.
+		Creates a local override for a theme `godot.Color` with the specified `name`. Local overrides always take precedence when fetching theme items for the control.
 		
-		See also `godot.Control.getColor`.
+		See also `godot.Control.getColor`, `godot.Control.removeColorOverride`.
 		
 		Example of overriding a label's color and resetting it later:
 		
@@ -1062,12 +1096,48 @@ extern class Control extends godot.CanvasItem {
 	public function addColorOverride(name:std.String, color:godot.Color):Void;
 
 	/**		
-		Creates a local override for a theme constant with the specified `name`. Local overrides always take precedence when fetching theme items for the control. An override cannot be removed, but it can be overridden with the corresponding default value.
+		Creates a local override for a theme constant with the specified `name`. Local overrides always take precedence when fetching theme items for the control.
 		
-		See also `godot.Control.getConstant`.
+		See also `godot.Control.getConstant`, `godot.Control.removeConstantOverride`.
 	**/
 	@:native("AddConstantOverride")
 	public function addConstantOverride(name:std.String, constant:Int):Void;
+
+	/**		
+		Removes a theme override for an icon with the given `name`.
+	**/
+	@:native("RemoveIconOverride")
+	public function removeIconOverride(name:std.String):Void;
+
+	/**		
+		Removes a theme override for a shader with the given `name`.
+	**/
+	@:native("RemoveShaderOverride")
+	public function removeShaderOverride(name:std.String):Void;
+
+	/**		
+		Removes a theme override for a `godot.StyleBox` with the given `name`.
+	**/
+	@:native("RemoveStyleboxOverride")
+	public function removeStyleboxOverride(name:std.String):Void;
+
+	/**		
+		Removes a theme override for a `godot.Font` with the given `name`.
+	**/
+	@:native("RemoveFontOverride")
+	public function removeFontOverride(name:std.String):Void;
+
+	/**		
+		Removes a theme override for a `godot.Color` with the given `name`.
+	**/
+	@:native("RemoveColorOverride")
+	public function removeColorOverride(name:std.String):Void;
+
+	/**		
+		Removes a theme override for a constant with the given `name`.
+	**/
+	@:native("RemoveConstantOverride")
+	public function removeConstantOverride(name:std.String):Void;
 
 	#if doc_gen
 	/**		
@@ -1149,7 +1219,7 @@ extern class Control extends godot.CanvasItem {
 
 	#if doc_gen
 	/**		
-		Returns a `godot.Color` from the first matching `godot.Theme` in the tree if that `godot.Theme` has a color item with the specified `name` and `theme_type`. If `theme_type` is omitted the class name of the current control is used as the type. If the type is a class name its parent classes are also checked, in order of inheritance.
+		Returns a `godot.Color` from the first matching `godot.Theme` in the tree if that `godot.Theme` has a color item with the specified `name` and `theme_type`. If `theme_type` is omitted the class name of the current control is used as the type, or `godot.Control.themeTypeVariation` if it is defined. If the type is a class name its parent classes are also checked, in order of inheritance.
 		
 		For the current control its local overrides are considered first (see `godot.Control.addColorOverride`), then its assigned `godot.Control.theme`. After the current control, each parent control and its assigned `godot.Control.theme` are considered; controls without a `godot.Control.theme` assigned are skipped. If no matching `godot.Theme` is found in the tree, a custom project `godot.Theme` (see ) and the default `godot.Theme` are used.
 		
@@ -1167,7 +1237,7 @@ extern class Control extends godot.CanvasItem {
 	public function getColor(name:std.String, ?themeType:std.String):godot.Color;
 	#else
 	/**		
-		Returns a `godot.Color` from the first matching `godot.Theme` in the tree if that `godot.Theme` has a color item with the specified `name` and `theme_type`. If `theme_type` is omitted the class name of the current control is used as the type. If the type is a class name its parent classes are also checked, in order of inheritance.
+		Returns a `godot.Color` from the first matching `godot.Theme` in the tree if that `godot.Theme` has a color item with the specified `name` and `theme_type`. If `theme_type` is omitted the class name of the current control is used as the type, or `godot.Control.themeTypeVariation` if it is defined. If the type is a class name its parent classes are also checked, in order of inheritance.
 		
 		For the current control its local overrides are considered first (see `godot.Control.addColorOverride`), then its assigned `godot.Control.theme`. After the current control, each parent control and its assigned `godot.Control.theme` are considered; controls without a `godot.Control.theme` assigned are skipped. If no matching `godot.Theme` is found in the tree, a custom project `godot.Theme` (see ) and the default `godot.Theme` are used.
 		
@@ -1185,7 +1255,7 @@ extern class Control extends godot.CanvasItem {
 	public overload function getColor(name:std.String):godot.Color;
 
 	/**		
-		Returns a `godot.Color` from the first matching `godot.Theme` in the tree if that `godot.Theme` has a color item with the specified `name` and `theme_type`. If `theme_type` is omitted the class name of the current control is used as the type. If the type is a class name its parent classes are also checked, in order of inheritance.
+		Returns a `godot.Color` from the first matching `godot.Theme` in the tree if that `godot.Theme` has a color item with the specified `name` and `theme_type`. If `theme_type` is omitted the class name of the current control is used as the type, or `godot.Control.themeTypeVariation` if it is defined. If the type is a class name its parent classes are also checked, in order of inheritance.
 		
 		For the current control its local overrides are considered first (see `godot.Control.addColorOverride`), then its assigned `godot.Control.theme`. After the current control, each parent control and its assigned `godot.Control.theme` are considered; controls without a `godot.Control.theme` assigned are skipped. If no matching `godot.Theme` is found in the tree, a custom project `godot.Theme` (see ) and the default `godot.Theme` are used.
 		
@@ -1609,6 +1679,14 @@ extern class Control extends godot.CanvasItem {
 	**/
 	@:native("SetDragPreview")
 	public function setDragPreview(control:godot.Control):Void;
+
+	/**		
+		Returns `true` if a drag operation is successful. Alternative to `godot.Viewport.guiIsDragSuccessful`.
+		
+		Best used with `godot.Node.notificationDragEnd`.
+	**/
+	@:native("IsDragSuccessful")
+	public function isDragSuccessful():Bool;
 
 	/**		
 		Moves the mouse cursor to `to_position`, relative to `godot.Control.rectPosition` of this `godot.Control`.

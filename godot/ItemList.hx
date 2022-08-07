@@ -10,6 +10,8 @@ This control provides a selectable list of items that may be in a single (or mul
 Selectable items in the list may be selected or deselected and multiple selection may be enabled. Selection with right mouse button may also be enabled to allow use of popup context menus. Items may also be "activated" by double-clicking them or by pressing Enter.
 
 Item text only supports single-line strings, newline characters (e.g. `\n`) in the string won't produce a newline. Text wrapping is enabled in `godot.ItemList_IconModeEnum.top` mode, but column's width is adjusted to fully fit its content by default. You need to set `godot.ItemList.fixedColumnWidth` greater than zero to wrap the text.
+
+Incremental search: Like `godot.PopupMenu` and `godot.Tree`, `godot.ItemList` supports searching within the list while the control is focused. Press a key that matches the first letter of an item's name to select the first item starting with the given letter. After that point, there are two ways to perform incremental search: 1) Press the same key again before the timeout duration to select the next item starting with the same letter. 2) Press letter keys that match the rest of the word before the timeout duration to match to select the item in question directly. Both of these actions will be reset to the beginning of the list if the timeout duration has passed since the last keystroke was registered. You can adjust the timeout duration by changing .
 **/
 @:libType
 @:csNative
@@ -550,7 +552,7 @@ extern class ItemList extends godot.Control {
 	public function ensureCurrentIsVisible():Void;
 
 	/**		
-		Returns the `godot.Object` ID associated with the list.
+		Returns the vertical scrollbar.
 		
 		Warning: This is a required internal node, removing and freeing it may cause a crash. If you wish to hide it or any of its children, use their `godot.CanvasItem.visible` property.
 	**/

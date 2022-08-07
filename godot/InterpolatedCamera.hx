@@ -15,6 +15,12 @@ If it is not `godot.InterpolatedCamera.enabled` or does not have a valid target 
 @:autoBuild(godot.Godot.buildUserClass())
 extern class InterpolatedCamera extends godot.Camera {
 	/**		
+		The camera's process callback. See `godot.InterpolatedCamera_InterpolatedCameraProcessMode`.
+	**/
+	@:native("ProcessMode")
+	public var processMode:godot.InterpolatedCamera_InterpolatedCameraProcessMode;
+
+	/**		
 		If `true`, and a target is set, the camera will move automatically.
 	**/
 	@:native("Enabled")
@@ -58,4 +64,10 @@ extern class InterpolatedCamera extends godot.Camera {
 
 	@:native("IsInterpolationEnabled")
 	public function isInterpolationEnabled():Bool;
+
+	@:native("SetProcessMode")
+	public function setProcessMode(mode:godot.InterpolatedCamera_InterpolatedCameraProcessMode):Void;
+
+	@:native("GetProcessMode")
+	public function getProcessMode():godot.InterpolatedCamera_InterpolatedCameraProcessMode;
 }

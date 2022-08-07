@@ -6,6 +6,8 @@ import cs.system.*;
 
 /**
 This is the CSG base class that provides CSG operation support to the various CSG nodes in Godot.
+
+Note: CSG nodes are intended to be used for level prototyping. Creating CSG nodes has a significant CPU cost compared to creating a `godot.MeshInstance` with a `godot.PrimitiveMesh`. Moving a CSG node within another CSG node also has a significant CPU cost, so it should be avoided during gameplay.
 **/
 @:libType
 @:csNative
@@ -13,7 +15,7 @@ This is the CSG base class that provides CSG operation support to the various CS
 @:autoBuild(godot.Godot.buildUserClass())
 extern abstract class CSGShape extends godot.GeometryInstance {
 	/**		
-		The physics layers this CSG shape scans for collisions. See [https://docs.godotengine.org/en/3.4/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
+		The physics layers this CSG shape scans for collisions. See [$DOCS_URL/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
 	**/
 	@:native("CollisionMask")
 	public var collisionMask:UInt;
@@ -23,7 +25,7 @@ extern abstract class CSGShape extends godot.GeometryInstance {
 		
 		Collidable objects can exist in any of 32 different layers. These layers work like a tagging system, and are not visual. A collidable can use these layers to select with which objects it can collide, using the collision_mask property.
 		
-		A contact is detected if object A is in any of the layers that object B scans, or object B is in any layer scanned by object A. See [https://docs.godotengine.org/en/3.4/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
+		A contact is detected if object A is in any of the layers that object B scans, or object B is in any layer scanned by object A. See [$DOCS_URL/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
 	**/
 	@:native("CollisionLayer")
 	public var collisionLayer:UInt;

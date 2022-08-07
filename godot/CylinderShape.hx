@@ -13,16 +13,16 @@ Cylinder shape for collisions.
 @:autoBuild(godot.Godot.buildUserClass())
 extern class CylinderShape extends godot.Shape {
 	/**		
-		The cylinder's height.
-	**/
-	@:native("Height")
-	public var height:Single;
-
-	/**		
 		The cylinder's radius.
 	**/
 	@:native("Radius")
 	public var radius:Single;
+
+	/**		
+		The cylinder's height.
+	**/
+	@:native("Height")
+	public var height:Single;
 
 	@:native("new")
 	public function new():Void;

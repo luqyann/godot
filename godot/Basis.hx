@@ -16,7 +16,7 @@ Can also be accessed as array of 3D vectors. These vectors are normally
 orthogonal to each other, but are not necessarily normalized (due to scaling).
 
 For more information, read this documentation article:
-https://docs.godotengine.org/en/3.4/tutorials/math/matrices_and_transforms.html
+https://docs.godotengine.org/en/3.5/tutorials/math/matrices_and_transforms.html
 **/
 #if doc_gen
 @:struct
@@ -60,13 +60,13 @@ extern abstract Basis(Basis_) from Basis_ to Basis_ {
 	#if !doc_gen
 	/**		
 		Constructs a pure rotation basis matrix, rotated around the given `axis`
-		by `phi` (in radians). The axis must be a normalized vector.
+		by `angle` (in radians). The axis must be a normalized vector.
 		
 		@param axis The axis to rotate around. Must be normalized.
-		@param phi The angle to rotate, in radians.
+		@param angle The angle to rotate, in radians.
 	**/
-	public overload inline function new(axis:godot.Vector3, phi:Single) {
-		this = new Basis_(axis, phi);
+	public overload inline function new(axis:godot.Vector3, angle:Single) {
+		this = new Basis_(axis, angle);
 	}
 	#end
 
@@ -346,14 +346,14 @@ extern class Basis_ extends cs.system.ValueType implements cs.system.IEquatable_
 
 	/**		
 		Introduce an additional rotation around the given `axis`
-		by `phi` (in radians). The axis must be a normalized vector.
+		by `angle` (in radians). The axis must be a normalized vector.
 		
 		@param axis The axis to rotate around. Must be normalized.
-		@param phi The angle to rotate, in radians.
+		@param angle The angle to rotate, in radians.
 		@returns The rotated basis matrix.
 	**/
 	@:native("Rotated")
-	public function rotated(axis:godot.Vector3, phi:Single):godot.Basis;
+	public function rotated(axis:godot.Vector3, angle:Single):godot.Basis;
 
 	/**		
 		Introduce an additional scaling specified by the given 3D scaling factor.
@@ -464,13 +464,13 @@ extern class Basis_ extends cs.system.ValueType implements cs.system.IEquatable_
 
 	/**		
 		Constructs a pure rotation basis matrix, rotated around the given `axis`
-		by `phi` (in radians). The axis must be a normalized vector.
+		by `angle` (in radians). The axis must be a normalized vector.
 		
 		@param axis The axis to rotate around. Must be normalized.
-		@param phi The angle to rotate, in radians.
+		@param angle The angle to rotate, in radians.
 	**/
 	@:native("new")
-	public overload function new(axis:godot.Vector3, phi:Single):Void;
+	public overload function new(axis:godot.Vector3, angle:Single):Void;
 
 	/**		
 		Constructs a basis matrix from 3 axis vectors (matrix columns).

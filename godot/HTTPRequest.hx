@@ -29,7 +29,7 @@ push_error("An error occurred in the HTTP request.")
 # Perform a POST request. The URL below returns JSON as of writing.
 # Note: Don't make simultaneous requests using a single HTTPRequest node.
 # The snippet below is provided for reference only.
-var body = {"name": "Godette"}
+var body = to_json({"name": "Godette"})
 error = http_request.request("https://httpbin.org/post", [], true, HTTPClient.METHOD_POST, body)
 if error != OK:
 push_error("An error occurred in the HTTP request.")
@@ -90,17 +90,20 @@ extern class HTTPRequest extends godot.Node {
 		return new Signal(this, "request_completed", Signal.SignalHandlerIntIntPoolStringArrayPoolByteArrayVoid.connectSignal, Signal.SignalHandlerIntIntPoolStringArrayPoolByteArrayVoid.disconnectSignal, Signal.SignalHandlerIntIntPoolStringArrayPoolByteArrayVoid.isSignalConnected);
 	}
 
+	/**		
+		If set to a value greater than `0.0` before the request starts, the HTTP request will time out after `timeout` seconds have passed and the request is not completed yet. For small HTTP requests such as REST API usage, set `godot.HTTPRequest.timeout` to a value between `10.0` and `30.0` to prevent the application from getting stuck if the request fails to get a response in a timely manner. For file downloads, leave this to `0.0` to prevent the download from failing if it takes too much time.
+	**/
 	@:native("Timeout")
-	public var timeout:Int;
+	public var timeout:Float;
 
 	/**		
-		Maximum number of allowed redirects.
+		Maximum number of allowed redirects. This is used to prevent endless redirect loops.
 	**/
 	@:native("MaxRedirects")
 	public var maxRedirects:Int;
 
 	/**		
-		Maximum allowed size for response bodies.
+		Maximum allowed size for response bodies (`-1` means no limit). When only small files are expected, this can be used to prevent disallow receiving files that are too large, preventing potential denial of service attacks.
 	**/
 	@:native("BodySizeLimit")
 	public var bodySizeLimit:Int;
@@ -120,7 +123,9 @@ extern class HTTPRequest extends godot.Node {
 	public var downloadChunkSize:Int;
 
 	/**		
-		The file to download into. Will output any received file into it.
+		The file to download into. If set to a non-empty string, the request output will be written to the file located at the path. If a file already exists at the specified location, it will be overwritten as soon as body data begins to be received.
+		
+		Note: Folders are not automatically created when the file is created. If `godot.HTTPRequest.downloadFile` points to a subfolder, it's recommended to create the necessary folders beforehand using `godot.Directory.makeDirRecursive` to ensure the file can be written.
 	**/
 	@:native("DownloadFile")
 	public var downloadFile:std.String;
@@ -321,14 +326,30 @@ extern class HTTPRequest extends godot.Node {
 	public function getBodySize():Int;
 
 	@:native("SetTimeout")
-	public function setTimeout(timeout:Int):Void;
+	public function setTimeout(timeout:Float):Void;
 
 	@:native("GetTimeout")
-	public function getTimeout():Int;
+	public function getTimeout():Float;
 
 	@:native("SetDownloadChunkSize")
-	public function setDownloadChunkSize(arg0:Int):Void;
+	public function setDownloadChunkSize(chunkSize:Int):Void;
 
 	@:native("GetDownloadChunkSize")
 	public function getDownloadChunkSize():Int;
+
+	/**		
+		Sets the proxy server for HTTP requests.
+		
+		The proxy server is unset if `host` is empty or `port` is -1.
+	**/
+	@:native("SetHttpProxy")
+	public function setHttpProxy(host:std.String, port:Int):Void;
+
+	/**		
+		Sets the proxy server for HTTPS requests.
+		
+		The proxy server is unset if `host` is empty or `port` is -1.
+	**/
+	@:native("SetHttpsProxy")
+	public function setHttpsProxy(host:std.String, port:Int):Void;
 }

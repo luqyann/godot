@@ -61,6 +61,12 @@ extern class RichTextLabel extends godot.Control {
 	public var customEffects:godot.collections.Array;
 
 	/**		
+		If `true`, the selected text will be deselected when focus is lost.
+	**/
+	@:native("DeselectOnFocusLossEnabled")
+	public var deselectOnFocusLossEnabled:Bool;
+
+	/**		
 		If `true`, the label uses the custom font color.
 	**/
 	@:native("OverrideSelectedFontColor")
@@ -131,7 +137,7 @@ extern class RichTextLabel extends godot.Control {
 	/**		
 		The label's text in BBCode format. Is not representative of manual modifications to the internal tag stack. Erases changes made by other methods when edited.
 		
-		Note: It is unadvised to use the `+=` operator with `bbcode_text` (e.g. `bbcode_text += "some string"`) as it replaces the whole text and can cause slowdowns. Use `godot.RichTextLabel.appendBbcode` for adding text instead, unless you absolutely need to close a tag that was opened in an earlier method call.
+		Note: It is unadvised to use the `+=` operator with `bbcode_text` (e.g. `bbcode_text += "some string"`) as it replaces the whole text and can cause slowdowns. It will also erase all BBCode that was added to stack using `push_*` methods. Use `godot.RichTextLabel.appendBbcode` for adding text instead, unless you absolutely need to close a tag that was opened in an earlier method call.
 	**/
 	@:native("BbcodeText")
 	public var bbcodeText:std.String;
@@ -166,7 +172,7 @@ extern class RichTextLabel extends godot.Control {
 		If `width` or `height` is set to 0, the image size will be adjusted in order to keep the original aspect ratio.
 	**/
 	@:native("AddImage")
-	public function addImage(image:godot.Texture, ?width:Int, ?height:Int):Void;
+	public function addImage(image:godot.Texture, ?width:Int, ?height:Int, ?align:godot.RichTextLabel_InlineAlign):Void;
 	#else
 	/**		
 		Adds an image's opening and closing tags to the tag stack, optionally providing a `width` and `height` to resize the image.
@@ -191,6 +197,14 @@ extern class RichTextLabel extends godot.Control {
 	**/
 	@:native("AddImage")
 	public overload function addImage(image:godot.Texture, width:Int, height:Int):Void;
+
+	/**		
+		Adds an image's opening and closing tags to the tag stack, optionally providing a `width` and `height` to resize the image.
+		
+		If `width` or `height` is set to 0, the image size will be adjusted in order to keep the original aspect ratio.
+	**/
+	@:native("AddImage")
+	public overload function addImage(image:godot.Texture, width:Int, height:Int, align:godot.RichTextLabel_InlineAlign):Void;
 	#end
 
 	/**		
@@ -319,6 +333,18 @@ extern class RichTextLabel extends godot.Control {
 	@:native("Clear")
 	public function clear():Void;
 
+	/**		
+		Returns the current selection text. Does not include BBCodes.
+	**/
+	@:native("GetSelectedText")
+	public function getSelectedText():std.String;
+
+	/**		
+		Clears the current selection.
+	**/
+	@:native("Deselect")
+	public function deselect():Void;
+
 	@:native("SetMetaUnderline")
 	public function setMetaUnderline(enable:Bool):Void;
 
@@ -375,16 +401,26 @@ extern class RichTextLabel extends godot.Control {
 	@:native("IsSelectionEnabled")
 	public function isSelectionEnabled():Bool;
 
+	@:native("SetDeselectOnFocusLossEnabled")
+	public function setDeselectOnFocusLossEnabled(enable:Bool):Void;
+
+	@:native("IsDeselectOnFocusLossEnabled")
+	public function isDeselectOnFocusLossEnabled():Bool;
+
 	/**		
-		The assignment version of `godot.RichTextLabel.appendBbcode`. Clears the tag stack and inserts the new content. Returns `OK` if parses `bbcode` successfully.
+		The assignment version of `godot.RichTextLabel.appendBbcode`. Clears the tag stack and inserts the new content.
+		
+		Note: This method internals' can't possibly fail, but an error code is returned for backwards compatibility, which will always be `OK`.
 	**/
 	@:native("ParseBbcode")
 	public function parseBbcode(bbcode:std.String):godot.Error;
 
 	/**		
-		Parses `bbcode` and adds tags to the tag stack as needed. Returns the result of the parsing, `OK` if successful.
+		Parses `bbcode` and adds tags to the tag stack as needed.
 		
 		Note: Using this method, you can't close a tag that was opened in a previous `godot.RichTextLabel.appendBbcode` call. This is done to improve performance, especially when updating large RichTextLabels since rebuilding the whole BBCode every time would be slower. If you absolutely need to close a tag in a future method call, append the `godot.RichTextLabel.bbcodeText` instead of using `godot.RichTextLabel.appendBbcode`.
+		
+		Note: This method internals' can't possibly fail, but an error code is returned for backwards compatibility, which will always be `OK`.
 	**/
 	@:native("AppendBbcode")
 	public function appendBbcode(bbcode:std.String):godot.Error;

@@ -5,9 +5,9 @@ package godot;
 import cs.system.*;
 
 /**
-Animations are created using a `godot.SpriteFrames` resource, which can be configured in the editor via the SpriteFrames panel.
+`godot.AnimatedSprite` is similar to the `godot.Sprite` node, except it carries multiple textures as animation frames. Animations are created using a `godot.SpriteFrames` resource, which allows you to import image files (or a folder containing said files) to provide the animation frames for the sprite. The `godot.SpriteFrames` resource can be configured in the editor via the SpriteFrames bottom panel.
 
-Note: You can associate a set of normal maps by creating additional `godot.SpriteFrames` resources with a `_normal` suffix. For example, having 2 `godot.SpriteFrames` resources `run` and `run_normal` will make it so the `run` animation uses the normal map.
+Note: You can associate a set of normal or specular maps by creating additional `godot.SpriteFrames` resources with a `_normal` or `_specular` suffix. For example, having 3 `godot.SpriteFrames` resources `run`, `run_normal`, and `run_specular` will make it so the `run` animation uses normal and specular maps.
 **/
 @:libType
 @:csNative
@@ -77,13 +77,13 @@ extern class AnimatedSprite extends godot.Node2D {
 	public var frame:Int;
 
 	/**		
-		The current animation from the `frames` resource. If this value changes, the `frame` counter is reset.
+		The current animation from the `godot.AnimatedSprite.frames` resource. If this value changes, the `frame` counter is reset.
 	**/
 	@:native("Animation")
 	public var animation:std.String;
 
 	/**		
-		The `godot.SpriteFrames` resource containing the animation(s).
+		The `godot.SpriteFrames` resource containing the animation(s). Allows you the option to load, edit, clear, make unique and save the states of the `godot.SpriteFrames` resource.
 	**/
 	@:native("Frames")
 	public var frames:godot.SpriteFrames;
@@ -102,6 +102,12 @@ extern class AnimatedSprite extends godot.Node2D {
 
 	@:native("GetAnimation")
 	public function getAnimation():std.String;
+
+	@:native("SetPlaying")
+	public function setPlaying(playing:Bool):Void;
+
+	@:native("IsPlaying")
+	public function isPlaying():Bool;
 
 	#if doc_gen
 	/**		
@@ -134,12 +140,6 @@ extern class AnimatedSprite extends godot.Node2D {
 	**/
 	@:native("Stop")
 	public function stop():Void;
-
-	/**		
-		Returns `true` if an animation is currently being played.
-	**/
-	@:native("IsPlaying")
-	public function isPlaying():Bool;
 
 	@:native("SetCentered")
 	public function setCentered(centered:Bool):Void;

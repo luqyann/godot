@@ -170,6 +170,20 @@ extern abstract Color(Color_) from Color_ to Color_ {
 	@:op(A > B) static inline function op_GreaterThan(left:godot.Color, right:godot.Color):Bool {
 		return cs.Syntax.code("{0} > {1}", left, right);
 	}
+
+	/**
+		Operator overload for `godot.Color` <= `godot.Color`.
+	**/
+	@:op(A <= B) static inline function op_LessThanOrEqual(left:godot.Color, right:godot.Color):Bool {
+		return cs.Syntax.code("{0} <= {1}", left, right);
+	}
+
+	/**
+		Operator overload for `godot.Color` >= `godot.Color`.
+	**/
+	@:op(A >= B) static inline function op_GreaterThanOrEqual(left:godot.Color, right:godot.Color):Bool {
+		return cs.Syntax.code("{0} >= {1}", left, right);
+	}
 #if !doc_gen
 }
 

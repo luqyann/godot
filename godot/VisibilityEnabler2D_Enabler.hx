@@ -21,12 +21,12 @@ extern enum VisibilityEnabler2D_Enabler {
 	PauseParticles;
 
 	/**		
-		This enabler will stop the parent's _process function.
+		This enabler will stop the parent's `godot.Node._Process` function.
 	**/
 	ParentProcess;
 
 	/**		
-		This enabler will stop the parent's _physics_process function.
+		This enabler will stop the parent's `godot.Node._PhysicsProcess` function.
 	**/
 	ParentPhysicsProcess;
 

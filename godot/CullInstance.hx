@@ -31,6 +31,14 @@ extern abstract class CullInstance extends godot.Spatial {
 	public var autoplacePriority:Int;
 
 	/**		
+		This allows fine control over the mesh merging feature in the `godot.RoomManager`.
+		
+		Setting this option to `false` can be used to prevent an instance being merged.
+	**/
+	@:native("AllowMerging")
+	public var allowMerging:Bool;
+
+	/**		
 		When a manual bound has not been explicitly specified for a `godot.Room`, the convex hull bound will be estimated from the geometry of the objects within the room. This setting determines whether the geometry of an object is included in this estimate of the room bound.
 		
 		Note: This setting is only relevant when the object is set to `PORTAL_MODE_STATIC` or `PORTAL_MODE_DYNAMIC`, and for `godot.Portal`s.
@@ -51,10 +59,16 @@ extern abstract class CullInstance extends godot.Spatial {
 	public function getPortalMode():godot.CullInstance_PortalModeEnum;
 
 	@:native("SetIncludeInBound")
-	public function setIncludeInBound(arg0:Bool):Void;
+	public function setIncludeInBound(enabled:Bool):Void;
 
 	@:native("GetIncludeInBound")
 	public function getIncludeInBound():Bool;
+
+	@:native("SetAllowMerging")
+	public function setAllowMerging(enabled:Bool):Void;
+
+	@:native("GetAllowMerging")
+	public function getAllowMerging():Bool;
 
 	@:native("SetPortalAutoplacePriority")
 	public function setPortalAutoplacePriority(priority:Int):Void;

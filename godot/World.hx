@@ -5,7 +5,7 @@ package godot;
 import cs.system.*;
 
 /**
-Class that has everything pertaining to a world. A physics space, a visual scenario and a sound space. Spatial nodes register their resources into the current world.
+Class that has everything pertaining to a world. A physics space, a visual scenario, a navigation map and a sound space. Spatial nodes register their resources into the current world.
 **/
 @:libType
 @:csNative
@@ -17,6 +17,12 @@ extern class World extends godot.Resource {
 	**/
 	@:native("DirectSpaceState")
 	public var directSpaceState(default, never):godot.PhysicsDirectSpaceState;
+
+	/**		
+		The `godot.RID` of this world's navigation map. Used by the `godot.NavigationServer`.
+	**/
+	@:native("NavigationMap")
+	public var navigationMap(default, never):godot.RID;
 
 	/**		
 		The World's visual scenario.
@@ -31,7 +37,7 @@ extern class World extends godot.Resource {
 	public var space(default, never):godot.RID;
 
 	/**		
-		The World's fallback_environment will be used if the World's `godot.Environment` fails or is missing.
+		The World's fallback environment will be used if `godot.World.environment` fails or is missing.
 	**/
 	@:native("FallbackEnvironment")
 	public var fallbackEnvironment:godot.Environment;
@@ -50,6 +56,9 @@ extern class World extends godot.Resource {
 
 	@:native("GetScenario")
 	public function getScenario():godot.RID;
+
+	@:native("GetNavigationMap")
+	public function getNavigationMap():godot.RID;
 
 	@:native("SetEnvironment")
 	public function setEnvironment(env:godot.Environment):Void;

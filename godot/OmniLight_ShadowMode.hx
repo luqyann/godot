@@ -11,7 +11,7 @@ extern enum OmniLight_ShadowMode {
 	DualParaboloid;
 
 	/**		
-		Shadows are rendered to a cubemap. Slower than `godot.OmniLight_ShadowMode.dualParaboloid`, but higher-quality.
+		Shadows are rendered to a cubemap. Slower than `godot.OmniLight_ShadowMode.dualParaboloid`, but higher-quality. Only supported on GPUs that feature support for depth cubemaps.
 	**/
 	Cube;
 }

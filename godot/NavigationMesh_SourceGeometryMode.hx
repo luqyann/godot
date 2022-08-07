@@ -11,12 +11,12 @@ extern enum NavigationMesh_SourceGeometryMode {
 	NavmeshChildren;
 
 	/**		
-		Scans nodes in a group and their child nodes recursively for geometry. The group is specified by `godot.NavigationMesh.geometry__sourceGroupName`.
+		Scans nodes in a group and their child nodes recursively for geometry. The group is specified by `godot.NavigationMesh.geometrySourceGroupName`.
 	**/
 	GroupsWithChildren;
 
 	/**		
-		Uses nodes in a group for geometry. The group is specified by `godot.NavigationMesh.geometry__sourceGroupName`.
+		Uses nodes in a group for geometry. The group is specified by `godot.NavigationMesh.geometrySourceGroupName`.
 	**/
 	GroupsExplicit;
 

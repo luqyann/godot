@@ -250,7 +250,7 @@ extern class HTTPClient extends godot.Reference {
 		Note: Some Web servers may not send a body length. In this case, the value returned will be `-1`. If using chunked transfer encoding, the body length will also be `-1`.
 	**/
 	@:native("GetResponseBodyLength")
-	public function getResponseBodyLength():Int;
+	public function getResponseBodyLength():haxe.Int64;
 
 	/**		
 		Reads one chunk from the response.
@@ -282,6 +282,22 @@ extern class HTTPClient extends godot.Reference {
 	**/
 	@:native("Poll")
 	public function poll():godot.Error;
+
+	/**		
+		Sets the proxy server for HTTP requests.
+		
+		The proxy server is unset if `host` is empty or `port` is -1.
+	**/
+	@:native("SetHttpProxy")
+	public function setHttpProxy(host:std.String, port:Int):Void;
+
+	/**		
+		Sets the proxy server for HTTPS requests.
+		
+		The proxy server is unset if `host` is empty or `port` is -1.
+	**/
+	@:native("SetHttpsProxy")
+	public function setHttpsProxy(host:std.String, port:Int):Void;
 
 	/**		
 		Generates a GET/POST application/x-www-form-urlencoded style query string from a provided dictionary, e.g.:

@@ -176,9 +176,177 @@ extern abstract class Font extends godot.Resource {
 	public overload function drawChar(canvasItem:godot.RID, position:godot.Vector2, char:Int, next:Int, modulate:Nullable1<godot.Color>, outline:Bool):Single;
 	#end
 
+	#if doc_gen
+	/**		
+		Returns resource id of the cache texture containing the char.
+	**/
+	@:native("GetCharTexture")
+	public function getCharTexture(char:Int, ?next:Int, ?outline:Bool):godot.RID;
+	#else
+	/**		
+		Returns resource id of the cache texture containing the char.
+	**/
+	@:native("GetCharTexture")
+	public overload function getCharTexture(char:Int):godot.RID;
+
+	/**		
+		Returns resource id of the cache texture containing the char.
+	**/
+	@:native("GetCharTexture")
+	public overload function getCharTexture(char:Int, next:Int):godot.RID;
+
+	/**		
+		Returns resource id of the cache texture containing the char.
+	**/
+	@:native("GetCharTexture")
+	public overload function getCharTexture(char:Int, next:Int, outline:Bool):godot.RID;
+	#end
+
+	#if doc_gen
+	/**		
+		Returns size of the cache texture containing the char.
+	**/
+	@:native("GetCharTextureSize")
+	public function getCharTextureSize(char:Int, ?next:Int, ?outline:Bool):godot.Vector2;
+	#else
+	/**		
+		Returns size of the cache texture containing the char.
+	**/
+	@:native("GetCharTextureSize")
+	public overload function getCharTextureSize(char:Int):godot.Vector2;
+
+	/**		
+		Returns size of the cache texture containing the char.
+	**/
+	@:native("GetCharTextureSize")
+	public overload function getCharTextureSize(char:Int, next:Int):godot.Vector2;
+
+	/**		
+		Returns size of the cache texture containing the char.
+	**/
+	@:native("GetCharTextureSize")
+	public overload function getCharTextureSize(char:Int, next:Int, outline:Bool):godot.Vector2;
+	#end
+
+	#if doc_gen
+	/**		
+		Returns char offset from the baseline.
+	**/
+	@:native("GetCharTxOffset")
+	public function getCharTxOffset(char:Int, ?next:Int, ?outline:Bool):godot.Vector2;
+	#else
+	/**		
+		Returns char offset from the baseline.
+	**/
+	@:native("GetCharTxOffset")
+	public overload function getCharTxOffset(char:Int):godot.Vector2;
+
+	/**		
+		Returns char offset from the baseline.
+	**/
+	@:native("GetCharTxOffset")
+	public overload function getCharTxOffset(char:Int, next:Int):godot.Vector2;
+
+	/**		
+		Returns char offset from the baseline.
+	**/
+	@:native("GetCharTxOffset")
+	public overload function getCharTxOffset(char:Int, next:Int, outline:Bool):godot.Vector2;
+	#end
+
+	#if doc_gen
+	/**		
+		Returns size of the char.
+	**/
+	@:native("GetCharTxSize")
+	public function getCharTxSize(char:Int, ?next:Int, ?outline:Bool):godot.Vector2;
+	#else
+	/**		
+		Returns size of the char.
+	**/
+	@:native("GetCharTxSize")
+	public overload function getCharTxSize(char:Int):godot.Vector2;
+
+	/**		
+		Returns size of the char.
+	**/
+	@:native("GetCharTxSize")
+	public overload function getCharTxSize(char:Int, next:Int):godot.Vector2;
+
+	/**		
+		Returns size of the char.
+	**/
+	@:native("GetCharTxSize")
+	public overload function getCharTxSize(char:Int, next:Int, outline:Bool):godot.Vector2;
+	#end
+
+	#if doc_gen
+	/**		
+		Returns rectangle in the cache texture containing the char.
+	**/
+	@:native("GetCharTxUvRect")
+	public function getCharTxUvRect(char:Int, ?next:Int, ?outline:Bool):godot.Rect2;
+	#else
+	/**		
+		Returns rectangle in the cache texture containing the char.
+	**/
+	@:native("GetCharTxUvRect")
+	public overload function getCharTxUvRect(char:Int):godot.Rect2;
+
+	/**		
+		Returns rectangle in the cache texture containing the char.
+	**/
+	@:native("GetCharTxUvRect")
+	public overload function getCharTxUvRect(char:Int, next:Int):godot.Rect2;
+
+	/**		
+		Returns rectangle in the cache texture containing the char.
+	**/
+	@:native("GetCharTxUvRect")
+	public overload function getCharTxUvRect(char:Int, next:Int, outline:Bool):godot.Rect2;
+	#end
+
 	/**		
 		After editing a font (changing size, ascent, char rects, etc.). Call this function to propagate changes to controls that might use it.
 	**/
 	@:native("UpdateChanges")
 	public function updateChanges():Void;
+
+	#if doc_gen
+	/**		
+		Returns outline contours of the glyph as a `Dictionary` with the following contents:
+		
+		`points`         - `godot.Vector3`, containing outline points. `x` and `y` are point coordinates. `z` is the type of the point, using the `godot.Font_ContourPointTag` values.
+		
+		`contours`       - `Int`, containing indices the end points of each contour.
+		
+		`orientation`    - `Bool`, contour orientation. If `true`, clockwise contours must be filled.
+	**/
+	@:native("GetCharContours")
+	public function getCharContours(char:Int, ?next:Int):godot.collections.Dictionary;
+	#else
+	/**		
+		Returns outline contours of the glyph as a `Dictionary` with the following contents:
+		
+		`points`         - `godot.Vector3`, containing outline points. `x` and `y` are point coordinates. `z` is the type of the point, using the `godot.Font_ContourPointTag` values.
+		
+		`contours`       - `Int`, containing indices the end points of each contour.
+		
+		`orientation`    - `Bool`, contour orientation. If `true`, clockwise contours must be filled.
+	**/
+	@:native("GetCharContours")
+	public overload function getCharContours(char:Int):godot.collections.Dictionary;
+
+	/**		
+		Returns outline contours of the glyph as a `Dictionary` with the following contents:
+		
+		`points`         - `godot.Vector3`, containing outline points. `x` and `y` are point coordinates. `z` is the type of the point, using the `godot.Font_ContourPointTag` values.
+		
+		`contours`       - `Int`, containing indices the end points of each contour.
+		
+		`orientation`    - `Bool`, contour orientation. If `true`, clockwise contours must be filled.
+	**/
+	@:native("GetCharContours")
+	public overload function getCharContours(char:Int, next:Int):godot.collections.Dictionary;
+	#end
 }

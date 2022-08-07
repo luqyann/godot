@@ -24,7 +24,7 @@ extern class RayCast extends godot.Spatial {
 		If set to `1`, a line is used as the debug shape. Otherwise, a truncated pyramid is drawn to represent the `godot.RayCast`. Requires Visible Collision Shapes to be enabled in the Debug menu for the debug shape to be visible at run-time.
 	**/
 	@:native("DebugShapeThickness")
-	public var debugShapeThickness:Single;
+	public var debugShapeThickness:Int;
 
 	/**		
 		The custom color to use to draw the shape in the editor and at run-time if Visible Collision Shapes is enabled in the Debug menu. This color will be highlighted at run-time if the `godot.RayCast` is colliding with something.
@@ -47,7 +47,7 @@ extern class RayCast extends godot.Spatial {
 	public var collideWithAreas:Bool;
 
 	/**		
-		The ray's collision mask. Only objects in at least one collision layer enabled in the mask will be detected. See [https://docs.godotengine.org/en/3.4/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
+		The ray's collision mask. Only objects in at least one collision layer enabled in the mask will be detected. See [$DOCS_URL/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
 	**/
 	@:native("CollisionMask")
 	public var collisionMask:UInt;
@@ -92,9 +92,7 @@ extern class RayCast extends godot.Spatial {
 	public function isColliding():Bool;
 
 	/**		
-		Updates the collision information for the ray.
-		
-		Use this method to update the collision information immediately instead of waiting for the next `_physics_process` call, for example if the ray or its parent has changed state.
+		Updates the collision information for the ray. Use this method to update the collision information immediately instead of waiting for the next `_physics_process` call, for example if the ray or its parent has changed state.
 		
 		Note: `enabled` is not required for this to work.
 	**/
@@ -204,8 +202,8 @@ extern class RayCast extends godot.Spatial {
 	public function getDebugShapeCustomColor():godot.Color;
 
 	@:native("SetDebugShapeThickness")
-	public function setDebugShapeThickness(debugShapeThickness:Single):Void;
+	public function setDebugShapeThickness(debugShapeThickness:Int):Void;
 
 	@:native("GetDebugShapeThickness")
-	public function getDebugShapeThickness():Single;
+	public function getDebugShapeThickness():Int;
 }

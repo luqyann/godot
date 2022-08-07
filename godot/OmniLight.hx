@@ -21,7 +21,9 @@ extern class OmniLight extends godot.Light {
 	public var omniShadowDetail:godot.OmniLight_ShadowDetail;
 
 	/**		
-		See `godot.OmniLight_ShadowMode`.
+		The shadow rendering mode to use for this `godot.OmniLight`. See `godot.OmniLight_ShadowMode`.
+		
+		Note: In GLES2, `godot.OmniLight_ShadowMode.cube` is only supported on GPUs that feature support for depth cubemaps. Old GPUs such as the Radeon HD 4000 series don't support cubemap shadows and will fall back to dual paraboloid shadows as a result.
 	**/
 	@:native("OmniShadowMode")
 	public var omniShadowMode:godot.OmniLight_ShadowMode;

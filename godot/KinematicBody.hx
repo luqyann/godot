@@ -17,6 +17,12 @@ Kinematic characters: KinematicBody also has an API for moving objects (the `god
 @:autoBuild(godot.Godot.buildUserClass())
 extern class KinematicBody extends godot.PhysicsBody {
 	/**		
+		Sets the behavior to apply when you leave a moving platform. By default, to be physically accurate, when you leave the last platform velocity is applied. See `godot.KinematicBody_MovingPlatformApplyVelocityOnLeaveEnum` constants for available behavior.
+	**/
+	@:native("MovingPlatformApplyVelocityOnLeave")
+	public var movingPlatformApplyVelocityOnLeave:godot.KinematicBody_MovingPlatformApplyVelocityOnLeaveEnum;
+
+	/**		
 		If `true`, the body's movement will be synchronized to the physics frame. This is useful when animating movement via `godot.AnimationPlayer`, for example on moving platforms. Do not use together with `godot.KinematicBody.moveAndSlide` or `godot.KinematicBody.moveAndCollide` functions.
 	**/
 	@:native("Motion__syncToPhysics")
@@ -75,7 +81,7 @@ extern class KinematicBody extends godot.PhysicsBody {
 
 	#if doc_gen
 	/**		
-		Moves the body along the vector `rel_vec`. The body will stop if it collides. Returns a `godot.KinematicCollision`, which contains information about the collision.
+		Moves the body along the vector `rel_vec`. The body will stop if it collides. Returns a `godot.KinematicCollision`, which contains information about the collision when stopped, or when touching another body along the motion.
 		
 		If `test_only` is `true`, the body does not move but the would-be collision information is given.
 	**/
@@ -83,7 +89,7 @@ extern class KinematicBody extends godot.PhysicsBody {
 	public function moveAndCollide(relVec:godot.Vector3, ?infiniteInertia:Bool, ?excludeRaycastShapes:Bool, ?testOnly:Bool):godot.KinematicCollision;
 	#else
 	/**		
-		Moves the body along the vector `rel_vec`. The body will stop if it collides. Returns a `godot.KinematicCollision`, which contains information about the collision.
+		Moves the body along the vector `rel_vec`. The body will stop if it collides. Returns a `godot.KinematicCollision`, which contains information about the collision when stopped, or when touching another body along the motion.
 		
 		If `test_only` is `true`, the body does not move but the would-be collision information is given.
 	**/
@@ -91,7 +97,7 @@ extern class KinematicBody extends godot.PhysicsBody {
 	public overload function moveAndCollide(relVec:godot.Vector3):godot.KinematicCollision;
 
 	/**		
-		Moves the body along the vector `rel_vec`. The body will stop if it collides. Returns a `godot.KinematicCollision`, which contains information about the collision.
+		Moves the body along the vector `rel_vec`. The body will stop if it collides. Returns a `godot.KinematicCollision`, which contains information about the collision when stopped, or when touching another body along the motion.
 		
 		If `test_only` is `true`, the body does not move but the would-be collision information is given.
 	**/
@@ -99,7 +105,7 @@ extern class KinematicBody extends godot.PhysicsBody {
 	public overload function moveAndCollide(relVec:godot.Vector3, infiniteInertia:Bool):godot.KinematicCollision;
 
 	/**		
-		Moves the body along the vector `rel_vec`. The body will stop if it collides. Returns a `godot.KinematicCollision`, which contains information about the collision.
+		Moves the body along the vector `rel_vec`. The body will stop if it collides. Returns a `godot.KinematicCollision`, which contains information about the collision when stopped, or when touching another body along the motion.
 		
 		If `test_only` is `true`, the body does not move but the would-be collision information is given.
 	**/
@@ -107,7 +113,7 @@ extern class KinematicBody extends godot.PhysicsBody {
 	public overload function moveAndCollide(relVec:godot.Vector3, infiniteInertia:Bool, excludeRaycastShapes:Bool):godot.KinematicCollision;
 
 	/**		
-		Moves the body along the vector `rel_vec`. The body will stop if it collides. Returns a `godot.KinematicCollision`, which contains information about the collision.
+		Moves the body along the vector `rel_vec`. The body will stop if it collides. Returns a `godot.KinematicCollision`, which contains information about the collision when stopped, or when touching another body along the motion.
 		
 		If `test_only` is `true`, the body does not move but the would-be collision information is given.
 	**/
@@ -373,19 +379,25 @@ extern class KinematicBody extends godot.PhysicsBody {
 
 	#if doc_gen
 	/**		
-		Checks for collisions without moving the body. Virtually sets the node's position, scale and rotation to that of the given `godot.Transform`, then tries to move the body along the vector `rel_vec`. Returns `true` if a collision would occur.
+		Checks for collisions without moving the body. Virtually sets the node's position, scale and rotation to that of the given `godot.Transform`, then tries to move the body along the vector `rel_vec`. Returns `true` if a collision would stop the body from moving along the whole path.
+		
+		Use `godot.KinematicBody.moveAndCollide` instead for detecting collision with touching bodies.
 	**/
 	@:native("TestMove")
 	public function testMove(from:godot.Transform, relVec:godot.Vector3, ?infiniteInertia:Bool):Bool;
 	#else
 	/**		
-		Checks for collisions without moving the body. Virtually sets the node's position, scale and rotation to that of the given `godot.Transform`, then tries to move the body along the vector `rel_vec`. Returns `true` if a collision would occur.
+		Checks for collisions without moving the body. Virtually sets the node's position, scale and rotation to that of the given `godot.Transform`, then tries to move the body along the vector `rel_vec`. Returns `true` if a collision would stop the body from moving along the whole path.
+		
+		Use `godot.KinematicBody.moveAndCollide` instead for detecting collision with touching bodies.
 	**/
 	@:native("TestMove")
 	public overload function testMove(from:godot.Transform, relVec:godot.Vector3):Bool;
 
 	/**		
-		Checks for collisions without moving the body. Virtually sets the node's position, scale and rotation to that of the given `godot.Transform`, then tries to move the body along the vector `rel_vec`. Returns `true` if a collision would occur.
+		Checks for collisions without moving the body. Virtually sets the node's position, scale and rotation to that of the given `godot.Transform`, then tries to move the body along the vector `rel_vec`. Returns `true` if a collision would stop the body from moving along the whole path.
+		
+		Use `godot.KinematicBody.moveAndCollide` instead for detecting collision with touching bodies.
 	**/
 	@:native("TestMove")
 	public overload function testMove(from:godot.Transform, relVec:godot.Vector3, infiniteInertia:Bool):Bool;
@@ -464,6 +476,12 @@ extern class KinematicBody extends godot.PhysicsBody {
 
 	@:native("GetSafeMargin")
 	public function getSafeMargin():Single;
+
+	@:native("SetMovingPlatformApplyVelocityOnLeave")
+	public function setMovingPlatformApplyVelocityOnLeave(onLeaveApplyVelocity:godot.KinematicBody_MovingPlatformApplyVelocityOnLeaveEnum):Void;
+
+	@:native("GetMovingPlatformApplyVelocityOnLeave")
+	public function getMovingPlatformApplyVelocityOnLeave():godot.KinematicBody_MovingPlatformApplyVelocityOnLeaveEnum;
 
 	/**		
 		Returns the number of times the body collided and changed direction during the last call to `godot.KinematicBody.moveAndSlide` or `godot.KinematicBody.moveAndSlideWithSnap`.

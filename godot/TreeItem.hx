@@ -205,13 +205,13 @@ extern abstract class TreeItem extends godot.Object {
 	public function getCustomMinimumHeight():Int;
 
 	/**		
-		Returns the next TreeItem in the tree or a null object if there is none.
+		Returns the next sibling TreeItem in the tree or a null object if there is none.
 	**/
 	@:native("GetNext")
 	public function getNext():godot.TreeItem;
 
 	/**		
-		Returns the previous TreeItem in the tree or a null object if there is none.
+		Returns the previous sibling TreeItem in the tree or a null object if there is none.
 	**/
 	@:native("GetPrev")
 	public function getPrev():godot.TreeItem;
@@ -230,7 +230,7 @@ extern abstract class TreeItem extends godot.Object {
 
 	#if doc_gen
 	/**		
-		Returns the next visible TreeItem in the tree or a null object if there is none.
+		Returns the next visible sibling TreeItem in the tree or a null object if there is none.
 		
 		If `wrap` is enabled, the method will wrap around to the first visible element in the tree when called on the last visible element, otherwise it returns `null`.
 	**/
@@ -238,7 +238,7 @@ extern abstract class TreeItem extends godot.Object {
 	public function getNextVisible(?wrap:Bool):godot.TreeItem;
 	#else
 	/**		
-		Returns the next visible TreeItem in the tree or a null object if there is none.
+		Returns the next visible sibling TreeItem in the tree or a null object if there is none.
 		
 		If `wrap` is enabled, the method will wrap around to the first visible element in the tree when called on the last visible element, otherwise it returns `null`.
 	**/
@@ -246,7 +246,7 @@ extern abstract class TreeItem extends godot.Object {
 	public overload function getNextVisible():godot.TreeItem;
 
 	/**		
-		Returns the next visible TreeItem in the tree or a null object if there is none.
+		Returns the next visible sibling TreeItem in the tree or a null object if there is none.
 		
 		If `wrap` is enabled, the method will wrap around to the first visible element in the tree when called on the last visible element, otherwise it returns `null`.
 	**/
@@ -256,7 +256,7 @@ extern abstract class TreeItem extends godot.Object {
 
 	#if doc_gen
 	/**		
-		Returns the previous visible TreeItem in the tree or a null object if there is none.
+		Returns the previous visible sibling TreeItem in the tree or a null object if there is none.
 		
 		If `wrap` is enabled, the method will wrap around to the last visible element in the tree when called on the first visible element, otherwise it returns `null`.
 	**/
@@ -264,7 +264,7 @@ extern abstract class TreeItem extends godot.Object {
 	public function getPrevVisible(?wrap:Bool):godot.TreeItem;
 	#else
 	/**		
-		Returns the previous visible TreeItem in the tree or a null object if there is none.
+		Returns the previous visible sibling TreeItem in the tree or a null object if there is none.
 		
 		If `wrap` is enabled, the method will wrap around to the last visible element in the tree when called on the first visible element, otherwise it returns `null`.
 	**/
@@ -272,7 +272,7 @@ extern abstract class TreeItem extends godot.Object {
 	public overload function getPrevVisible():godot.TreeItem;
 
 	/**		
-		Returns the previous visible TreeItem in the tree or a null object if there is none.
+		Returns the previous visible sibling TreeItem in the tree or a null object if there is none.
 		
 		If `wrap` is enabled, the method will wrap around to the last visible element in the tree when called on the first visible element, otherwise it returns `null`.
 	**/
@@ -386,38 +386,38 @@ extern abstract class TreeItem extends godot.Object {
 
 	#if doc_gen
 	/**		
-		Adds a button with `godot.Texture` `button` at column `column`. The `button_idx` index is used to identify the button when calling other methods. If not specified, the next available index is used, which may be retrieved by calling `godot.TreeItem.getButtonCount` immediately after this method. Optionally, the button can be `disabled` and have a `tooltip`.
+		Adds a button with `godot.Texture` `button` at column `column`. The `id` is used to identify the button. If not specified, the next available index is used, which may be retrieved by calling `godot.TreeItem.getButtonCount` immediately before this method. Optionally, the button can be `disabled` and have a `tooltip`.
 	**/
 	@:native("AddButton")
-	public function addButton(column:Int, button:godot.Texture, ?buttonIdx:Int, ?disabled:Bool, ?tooltip:std.String):Void;
+	public function addButton(column:Int, button:godot.Texture, ?id:Int, ?disabled:Bool, ?tooltip:std.String):Void;
 	#else
 	/**		
-		Adds a button with `godot.Texture` `button` at column `column`. The `button_idx` index is used to identify the button when calling other methods. If not specified, the next available index is used, which may be retrieved by calling `godot.TreeItem.getButtonCount` immediately after this method. Optionally, the button can be `disabled` and have a `tooltip`.
+		Adds a button with `godot.Texture` `button` at column `column`. The `id` is used to identify the button. If not specified, the next available index is used, which may be retrieved by calling `godot.TreeItem.getButtonCount` immediately before this method. Optionally, the button can be `disabled` and have a `tooltip`.
 	**/
 	@:native("AddButton")
 	public overload function addButton(column:Int, button:godot.Texture):Void;
 
 	/**		
-		Adds a button with `godot.Texture` `button` at column `column`. The `button_idx` index is used to identify the button when calling other methods. If not specified, the next available index is used, which may be retrieved by calling `godot.TreeItem.getButtonCount` immediately after this method. Optionally, the button can be `disabled` and have a `tooltip`.
+		Adds a button with `godot.Texture` `button` at column `column`. The `id` is used to identify the button. If not specified, the next available index is used, which may be retrieved by calling `godot.TreeItem.getButtonCount` immediately before this method. Optionally, the button can be `disabled` and have a `tooltip`.
 	**/
 	@:native("AddButton")
-	public overload function addButton(column:Int, button:godot.Texture, buttonIdx:Int):Void;
+	public overload function addButton(column:Int, button:godot.Texture, id:Int):Void;
 
 	/**		
-		Adds a button with `godot.Texture` `button` at column `column`. The `button_idx` index is used to identify the button when calling other methods. If not specified, the next available index is used, which may be retrieved by calling `godot.TreeItem.getButtonCount` immediately after this method. Optionally, the button can be `disabled` and have a `tooltip`.
+		Adds a button with `godot.Texture` `button` at column `column`. The `id` is used to identify the button. If not specified, the next available index is used, which may be retrieved by calling `godot.TreeItem.getButtonCount` immediately before this method. Optionally, the button can be `disabled` and have a `tooltip`.
 	**/
 	@:native("AddButton")
-	public overload function addButton(column:Int, button:godot.Texture, buttonIdx:Int, disabled:Bool):Void;
+	public overload function addButton(column:Int, button:godot.Texture, id:Int, disabled:Bool):Void;
 
 	/**		
-		Adds a button with `godot.Texture` `button` at column `column`. The `button_idx` index is used to identify the button when calling other methods. If not specified, the next available index is used, which may be retrieved by calling `godot.TreeItem.getButtonCount` immediately after this method. Optionally, the button can be `disabled` and have a `tooltip`.
+		Adds a button with `godot.Texture` `button` at column `column`. The `id` is used to identify the button. If not specified, the next available index is used, which may be retrieved by calling `godot.TreeItem.getButtonCount` immediately before this method. Optionally, the button can be `disabled` and have a `tooltip`.
 	**/
 	@:native("AddButton")
-	public overload function addButton(column:Int, button:godot.Texture, buttonIdx:Int, disabled:Bool, tooltip:std.String):Void;
+	public overload function addButton(column:Int, button:godot.Texture, id:Int, disabled:Bool, tooltip:std.String):Void;
 	#end
 
 	/**		
-		Returns the number of buttons in column `column`. May be used to get the most recently added button's index, if no index was specified.
+		Returns the number of buttons in column `column`.
 	**/
 	@:native("GetButtonCount")
 	public function getButtonCount(column:Int):Int;
@@ -427,6 +427,18 @@ extern abstract class TreeItem extends godot.Object {
 	**/
 	@:native("GetButtonTooltip")
 	public function getButtonTooltip(column:Int, buttonIdx:Int):std.String;
+
+	/**		
+		Returns the id for the button at index `button_idx` in column `column`.
+	**/
+	@:native("GetButtonId")
+	public function getButtonId(column:Int, buttonIdx:Int):Int;
+
+	/**		
+		Returns the button index if there is a button with id `id` in column `column`, otherwise returns -1.
+	**/
+	@:native("GetButtonById")
+	public function getButtonById(column:Int, id:Int):Int;
 
 	/**		
 		Returns the `godot.Texture` of the button at index `button_idx` in column `column`.

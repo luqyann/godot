@@ -65,7 +65,29 @@ extern class Spatial extends godot.Node {
 	public var transform:godot.Transform;
 
 	/**		
+		Rotation part of the global transformation in radians, specified in terms of YXZ-Euler angles in the format (X angle, Y angle, Z angle).
+		
+		Note: In the mathematical sense, rotation is a matrix and not a vector. The three Euler angles, which are the three independent parameters of the Euler-angle parametrization of the rotation matrix, are stored in a `godot.Vector3` data structure not because the rotation is a vector, but only because `godot.Vector3` exists as a convenient data-structure to store 3 floating-point numbers. Therefore, applying affine operations on the rotation "vector" is not meaningful.
+	**/
+	@:native("GlobalRotation")
+	public var globalRotation:godot.Vector3;
+
+	/**		
+		Global position of this node. This is equivalent to `global_transform.origin`.
+	**/
+	@:native("GlobalTranslation")
+	public var globalTranslation:godot.Vector3;
+
+	/**		
+		World space (global) `godot.Transform` of this node.
+	**/
+	@:native("GlobalTransform")
+	public var globalTransform:godot.Transform;
+
+	/**		
 		Scale part of the local transformation.
+		
+		Note: Mixed negative scales in 3D are not decomposable from the transformation matrix. Due to the way scale is represented with transformation matrices in Godot, the scale values will either be all positive or all negative.
 	**/
 	@:native("Scale")
 	public var scale:godot.Vector3;
@@ -89,12 +111,6 @@ extern class Spatial extends godot.Node {
 	**/
 	@:native("Translation")
 	public var translation:godot.Vector3;
-
-	/**		
-		World space (global) `godot.Transform` of this node.
-	**/
-	@:native("GlobalTransform")
-	public var globalTransform:godot.Transform;
 
 	/**		
 		Spatial nodes receives this notification if the portal system gameplay monitor detects they have exited the gameplay area.
@@ -172,6 +188,26 @@ extern class Spatial extends godot.Node {
 
 	@:native("GetGlobalTransform")
 	public function getGlobalTransform():godot.Transform;
+
+	@:native("SetGlobalTranslation")
+	public function setGlobalTranslation(translation:godot.Vector3):Void;
+
+	@:native("GetGlobalTranslation")
+	public function getGlobalTranslation():godot.Vector3;
+
+	@:native("SetGlobalRotation")
+	public function setGlobalRotation(radians:godot.Vector3):Void;
+
+	@:native("GetGlobalRotation")
+	public function getGlobalRotation():godot.Vector3;
+
+	/**		
+		When using physics interpolation, there will be circumstances in which you want to know the interpolated (displayed) transform of a node rather than the standard transform (which may only be accurate to the most recent physics tick).
+		
+		This is particularly important for frame-based operations that take place in `godot.Node._Process`, rather than `godot.Node._PhysicsProcess`. Examples include `godot.Camera`s focusing on a node, or finding where to fire lasers from on a frame rather than physics tick.
+	**/
+	@:native("GetGlobalTransformInterpolated")
+	public function getGlobalTransformInterpolated():godot.Transform;
 
 	/**		
 		Returns the parent `godot.Spatial`, or an empty `godot.Object` if no parent exists or parent is not of type `godot.Spatial`.
@@ -362,9 +398,11 @@ extern class Spatial extends godot.Node {
 	public function setIdentity():Void;
 
 	/**		
-		Rotates itself so that the local -Z axis points towards the `target` position.
+		Rotates the node so that the local forward axis (-Z) points toward the `target` position.
 		
-		The transform will first be rotated around the given `up` vector, and then fully aligned to the target by a further rotation around an axis perpendicular to both the `target` and `up` vectors.
+		The local up axis (+Y) points as close to the `up` vector as possible while staying perpendicular to the local forward axis. The resulting transform is orthogonal, and the scale is preserved. Non-uniform scaling may not work correctly.
+		
+		The `target` position cannot be the same as the node's position, the `up` vector cannot be zero, and the direction from the node's position to the `target` vector cannot be parallel to the `up` vector.
 		
 		Operations take place in global space.
 	**/

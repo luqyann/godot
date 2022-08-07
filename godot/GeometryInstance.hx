@@ -75,6 +75,14 @@ extern abstract class GeometryInstance extends godot.VisualInstance {
 	public var castShadow:godot.GeometryInstance_ShadowCastingSetting;
 
 	/**		
+		The material overlay for the whole geometry.
+		
+		If a material is assigned to this property, it will be rendered on top of any other active material for all the surfaces.
+	**/
+	@:native("MaterialOverlay")
+	public var materialOverlay:godot.Material;
+
+	/**		
 		The material override for the whole geometry.
 		
 		If a material is assigned to this property, it will be used instead of any material set in any material slot of the mesh.
@@ -87,6 +95,12 @@ extern abstract class GeometryInstance extends godot.VisualInstance {
 
 	@:native("GetMaterialOverride")
 	public function getMaterialOverride():godot.Material;
+
+	@:native("SetMaterialOverlay")
+	public function setMaterialOverlay(material:godot.Material):Void;
+
+	@:native("GetMaterialOverlay")
+	public function getMaterialOverlay():godot.Material;
 
 	/**		
 		Sets the `godot.GeometryInstance_Flags` specified. See `godot.GeometryInstance_Flags` for options.

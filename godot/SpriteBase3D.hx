@@ -12,8 +12,30 @@ A node that displays 2D texture information in a 3D environment.
 @:native("Godot.SpriteBase3D")
 @:autoBuild(godot.Godot.buildUserClass())
 extern abstract class SpriteBase3D extends godot.GeometryInstance {
+	/**		
+		Sets the render priority for the sprite. Higher priority objects will be sorted in front of lower priority objects.
+		
+		Note: This only applies if `godot.SpriteBase3D.alphaCut` is set to `godot.SpriteBase3D_AlphaCutMode.disabled` (default value).
+		
+		Note: This only applies to sorting of transparent objects. This will not impact how transparent objects are sorted relative to opaque objects. This is because opaque objects are not sorted, while transparent objects are sorted from back to front (subject to priority).
+	**/
+	@:native("RenderPriority")
+	public var renderPriority:Int;
+
 	@:native("AlphaCut")
 	public var alphaCut:godot.SpriteBase3D_AlphaCutMode;
+
+	/**		
+		If `true`, the label is rendered at the same size regardless of distance.
+	**/
+	@:native("FixedSize")
+	public var fixedSize:Bool;
+
+	/**		
+		If `true`, depth testing is disabled and the object will be drawn in render order.
+	**/
+	@:native("NoDepthTest")
+	public var noDepthTest:Bool;
 
 	/**		
 		If `true`, texture can be seen from the back as well, if `false`, it is invisible when looking at it from behind.
@@ -49,13 +71,17 @@ extern abstract class SpriteBase3D extends godot.GeometryInstance {
 	public var pixelSize:Single;
 
 	/**		
-		The objects' visibility on a scale from `0` fully invisible to `1` fully visible.
+		The texture's visibility on a scale from `0` (fully invisible) to `1` (fully visible). `godot.SpriteBase3D.opacity` is a multiplier for the `godot.SpriteBase3D.modulate` color's alpha channel.
+		
+		Note: If a `godot.GeometryInstance.materialOverride` is defined on the `godot.SpriteBase3D`, the material override must be configured to take vertex colors into account for albedo. Otherwise, the opacity defined in `godot.SpriteBase3D.opacity` will be ignored. For a `godot.SpatialMaterial`, `godot.SpatialMaterial.vertexColorUseAsAlbedo` must be `true`. For a `godot.ShaderMaterial`, `ALPHA *= COLOR.a;` must be inserted in the shader's `fragment()` function.
 	**/
 	@:native("Opacity")
 	public var opacity:Single;
 
 	/**		
-		A color value that gets multiplied on, could be used for mood-coloring or to simulate the color of light.
+		A color value used to multiply the texture's colors. Can be used for mood-coloring or to simulate the color of light.
+		
+		Note: If a `godot.GeometryInstance.materialOverride` is defined on the `godot.SpriteBase3D`, the material override must be configured to take vertex colors into account for albedo. Otherwise, the color defined in `godot.SpriteBase3D.modulate` will be ignored. For a `godot.SpatialMaterial`, `godot.SpatialMaterial.vertexColorUseAsAlbedo` must be `true`. For a `godot.ShaderMaterial`, `ALBEDO *= COLOR.rgb;` must be inserted in the shader's `fragment()` function.
 	**/
 	@:native("Modulate")
 	public var modulate:godot.Color;
@@ -119,6 +145,12 @@ extern abstract class SpriteBase3D extends godot.GeometryInstance {
 
 	@:native("GetOpacity")
 	public function getOpacity():Single;
+
+	@:native("SetRenderPriority")
+	public function setRenderPriority(priority:Int):Void;
+
+	@:native("GetRenderPriority")
+	public function getRenderPriority():Int;
 
 	@:native("SetPixelSize")
 	public function setPixelSize(pixelSize:Single):Void;

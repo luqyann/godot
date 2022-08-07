@@ -110,13 +110,25 @@ extern class Directory extends godot.Reference {
 	public function listDirEnd():Void;
 
 	/**		
-		On Windows, returns the number of drives (partitions) mounted on the current filesystem. On other platforms, the method returns 0.
+		On Windows, returns the number of drives (partitions) mounted on the current filesystem.
+		
+		On macOS, returns the number of mounted volumes.
+		
+		On Linux, returns the number of mounted volumes and GTK 3 bookmarks.
+		
+		On other platforms, the method returns 0.
 	**/
 	@:native("GetDriveCount")
 	public function getDriveCount():Int;
 
 	/**		
-		On Windows, returns the name of the drive (partition) passed as an argument (e.g. `C:`). On other platforms, or if the requested drive does not exist, the method returns an empty String.
+		On Windows, returns the name of the drive (partition) passed as an argument (e.g. `C:`).
+		
+		On macOS, returns the path to the mounted volume passed as an argument.
+		
+		On Linux, returns the path to the mounted volume or GTK 3 bookmark passed as an argument.
+		
+		On other platforms, or if the requested drive does not exist, the method returns an empty String.
 	**/
 	@:native("GetDrive")
 	public function getDrive(idx:Int):std.String;
@@ -192,7 +204,9 @@ extern class Directory extends godot.Reference {
 	public function rename(from:std.String, to:std.String):godot.Error;
 
 	/**		
-		Deletes the target file or an empty directory. The argument can be relative to the current directory, or an absolute path. If the target directory is not empty, the operation will fail.
+		Permanently deletes the target file or an empty directory. The argument can be relative to the current directory, or an absolute path. If the target directory is not empty, the operation will fail.
+		
+		If you don't want to delete the file/directory permanently, use `godot.OS.moveToTrash` instead.
 		
 		Returns one of the `godot.Error` code constants (`OK` on success).
 	**/

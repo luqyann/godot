@@ -18,6 +18,16 @@ Since instances may have any behavior, the AABB used for visibility must be prov
 @:native("Godot.MultiMesh")
 @:autoBuild(godot.Godot.buildUserClass())
 extern class MultiMesh extends godot.Resource {
+	/**		
+		Choose whether to use an interpolation method that favors speed or quality.
+		
+		When using low physics tick rates (typically below 20) or high rates of object rotation, you may get better results from the high quality setting.
+		
+		Note: Fast quality does not equate to low quality. Except in the special cases mentioned above, the quality should be comparable to high quality.
+	**/
+	@:native("PhysicsInterpolationQuality")
+	public var physicsInterpolationQuality:godot.MultiMesh_PhysicsInterpolationQualityEnum;
+
 	@:native("CustomDataArray")
 	public var customDataArray:cs.NativeArray<godot.Color>;
 
@@ -105,6 +115,12 @@ extern class MultiMesh extends godot.Resource {
 	@:native("GetVisibleInstanceCount")
 	public function getVisibleInstanceCount():Int;
 
+	@:native("SetPhysicsInterpolationQuality")
+	public function setPhysicsInterpolationQuality(quality:godot.MultiMesh_PhysicsInterpolationQualityEnum):Void;
+
+	@:native("GetPhysicsInterpolationQuality")
+	public function getPhysicsInterpolationQuality():godot.MultiMesh_PhysicsInterpolationQualityEnum;
+
 	/**		
 		Sets the `godot.Transform` for a specific instance.
 	**/
@@ -156,6 +172,14 @@ extern class MultiMesh extends godot.Resource {
 	public function getInstanceCustomData(instance:Int):godot.Color;
 
 	/**		
+		When using physics interpolation, this function allows you to prevent interpolation on an instance in the current physics tick.
+		
+		This allows you to move instances instantaneously, and should usually be used when initially placing an instance such as a bullet to prevent graphical glitches.
+	**/
+	@:native("ResetInstancePhysicsInterpolation")
+	public function resetInstancePhysicsInterpolation(instance:Int):Void;
+
+	/**		
 		Sets all data related to the instances in one go. This is especially useful when loading the data from disk or preparing the data from GDNative.
 		
 		All data is packed in one large float array. An array may look like this: Transform for instance 1, color data for instance 1, custom data for instance 1, transform for instance 2, color data for instance 2, etc...
@@ -164,6 +188,16 @@ extern class MultiMesh extends godot.Resource {
 	**/
 	@:native("SetAsBulkArray")
 	public function setAsBulkArray(array:HaxeArray<Single>):Void;
+
+	/**		
+		An alternative version of `godot.MultiMesh.setAsBulkArray` which can be used with physics interpolation. This method takes two arrays, and can set the data for the current and previous tick in one go. The renderer will automatically interpolate the data at each frame.
+		
+		This is useful for situations where the order of instances may change from physics tick to tick, such as particle systems.
+		
+		When the order of instances is coherent, the simpler `godot.MultiMesh.setAsBulkArray` can still be used with interpolation.
+	**/
+	@:native("SetAsBulkArrayInterpolated")
+	public function setAsBulkArrayInterpolated(arrayCurrent:HaxeArray<Single>, arrayPrevious:HaxeArray<Single>):Void;
 
 	/**		
 		Returns the visibility axis-aligned bounding box in local space. See also `godot.VisualInstance.getTransformedAabb`.

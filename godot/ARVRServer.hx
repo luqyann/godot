@@ -71,7 +71,7 @@ extern class ARVRServer {
 	public static function getWorldScale():Single;
 
 	@:native("SetWorldScale")
-	public static function setWorldScale(arg0:Single):Void;
+	public static function setWorldScale(worldScale:Single):Void;
 
 	/**		
 		Returns the reference frame transform. Mostly used internally and exposed for GDNative build interfaces.

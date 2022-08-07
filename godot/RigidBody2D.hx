@@ -96,7 +96,7 @@ extern class RigidBody2D extends godot.PhysicsBody2D {
 	public var appliedForce:godot.Vector2;
 
 	/**		
-		Damps the body's `godot.RigidBody2D.angularVelocity`. If `-1`, the body will use the Default Angular Damp defined in Project &gt; Project Settings &gt; Physics &gt; 2d.
+		Damps the body's `godot.RigidBody2D.angularVelocity`. If `-1`, the body will use the Default Angular Damp defined in Project &gt; Project Settings &gt; Physics &gt; 2d. If greater than `-1` it will be added to the default project value.
 		
 		See  for more details about damping.
 	**/
@@ -104,13 +104,13 @@ extern class RigidBody2D extends godot.PhysicsBody2D {
 	public var angularDamp:Single;
 
 	/**		
-		The body's rotational velocity.
+		The body's rotational velocity in radians per second.
 	**/
 	@:native("AngularVelocity")
 	public var angularVelocity:Single;
 
 	/**		
-		Damps the body's `godot.RigidBody2D.linearVelocity`. If `-1`, the body will use the Default Linear Damp in Project &gt; Project Settings &gt; Physics &gt; 2d.
+		Damps the body's `godot.RigidBody2D.linearVelocity`. If `-1`, the body will use the Default Linear Damp in Project &gt; Project Settings &gt; Physics &gt; 2d. If greater than `-1` it will be added to the default project value.
 		
 		See  for more details about damping.
 	**/
@@ -118,7 +118,7 @@ extern class RigidBody2D extends godot.PhysicsBody2D {
 	public var linearDamp:Single;
 
 	/**		
-		The body's linear velocity.
+		The body's linear velocity in pixels per second. Can be used sporadically, but don't set this every frame, because physics may run in another thread and runs at a different granularity. Use `godot.RigidBody2D._IntegrateForces` as your process loop for precise control of the body state.
 	**/
 	@:native("LinearVelocity")
 	public var linearVelocity:godot.Vector2;

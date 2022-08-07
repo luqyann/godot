@@ -26,10 +26,40 @@ extern class Input {
 	public static var SINGLETON(default, never):godot.Object;
 
 	/**		
-		Returns `true` if you are pressing the key. You can pass a `godot.KeyList` constant.
+		If `true`, similar input events sent by the operating system are accumulated. When input accumulation is enabled, all input events generated during a frame will be merged and emitted when the frame is done rendering. Therefore, this limits the number of input method calls per second to the rendering FPS.
+		
+		Input accumulation can be disabled to get slightly more precise/reactive input at the cost of increased CPU usage. In applications where drawing freehand lines is required, input accumulation should generally be disabled while the user is drawing the line to get results that closely follow the actual input.
+		
+		Note: Input accumulation is enabled by default. It is recommended to keep it enabled for games which don't require very reactive input, as this will decrease CPU usage.
+	**/
+	@:native("UseAccumulatedInput")
+	public static var USE_ACCUMULATED_INPUT:Bool;
+
+	/**		
+		Controls the mouse mode. See `godot.Input_MouseModeEnum` for more information.
+	**/
+	@:native("MouseMode")
+	public static var MOUSE_MODE:godot.Input_MouseModeEnum;
+
+	/**		
+		Returns `true` if you are pressing the key in the current keyboard layout. You can pass a `godot.KeyList` constant.
+		
+		`godot.Input.isKeyPressed` is only recommended over `godot.Input.isPhysicalKeyPressed` in non-game applications. This ensures that shortcut keys behave as expected depending on the user's keyboard layout, as keyboard shortcuts are generally dependent on the keyboard layout in non-game applications. If in doubt, use `godot.Input.isPhysicalKeyPressed`.
+		
+		Note: Due to keyboard ghosting, `godot.Input.isKeyPressed` may return `false` even if one of the action's keys is pressed. See [$DOCS_URL/tutorials/inputs/input_examples.html#keyboard-events](Input examples) in the documentation for more information.
 	**/
 	@:native("IsKeyPressed")
 	public static function isKeyPressed(scancode:Int):Bool;
+
+	/**		
+		Returns `true` if you are pressing the key in the physical location on the 101/102-key US QWERTY keyboard. You can pass a `godot.KeyList` constant.
+		
+		`godot.Input.isPhysicalKeyPressed` is recommended over `godot.Input.isKeyPressed` for in-game actions, as it will make W/A/S/D layouts work regardless of the user's keyboard layout. `godot.Input.isPhysicalKeyPressed` will also ensure that the top row number keys work on any keyboard layout. If in doubt, use `godot.Input.isPhysicalKeyPressed`.
+		
+		Note: Due to keyboard ghosting, `godot.Input.isPhysicalKeyPressed` may return `false` even if one of the action's keys is pressed. See [$DOCS_URL/tutorials/inputs/input_examples.html#keyboard-events](Input examples) in the documentation for more information.
+	**/
+	@:native("IsPhysicalKeyPressed")
+	public static function isPhysicalKeyPressed(scancode:Int):Bool;
 
 	/**		
 		Returns `true` if you are pressing the mouse button specified with `godot.ButtonList`.
@@ -47,7 +77,9 @@ extern class Input {
 	/**		
 		Returns `true` if you are pressing the action event. Note that if an action has multiple buttons assigned and more than one of them is pressed, releasing one button will release the action, even if some other button assigned to this action is still pressed.
 		
-		If `exact` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		
+		Note: Due to keyboard ghosting, `godot.Input.isActionPressed` may return `false` even if one of the action's keys is pressed. See [$DOCS_URL/tutorials/inputs/input_examples.html#keyboard-events](Input examples) in the documentation for more information.
 	**/
 	@:native("IsActionPressed")
 	public static function isActionPressed(action:std.String, ?exact:Bool):Bool;
@@ -55,7 +87,9 @@ extern class Input {
 	/**		
 		Returns `true` if you are pressing the action event. Note that if an action has multiple buttons assigned and more than one of them is pressed, releasing one button will release the action, even if some other button assigned to this action is still pressed.
 		
-		If `exact` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		
+		Note: Due to keyboard ghosting, `godot.Input.isActionPressed` may return `false` even if one of the action's keys is pressed. See [$DOCS_URL/tutorials/inputs/input_examples.html#keyboard-events](Input examples) in the documentation for more information.
 	**/
 	@:native("IsActionPressed")
 	public static overload function isActionPressed(action:godot.Action):Bool;
@@ -63,7 +97,9 @@ extern class Input {
 	/**		
 		Returns `true` if you are pressing the action event. Note that if an action has multiple buttons assigned and more than one of them is pressed, releasing one button will release the action, even if some other button assigned to this action is still pressed.
 		
-		If `exact` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		
+		Note: Due to keyboard ghosting, `godot.Input.isActionPressed` may return `false` even if one of the action's keys is pressed. See [$DOCS_URL/tutorials/inputs/input_examples.html#keyboard-events](Input examples) in the documentation for more information.
 	**/
 	@:native("IsActionPressed")
 	public static overload function isActionPressed(action:godot.Action, exact:Bool):Bool;
@@ -75,7 +111,9 @@ extern class Input {
 		
 		This is useful for code that needs to run only once when an action is pressed, instead of every frame while it's pressed.
 		
-		If `exact` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		
+		Note: Due to keyboard ghosting, `godot.Input.isActionJustPressed` may return `false` even if one of the action's keys is pressed. See [$DOCS_URL/tutorials/inputs/input_examples.html#keyboard-events](Input examples) in the documentation for more information.
 	**/
 	@:native("IsActionJustPressed")
 	public static function isActionJustPressed(action:std.String, ?exact:Bool):Bool;
@@ -85,7 +123,9 @@ extern class Input {
 		
 		This is useful for code that needs to run only once when an action is pressed, instead of every frame while it's pressed.
 		
-		If `exact` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		
+		Note: Due to keyboard ghosting, `godot.Input.isActionJustPressed` may return `false` even if one of the action's keys is pressed. See [$DOCS_URL/tutorials/inputs/input_examples.html#keyboard-events](Input examples) in the documentation for more information.
 	**/
 	@:native("IsActionJustPressed")
 	public static overload function isActionJustPressed(action:godot.Action):Bool;
@@ -95,7 +135,9 @@ extern class Input {
 		
 		This is useful for code that needs to run only once when an action is pressed, instead of every frame while it's pressed.
 		
-		If `exact` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		
+		Note: Due to keyboard ghosting, `godot.Input.isActionJustPressed` may return `false` even if one of the action's keys is pressed. See [$DOCS_URL/tutorials/inputs/input_examples.html#keyboard-events](Input examples) in the documentation for more information.
 	**/
 	@:native("IsActionJustPressed")
 	public static overload function isActionJustPressed(action:godot.Action, exact:Bool):Bool;
@@ -105,7 +147,7 @@ extern class Input {
 	/**		
 		Returns `true` when the user stops pressing the action event, meaning it's `true` only on the frame that the user released the button.
 		
-		If `exact` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
 	**/
 	@:native("IsActionJustReleased")
 	public static function isActionJustReleased(action:std.String, ?exact:Bool):Bool;
@@ -113,7 +155,7 @@ extern class Input {
 	/**		
 		Returns `true` when the user stops pressing the action event, meaning it's `true` only on the frame that the user released the button.
 		
-		If `exact` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
 	**/
 	@:native("IsActionJustReleased")
 	public static overload function isActionJustReleased(action:godot.Action):Bool;
@@ -121,7 +163,7 @@ extern class Input {
 	/**		
 		Returns `true` when the user stops pressing the action event, meaning it's `true` only on the frame that the user released the button.
 		
-		If `exact` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
 	**/
 	@:native("IsActionJustReleased")
 	public static overload function isActionJustReleased(action:godot.Action, exact:Bool):Bool;
@@ -131,7 +173,7 @@ extern class Input {
 	/**		
 		Returns a value between 0 and 1 representing the intensity of the given action. In a joypad, for example, the further away the axis (analog sticks or L2, R2 triggers) is from the dead zone, the closer the value will be to 1. If the action is mapped to a control that has no axis as the keyboard, the value returned will be 0 or 1.
 		
-		If `exact` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
 	**/
 	@:native("GetActionStrength")
 	public static function getActionStrength(action:std.String, ?exact:Bool):Single;
@@ -139,7 +181,7 @@ extern class Input {
 	/**		
 		Returns a value between 0 and 1 representing the intensity of the given action. In a joypad, for example, the further away the axis (analog sticks or L2, R2 triggers) is from the dead zone, the closer the value will be to 1. If the action is mapped to a control that has no axis as the keyboard, the value returned will be 0 or 1.
 		
-		If `exact` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
 	**/
 	@:native("GetActionStrength")
 	public static overload function getActionStrength(action:godot.Action):Single;
@@ -147,7 +189,7 @@ extern class Input {
 	/**		
 		Returns a value between 0 and 1 representing the intensity of the given action. In a joypad, for example, the further away the axis (analog sticks or L2, R2 triggers) is from the dead zone, the closer the value will be to 1. If the action is mapped to a control that has no axis as the keyboard, the value returned will be 0 or 1.
 		
-		If `exact` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
 	**/
 	@:native("GetActionStrength")
 	public static overload function getActionStrength(action:godot.Action, exact:Bool):Single;
@@ -157,7 +199,7 @@ extern class Input {
 	/**		
 		Returns a value between 0 and 1 representing the raw intensity of the given action, ignoring the action's deadzone. In most cases, you should use `godot.Input.getActionStrength` instead.
 		
-		If `exact` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
 	**/
 	@:native("GetActionRawStrength")
 	public static function getActionRawStrength(action:std.String, ?exact:Bool):Single;
@@ -165,7 +207,7 @@ extern class Input {
 	/**		
 		Returns a value between 0 and 1 representing the raw intensity of the given action, ignoring the action's deadzone. In most cases, you should use `godot.Input.getActionStrength` instead.
 		
-		If `exact` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
 	**/
 	@:native("GetActionRawStrength")
 	public static overload function getActionRawStrength(action:std.String):Single;
@@ -173,7 +215,7 @@ extern class Input {
 	/**		
 		Returns a value between 0 and 1 representing the raw intensity of the given action, ignoring the action's deadzone. In most cases, you should use `godot.Input.getActionStrength` instead.
 		
-		If `exact` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
 	**/
 	@:native("GetActionRawStrength")
 	public static overload function getActionRawStrength(action:std.String, exact:Bool):Single;
@@ -353,25 +395,43 @@ extern class Input {
 
 	#if doc_gen
 	/**		
-		Vibrate Android and iOS devices.
+		Vibrate handheld devices.
 		
-		Note: It needs `VIBRATE` permission for Android at export settings. iOS does not support duration.
+		Note: This method is implemented on Android, iOS, and HTML5.
+		
+		Note: For Android, it requires enabling the `VIBRATE` permission in the export preset.
+		
+		Note: For iOS, specifying the duration is supported in iOS 13 and later.
+		
+		Note: Some web browsers such as Safari and Firefox for Android do not support this method.
 	**/
 	@:native("VibrateHandheld")
 	public static function vibrateHandheld(?durationMs:Int):Void;
 	#else
 	/**		
-		Vibrate Android and iOS devices.
+		Vibrate handheld devices.
 		
-		Note: It needs `VIBRATE` permission for Android at export settings. iOS does not support duration.
+		Note: This method is implemented on Android, iOS, and HTML5.
+		
+		Note: For Android, it requires enabling the `VIBRATE` permission in the export preset.
+		
+		Note: For iOS, specifying the duration is supported in iOS 13 and later.
+		
+		Note: Some web browsers such as Safari and Firefox for Android do not support this method.
 	**/
 	@:native("VibrateHandheld")
 	public static overload function vibrateHandheld():Void;
 
 	/**		
-		Vibrate Android and iOS devices.
+		Vibrate handheld devices.
 		
-		Note: It needs `VIBRATE` permission for Android at export settings. iOS does not support duration.
+		Note: This method is implemented on Android, iOS, and HTML5.
+		
+		Note: For Android, it requires enabling the `VIBRATE` permission in the export preset.
+		
+		Note: For iOS, specifying the duration is supported in iOS 13 and later.
+		
+		Note: Some web browsers such as Safari and Firefox for Android do not support this method.
 	**/
 	@:native("VibrateHandheld")
 	public static overload function vibrateHandheld(durationMs:Int):Void;
@@ -455,20 +515,16 @@ extern class Input {
 	@:native("GetMouseButtonMask")
 	public static function getMouseButtonMask():Int;
 
-	/**		
-		Sets the mouse mode. See the constants for more information.
-	**/
 	@:native("SetMouseMode")
-	public static function setMouseMode(mode:godot.Input_MouseMode):Void;
+	public static function setMouseMode(mode:godot.Input_MouseModeEnum):Void;
 
-	/**		
-		Returns the mouse mode. See the constants for more information.
-	**/
 	@:native("GetMouseMode")
-	public static function getMouseMode():godot.Input_MouseMode;
+	public static function getMouseMode():godot.Input_MouseModeEnum;
 
 	/**		
-		Sets the mouse position to the specified vector.
+		Sets the mouse position to the specified vector, provided in pixels and relative to an origin at the upper left corner of the game window.
+		
+		Mouse position is clipped to the limits of the screen resolution, or to the limits of the game window if `godot.Input_MouseModeEnum` is set to `godot.Input_MouseModeEnum.confined`.
 	**/
 	@:native("WarpMousePosition")
 	public static function warpMousePosition(to:godot.Vector2):Void;
@@ -632,16 +688,14 @@ extern class Input {
 	@:native("ParseInputEvent")
 	public static function parseInputEvent(event:godot.InputEvent):Void;
 
-	/**		
-		Enables or disables the accumulation of similar input events sent by the operating system. When input accumulation is enabled, all input events generated during a frame will be merged and emitted when the frame is done rendering. Therefore, this limits the number of input method calls per second to the rendering FPS.
-		
-		Input accumulation is enabled by default. It can be disabled to get slightly more precise/reactive input at the cost of increased CPU usage. In applications where drawing freehand lines is required, input accumulation should generally be disabled while the user is drawing the line to get results that closely follow the actual input.
-	**/
 	@:native("SetUseAccumulatedInput")
 	public static function setUseAccumulatedInput(enable:Bool):Void;
 
+	@:native("IsUsingAccumulatedInput")
+	public static function isUsingAccumulatedInput():Bool;
+
 	/**		
-		Sends all input events which are in the current buffer to the game loop. These events may have been buffered as a result of accumulated input (`godot.Input.setUseAccumulatedInput`) or agile input flushing ().
+		Sends all input events which are in the current buffer to the game loop. These events may have been buffered as a result of accumulated input (`godot.Input.useAccumulatedInput`) or agile input flushing ().
 		
 		The engine will already do this itself at key execution points (at least once per frame). However, this can be useful in advanced cases where you want precise control over the timing of event handling.
 	**/

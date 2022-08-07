@@ -5,7 +5,7 @@ package godot;
 import cs.system.*;
 
 /**
-`godot.VideoStream` resource for for video formats implemented via GDNative.
+`godot.VideoStream` resource for video formats implemented via GDNative.
 
 It can be used via [https://github.com/KidRigger/godot-videodecoder](godot-videodecoder) which uses the [https://ffmpeg.org](FFmpeg) library.
 **/

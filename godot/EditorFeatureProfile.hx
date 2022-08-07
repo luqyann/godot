@@ -72,7 +72,7 @@ extern class EditorFeatureProfile extends godot.Reference {
 	public function getFeatureName(feature:godot.EditorFeatureProfile_Feature):std.String;
 
 	/**		
-		Saves the editor feature profile to a file in JSON format. It can then be imported using the feature profile manager's Import button or the `godot.EditorFeatureProfile.loadFromFile` button.
+		Saves the editor feature profile to a file in JSON format. It can then be imported using the feature profile manager's Import button or the `godot.EditorFeatureProfile.loadFromFile` method.
 	**/
 	@:native("SaveToFile")
 	public function saveToFile(path:std.String):godot.Error;

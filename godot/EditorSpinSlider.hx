@@ -12,6 +12,12 @@ This `godot.Control` node is used in the editor's Inspector dock to allow editin
 @:native("Godot.EditorSpinSlider")
 @:autoBuild(godot.Godot.buildUserClass())
 extern class EditorSpinSlider extends godot.Range {
+	/**		
+		If `true`, the slider is hidden.
+	**/
+	@:native("HideSlider")
+	public var hideSlider:Bool;
+
 	@:native("Flat")
 	public var flat:Bool;
 
@@ -41,4 +47,10 @@ extern class EditorSpinSlider extends godot.Range {
 
 	@:native("IsFlat")
 	public function isFlat():Bool;
+
+	@:native("SetHideSlider")
+	public function setHideSlider(hideSlider:Bool):Void;
+
+	@:native("IsHidingSlider")
+	public function isHidingSlider():Bool;
 }

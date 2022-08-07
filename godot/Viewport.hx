@@ -16,6 +16,8 @@ Viewports can also choose to be audio listeners, so they generate positional aud
 Also, viewports can be assigned to different screens in case the devices have multiple screens.
 
 Finally, viewports can also behave as render targets, in which case they will not be visible unless the associated texture is used to draw.
+
+Note: By default, a newly created Viewport in Godot 3.x will appear to be upside down. Enabling `godot.Viewport.renderTargetVFlip` will display the Viewport with the correct orientation.
 **/
 @:libType
 @:csNative
@@ -81,7 +83,7 @@ extern class Viewport extends godot.Node {
 	/**		
 		The shadow atlas' resolution (used for omni and spot lights). The value will be rounded up to the nearest power of 2.
 		
-		Note: If this is set to 0, shadows won't be visible. Since user-created viewports default to a value of 0, this value must be set above 0 manually.
+		Note: If this is set to `0`, both point and directional shadows won't be visible. Since user-created viewports default to a value of `0`, this value must be set above `0` manually (typically at least `256`).
 	**/
 	@:native("ShadowAtlasSize")
 	public var shadowAtlasSize:Int;
@@ -131,7 +133,7 @@ extern class Viewport extends godot.Node {
 	public var renderTargetClearMode:godot.Viewport_ClearMode;
 
 	/**		
-		If `true`, the result of rendering will be flipped vertically.
+		If `true`, the result of rendering will be flipped vertically. Since Viewports in Godot 3.x render upside-down, it's recommended to set this to `true` in most situations.
 	**/
 	@:native("RenderTargetVFlip")
 	public var renderTargetVFlip:Bool;
@@ -150,6 +152,8 @@ extern class Viewport extends godot.Node {
 
 	/**		
 		The rendering mode of viewport.
+		
+		Note: If set to `godot.Viewport_UsageEnum.usage2d` or `godot.Viewport_UsageEnum.usage2dNoSampling`, `godot.Viewport.hdr` will have no effect when enabled since HDR is not supported for 2D.
 	**/
 	@:native("Usage")
 	public var usage:godot.Viewport_UsageEnum;
@@ -167,9 +171,21 @@ extern class Viewport extends godot.Node {
 	public var disable3d:Bool;
 
 	/**		
-		If `true`, the viewport rendering will receive benefits from High Dynamic Range algorithm. High Dynamic Range allows the viewport to receive values that are outside the 0-1 range. In Godot HDR uses 16 bits, meaning it does not store the full range of a floating point number.
+		If `true`, allocates the viewport's framebuffer with full floating-point precision (32-bit) instead of half floating-point precision (16-bit). Only effective when `godot.Viewport.hdr` is also enabled.
+		
+		Note: Enabling this setting does not improve rendering quality. Using full floating-point precision is slower, and is generally only needed for advanced shaders that require a high level of precision. To reduce banding, enable `godot.Viewport.debanding` instead.
+		
+		Note: Only available on the GLES3 backend.
+	**/
+	@:native("Use32BpcDepth")
+	public var use32BpcDepth:Bool;
+
+	/**		
+		If `true`, the viewport rendering will receive benefits from High Dynamic Range algorithm. High Dynamic Range allows the viewport to receive values that are outside the 0-1 range. In Godot, HDR uses half floating-point precision (16-bit) by default. To use full floating-point precision (32-bit), enable `godot.Viewport.use32BpcDepth`.
 		
 		Note: Requires `godot.Viewport.usage` to be set to `godot.Viewport_UsageEnum.usage3d` or `godot.Viewport_UsageEnum.usage3dNoEffects`, since HDR is not supported for 2D.
+		
+		Note: Only available on the GLES3 backend.
 	**/
 	@:native("Hdr")
 	public var hdr:Bool;
@@ -222,7 +238,7 @@ extern class Viewport extends godot.Node {
 	public var world:godot.World;
 
 	/**		
-		If `true`, the viewport will use `godot.World` defined in `world` property.
+		If `true`, the viewport will use a unique copy of the `godot.World` defined in `godot.Viewport.world`.
 	**/
 	@:native("OwnWorld")
 	public var ownWorld:Bool;
@@ -267,7 +283,7 @@ extern class Viewport extends godot.Node {
 	public function getWorld2d():godot.World2D;
 
 	/**		
-		Returns the 2D world of the viewport.
+		Returns the first valid `godot.World2D` for this viewport, searching the `godot.Viewport.world2d` property of itself and any Viewport ancestor.
 	**/
 	@:native("FindWorld2d")
 	public function findWorld2d():godot.World2D;
@@ -279,7 +295,7 @@ extern class Viewport extends godot.Node {
 	public function getWorld():godot.World;
 
 	/**		
-		Returns the 3D world of the viewport, or if none the world of the parent viewport.
+		Returns the first valid `godot.World` for this viewport, searching the `godot.Viewport.world` property of itself and any Viewport ancestor.
 	**/
 	@:native("FindWorld")
 	public function findWorld():godot.World;
@@ -418,6 +434,12 @@ extern class Viewport extends godot.Node {
 	@:native("GetHdr")
 	public function getHdr():Bool;
 
+	@:native("SetUse32BpcDepth")
+	public function setUse32BpcDepth(enable:Bool):Void;
+
+	@:native("GetUse32BpcDepth")
+	public function getUse32BpcDepth():Bool;
+
 	@:native("SetUsage")
 	public function setUsage(usage:godot.Viewport_UsageEnum):Void;
 
@@ -512,13 +534,13 @@ extern class Viewport extends godot.Node {
 	public function isUsingRenderDirectToScreen():Bool;
 
 	/**		
-		Returns the mouse position relative to the viewport.
+		Returns the mouse's position in this `godot.Viewport` using the coordinate system of this `godot.Viewport`.
 	**/
 	@:native("GetMousePosition")
 	public function getMousePosition():godot.Vector2;
 
 	/**		
-		Warps the mouse to a position relative to the viewport.
+		Moves the mouse pointer to the specified position in this `godot.Viewport` using the coordinate system of this `godot.Viewport`.
 	**/
 	@:native("WarpMouse")
 	public function warpMouse(toPosition:godot.Vector2):Void;
@@ -537,9 +559,17 @@ extern class Viewport extends godot.Node {
 
 	/**		
 		Returns `true` if the viewport is currently performing a drag operation.
+		
+		Alternative to `godot.Node.notificationDragBegin` and `godot.Node.notificationDragEnd` when you prefer polling the value.
 	**/
 	@:native("GuiIsDragging")
 	public function guiIsDragging():Bool;
+
+	/**		
+		Returns `true` if the drag operation is successful.
+	**/
+	@:native("GuiIsDragSuccessful")
+	public function guiIsDragSuccessful():Bool;
 
 	/**		
 		Returns the topmost modal in the stack.

@@ -117,10 +117,24 @@ extern class LineEdit extends godot.Control {
 	public var rightIcon:godot.Texture;
 
 	/**		
+		If `true`, the selected text will be deselected when focus is lost.
+	**/
+	@:native("DeselectOnFocusLossEnabled")
+	public var deselectOnFocusLossEnabled:Bool;
+
+	/**		
 		If `false`, it's impossible to select the text using mouse nor keyboard.
 	**/
 	@:native("SelectingEnabled")
 	public var selectingEnabled:Bool;
+
+	/**		
+		If `false`, using middle mouse button to paste clipboard will be disabled.
+		
+		Note: This method is only implemented on Linux.
+	**/
+	@:native("MiddleMousePasteEnabled")
+	public var middleMousePasteEnabled:Bool;
 
 	/**		
 		If `false`, using shortcuts will be disabled.
@@ -295,6 +309,24 @@ extern class LineEdit extends godot.Control {
 	@:native("Deselect")
 	public function deselect():Void;
 
+	/**		
+		Returns `true` if the user has selected text.
+	**/
+	@:native("HasSelection")
+	public function hasSelection():Bool;
+
+	/**		
+		Returns the selection begin column.
+	**/
+	@:native("GetSelectionFromColumn")
+	public function getSelectionFromColumn():Int;
+
+	/**		
+		Returns the selection end column.
+	**/
+	@:native("GetSelectionToColumn")
+	public function getSelectionToColumn():Int;
+
 	@:native("SetText")
 	public function setText(text:std.String):Void;
 
@@ -423,11 +455,23 @@ extern class LineEdit extends godot.Control {
 	@:native("IsShortcutKeysEnabled")
 	public function isShortcutKeysEnabled():Bool;
 
+	@:native("SetMiddleMousePasteEnabled")
+	public function setMiddleMousePasteEnabled(enable:Bool):Void;
+
+	@:native("IsMiddleMousePasteEnabled")
+	public function isMiddleMousePasteEnabled():Bool;
+
 	@:native("SetSelectingEnabled")
 	public function setSelectingEnabled(enable:Bool):Void;
 
 	@:native("IsSelectingEnabled")
 	public function isSelectingEnabled():Bool;
+
+	@:native("SetDeselectOnFocusLossEnabled")
+	public function setDeselectOnFocusLossEnabled(enable:Bool):Void;
+
+	@:native("IsDeselectOnFocusLossEnabled")
+	public function isDeselectOnFocusLossEnabled():Bool;
 
 	@:native("SetRightIcon")
 	public function setRightIcon(icon:godot.Texture):Void;

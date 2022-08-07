@@ -222,5 +222,5 @@ extern class WebSocketClient extends godot.WebSocketMultiplayerPeer {
 	public function getTrustedSslCertificate():godot.X509Certificate;
 
 	@:native("SetTrustedSslCertificate")
-	public function setTrustedSslCertificate(arg0:godot.X509Certificate):Void;
+	public function setTrustedSslCertificate(certificate:godot.X509Certificate):Void;
 }

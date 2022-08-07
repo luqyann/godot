@@ -26,6 +26,10 @@ Many methods require a property name, such as `"position"` above. You can find t
 Many of the methods accept `trans_type` and `ease_type`. The first accepts an `godot.Tween_TransitionType` constant, and refers to the way the timing of the animation is handled (see [https://easings.net/](easings.net) for some examples). The second accepts an `godot.Tween_EaseType` constant, and controls where the `trans_type` is applied to the interpolation (in the beginning, the end, or both). If you don't know which transition and easing to pick, you can try different `godot.Tween_TransitionType` constants with `godot.Tween_EaseType.inOut`, and use the one that looks best.
 
 [https://raw.githubusercontent.com/godotengine/godot-docs/master/img/tween_cheatsheet.png](Tween easing and transition types cheatsheet)
+
+Note: Tween methods will return `false` if the requested operation cannot be completed.
+
+Note: For an alternative method of tweening, that doesn't require using nodes, see `godot.SceneTreeTween`.
 **/
 @:libType
 @:csNative
@@ -133,19 +137,19 @@ extern class Tween extends godot.Node {
 
 	#if doc_gen
 	/**		
-		Resets a tween to its initial value (the one given, not the one before the tween), given its object and property/method pair. By default, all tweens are removed, unless `key` is specified.
+		Resets a tween to its initial value (the one given, not the one before the tween), given its object and property/method pair. By default, all tweens are reset, unless `key` is specified.
 	**/
 	@:native("Reset")
 	public function reset(object:godot.Object, ?key:std.String):Bool;
 	#else
 	/**		
-		Resets a tween to its initial value (the one given, not the one before the tween), given its object and property/method pair. By default, all tweens are removed, unless `key` is specified.
+		Resets a tween to its initial value (the one given, not the one before the tween), given its object and property/method pair. By default, all tweens are reset, unless `key` is specified.
 	**/
 	@:native("Reset")
 	public overload function reset(object:godot.Object):Bool;
 
 	/**		
-		Resets a tween to its initial value (the one given, not the one before the tween), given its object and property/method pair. By default, all tweens are removed, unless `key` is specified.
+		Resets a tween to its initial value (the one given, not the one before the tween), given its object and property/method pair. By default, all tweens are reset, unless `key` is specified.
 	**/
 	@:native("Reset")
 	public overload function reset(object:godot.Object, key:std.String):Bool;
@@ -342,7 +346,7 @@ extern class Tween extends godot.Node {
 		Calls `callback` of `object` after `duration`. `arg1`-`arg5` are arguments to be passed to the callback.
 	**/
 	@:native("InterpolateCallback")
-	public function interpolateCallback(object:godot.Object, duration:Single, callback:std.String, ?arg1:Dynamic, ?arg2:Dynamic, ?arg3:Dynamic, ?arg4:Dynamic, ?arg5:Dynamic):Bool;
+	public function interpolateCallback(object:godot.Object, duration:Single, callback:std.String, ?arg1:Dynamic, ?arg2:Dynamic, ?arg3:Dynamic, ?arg4:Dynamic, ?arg5:Dynamic, ?arg6:Dynamic, ?arg7:Dynamic, ?arg8:Dynamic):Bool;
 	#else
 	/**		
 		Calls `callback` of `object` after `duration`. `arg1`-`arg5` are arguments to be passed to the callback.
@@ -379,6 +383,24 @@ extern class Tween extends godot.Node {
 	**/
 	@:native("InterpolateCallback")
 	public overload function interpolateCallback(object:godot.Object, duration:Single, callback:std.String, arg1:Dynamic, arg2:Dynamic, arg3:Dynamic, arg4:Dynamic, arg5:Dynamic):Bool;
+
+	/**		
+		Calls `callback` of `object` after `duration`. `arg1`-`arg5` are arguments to be passed to the callback.
+	**/
+	@:native("InterpolateCallback")
+	public overload function interpolateCallback(object:godot.Object, duration:Single, callback:std.String, arg1:Dynamic, arg2:Dynamic, arg3:Dynamic, arg4:Dynamic, arg5:Dynamic, arg6:Dynamic):Bool;
+
+	/**		
+		Calls `callback` of `object` after `duration`. `arg1`-`arg5` are arguments to be passed to the callback.
+	**/
+	@:native("InterpolateCallback")
+	public overload function interpolateCallback(object:godot.Object, duration:Single, callback:std.String, arg1:Dynamic, arg2:Dynamic, arg3:Dynamic, arg4:Dynamic, arg5:Dynamic, arg6:Dynamic, arg7:Dynamic):Bool;
+
+	/**		
+		Calls `callback` of `object` after `duration`. `arg1`-`arg5` are arguments to be passed to the callback.
+	**/
+	@:native("InterpolateCallback")
+	public overload function interpolateCallback(object:godot.Object, duration:Single, callback:std.String, arg1:Dynamic, arg2:Dynamic, arg3:Dynamic, arg4:Dynamic, arg5:Dynamic, arg6:Dynamic, arg7:Dynamic, arg8:Dynamic):Bool;
 	#end
 
 	#if doc_gen
@@ -386,7 +408,7 @@ extern class Tween extends godot.Node {
 		Calls `callback` of `object` after `duration` on the main thread (similar to `godot.Object.callDeferred`). `arg1`-`arg5` are arguments to be passed to the callback.
 	**/
 	@:native("InterpolateDeferredCallback")
-	public function interpolateDeferredCallback(object:godot.Object, duration:Single, callback:std.String, ?arg1:Dynamic, ?arg2:Dynamic, ?arg3:Dynamic, ?arg4:Dynamic, ?arg5:Dynamic):Bool;
+	public function interpolateDeferredCallback(object:godot.Object, duration:Single, callback:std.String, ?arg1:Dynamic, ?arg2:Dynamic, ?arg3:Dynamic, ?arg4:Dynamic, ?arg5:Dynamic, ?arg6:Dynamic, ?arg7:Dynamic, ?arg8:Dynamic):Bool;
 	#else
 	/**		
 		Calls `callback` of `object` after `duration` on the main thread (similar to `godot.Object.callDeferred`). `arg1`-`arg5` are arguments to be passed to the callback.
@@ -423,6 +445,24 @@ extern class Tween extends godot.Node {
 	**/
 	@:native("InterpolateDeferredCallback")
 	public overload function interpolateDeferredCallback(object:godot.Object, duration:Single, callback:std.String, arg1:Dynamic, arg2:Dynamic, arg3:Dynamic, arg4:Dynamic, arg5:Dynamic):Bool;
+
+	/**		
+		Calls `callback` of `object` after `duration` on the main thread (similar to `godot.Object.callDeferred`). `arg1`-`arg5` are arguments to be passed to the callback.
+	**/
+	@:native("InterpolateDeferredCallback")
+	public overload function interpolateDeferredCallback(object:godot.Object, duration:Single, callback:std.String, arg1:Dynamic, arg2:Dynamic, arg3:Dynamic, arg4:Dynamic, arg5:Dynamic, arg6:Dynamic):Bool;
+
+	/**		
+		Calls `callback` of `object` after `duration` on the main thread (similar to `godot.Object.callDeferred`). `arg1`-`arg5` are arguments to be passed to the callback.
+	**/
+	@:native("InterpolateDeferredCallback")
+	public overload function interpolateDeferredCallback(object:godot.Object, duration:Single, callback:std.String, arg1:Dynamic, arg2:Dynamic, arg3:Dynamic, arg4:Dynamic, arg5:Dynamic, arg6:Dynamic, arg7:Dynamic):Bool;
+
+	/**		
+		Calls `callback` of `object` after `duration` on the main thread (similar to `godot.Object.callDeferred`). `arg1`-`arg5` are arguments to be passed to the callback.
+	**/
+	@:native("InterpolateDeferredCallback")
+	public overload function interpolateDeferredCallback(object:godot.Object, duration:Single, callback:std.String, arg1:Dynamic, arg2:Dynamic, arg3:Dynamic, arg4:Dynamic, arg5:Dynamic, arg6:Dynamic, arg7:Dynamic, arg8:Dynamic):Bool;
 	#end
 
 	#if doc_gen

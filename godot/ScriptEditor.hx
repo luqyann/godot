@@ -64,4 +64,10 @@ extern abstract class ScriptEditor extends godot.PanelContainer {
 	**/
 	@:native("OpenScriptCreateDialog")
 	public function openScriptCreateDialog(baseName:std.String, basePath:std.String):Void;
+
+	/**		
+		Reload all currently opened scripts from disk in case the file contents are newer.
+	**/
+	@:native("ReloadScripts")
+	public function reloadScripts():Void;
 }

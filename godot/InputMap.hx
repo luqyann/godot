@@ -97,6 +97,8 @@ extern class InputMap {
 
 	/**		
 		Returns an array of `godot.InputEvent`s associated with a given action.
+		
+		Note: When used in the editor (e.g. a tool script or `Godot.EditorPlugin`), this method will return events for the editor action. If you want to access your project's input binds from the editor, read the `input/*` settings from `godot.ProjectSettings`.
 	**/
 	@:native("GetActionList")
 	public static function getActionList(action:std.String):godot.collections.Array;
@@ -105,7 +107,7 @@ extern class InputMap {
 	/**		
 		Returns `true` if the given event is part of an existing action. This method ignores keyboard modifiers if the given `godot.InputEvent` is not pressed (for proper release detection). See `godot.InputMap.actionHasEvent` if you don't want this behavior.
 		
-		If `exact_match` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact_match` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
 	**/
 	@:native("EventIsAction")
 	public static function eventIsAction(event:godot.InputEvent, action:std.String, ?exactMatch:Bool):Bool;
@@ -113,7 +115,7 @@ extern class InputMap {
 	/**		
 		Returns `true` if the given event is part of an existing action. This method ignores keyboard modifiers if the given `godot.InputEvent` is not pressed (for proper release detection). See `godot.InputMap.actionHasEvent` if you don't want this behavior.
 		
-		If `exact_match` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact_match` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
 	**/
 	@:native("EventIsAction")
 	public static overload function eventIsAction(event:godot.InputEvent, action:std.String):Bool;
@@ -121,7 +123,7 @@ extern class InputMap {
 	/**		
 		Returns `true` if the given event is part of an existing action. This method ignores keyboard modifiers if the given `godot.InputEvent` is not pressed (for proper release detection). See `godot.InputMap.actionHasEvent` if you don't want this behavior.
 		
-		If `exact_match` is `false`, it ignores the input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
+		If `exact_match` is `false`, it ignores additional input modifiers for `godot.InputEventKey` and `godot.InputEventMouseButton` events, and the direction for `godot.InputEventJoypadMotion` events.
 	**/
 	@:native("EventIsAction")
 	public static overload function eventIsAction(event:godot.InputEvent, action:std.String, exactMatch:Bool):Bool;

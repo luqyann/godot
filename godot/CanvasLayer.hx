@@ -12,6 +12,16 @@ Canvas drawing layer. `godot.CanvasItem` nodes that are direct or indirect child
 @:native("Godot.CanvasLayer")
 @:autoBuild(godot.Godot.buildUserClass())
 extern class CanvasLayer extends godot.Node {
+	/**
+		`visibility_changed` signal.
+		
+		Emitted when visibility of the layer is changed. See `visible`.
+	**/
+	public var onVisibilityChanged(get, never):Signal<Void->Void>;
+	@:dox(hide) @:noCompletion inline function get_onVisibilityChanged():Signal<Void->Void> {
+		return new Signal(this, "visibility_changed", Signal.SignalHandlerVoidVoid.connectSignal, Signal.SignalHandlerVoidVoid.disconnectSignal, Signal.SignalHandlerVoidVoid.isSignalConnected);
+	}
+
 	/**		
 		Scales the layer when using `godot.CanvasLayer.followViewportEnable`. Layers moving into the foreground should have increasing scales, while layers moving into the background should have decreasing scales.
 	**/
@@ -61,6 +71,14 @@ extern class CanvasLayer extends godot.Node {
 	public var offset:godot.Vector2;
 
 	/**		
+		If `false`, any `godot.CanvasItem` under this `godot.CanvasLayer` will be hidden.
+		
+		Unlike `godot.CanvasItem.visible`, visibility of a `godot.CanvasLayer` isn't propagated to underlying layers.
+	**/
+	@:native("Visible")
+	public var visible:Bool;
+
+	/**		
 		Layer index for draw order. Lower values are drawn first.
 	**/
 	@:native("Layer")
@@ -74,6 +92,24 @@ extern class CanvasLayer extends godot.Node {
 
 	@:native("GetLayer")
 	public function getLayer():Int;
+
+	@:native("SetVisible")
+	public function setVisible(visible:Bool):Void;
+
+	@:native("IsVisible")
+	public function isVisible():Bool;
+
+	/**		
+		Shows any `godot.CanvasItem` under this `godot.CanvasLayer`. This is equivalent to setting `godot.CanvasLayer.visible` to `true`.
+	**/
+	@:native("Show")
+	public function show():Void;
+
+	/**		
+		Hides any `godot.CanvasItem` under this `godot.CanvasLayer`. This is equivalent to setting `godot.CanvasLayer.visible` to `false`.
+	**/
+	@:native("Hide")
+	public function hide():Void;
 
 	@:native("SetTransform")
 	public function setTransform(transform:godot.Transform2D):Void;

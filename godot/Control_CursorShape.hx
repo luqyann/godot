@@ -26,12 +26,12 @@ extern enum Control_CursorShape {
 	Cross;
 
 	/**		
-		Show the system's wait mouse cursor, often an hourglass, when the user hovers the node.
+		Show the system's wait mouse cursor when the user hovers the node. Often an hourglass.
 	**/
 	Wait;
 
 	/**		
-		Show the system's busy mouse cursor when the user hovers the node. Often an hourglass.
+		Show the system's busy mouse cursor when the user hovers the node. Often an arrow with a small hourglass.
 	**/
 	Busy;
 

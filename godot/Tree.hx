@@ -23,6 +23,8 @@ subchild1.set_text(0, "Subchild1")
 ```
 
 To iterate over all the `godot.TreeItem` objects in a `godot.Tree` object, use `godot.TreeItem.getNext` and `godot.TreeItem.getChildren` after getting the root through `godot.Tree.getRoot`. You can use `godot.Object.free` on a `godot.TreeItem` to remove it from the `godot.Tree`.
+
+Incremental search: Like `godot.ItemList` and `godot.PopupMenu`, `godot.Tree` supports searching within the list while the control is focused. Press a key that matches the first letter of an item's name to select the first item starting with the given letter. After that point, there are two ways to perform incremental search: 1) Press the same key again before the timeout duration to select the next item starting with the same letter. 2) Press letter keys that match the rest of the word before the timeout duration to match to select the item in question directly. Both of these actions will be reset to the beginning of the list if the timeout duration has passed since the last keystroke was registered. You can adjust the timeout duration by changing .
 **/
 @:libType
 @:csNative
@@ -228,6 +230,12 @@ extern class Tree extends godot.Control {
 	public var allowReselect:Bool;
 
 	/**		
+		If `true`, column titles are visible.
+	**/
+	@:native("ColumnTitlesVisible")
+	public var columnTitlesVisible:Bool;
+
+	/**		
 		The number of columns.
 	**/
 	@:native("Columns")
@@ -244,7 +252,7 @@ extern class Tree extends godot.Control {
 
 	#if doc_gen
 	/**		
-		Creates an item in the tree and adds it as a child of `parent`.
+		Creates an item in the tree and adds it as a child of `parent`, which can be either a valid `godot.TreeItem` or `null`.
 		
 		If `parent` is `null`, the root item will be the parent, or the new item will be the root itself if the tree is empty.
 		
@@ -254,7 +262,7 @@ extern class Tree extends godot.Control {
 	public function createItem(?parent:godot.Object, ?idx:Int):godot.TreeItem;
 	#else
 	/**		
-		Creates an item in the tree and adds it as a child of `parent`.
+		Creates an item in the tree and adds it as a child of `parent`, which can be either a valid `godot.TreeItem` or `null`.
 		
 		If `parent` is `null`, the root item will be the parent, or the new item will be the root itself if the tree is empty.
 		
@@ -264,7 +272,7 @@ extern class Tree extends godot.Control {
 	public overload function createItem():godot.TreeItem;
 
 	/**		
-		Creates an item in the tree and adds it as a child of `parent`.
+		Creates an item in the tree and adds it as a child of `parent`, which can be either a valid `godot.TreeItem` or `null`.
 		
 		If `parent` is `null`, the root item will be the parent, or the new item will be the root itself if the tree is empty.
 		
@@ -274,7 +282,7 @@ extern class Tree extends godot.Control {
 	public overload function createItem(parent:godot.Object):godot.TreeItem;
 
 	/**		
-		Creates an item in the tree and adds it as a child of `parent`.
+		Creates an item in the tree and adds it as a child of `parent`, which can be either a valid `godot.TreeItem` or `null`.
 		
 		If `parent` is `null`, the root item will be the parent, or the new item will be the root itself if the tree is empty.
 		
@@ -315,7 +323,7 @@ extern class Tree extends godot.Control {
 	public function isRootHidden():Bool;
 
 	/**		
-		Returns the next selected item after the given one, or `null` if the end is reached.
+		Returns the next selected `godot.TreeItem` after the given one, or `null` if the end is reached.
 		
 		If `from` is `null`, this returns the first selected item.
 	**/
@@ -366,7 +374,7 @@ extern class Tree extends godot.Control {
 		```
 		
 		func _ready():
-		$Tree.item_edited.connect(on_Tree_item_edited)
+		$Tree.connect("item_edited", self, "on_Tree_item_edited")
 		
 		func on_Tree_item_edited():
 		print($Tree.get_edited()) # This item just got edited (e.g. checked).
@@ -396,19 +404,19 @@ extern class Tree extends godot.Control {
 
 	#if doc_gen
 	/**		
-		Returns the rectangle area for the specified item. If `column` is specified, only get the position and size of that column, otherwise get the rectangle containing all columns.
+		Returns the rectangle area for the specified `godot.TreeItem`. If `column` is specified, only get the position and size of that column, otherwise get the rectangle containing all columns.
 	**/
 	@:native("GetItemAreaRect")
 	public function getItemAreaRect(item:godot.Object, ?column:Int):godot.Rect2;
 	#else
 	/**		
-		Returns the rectangle area for the specified item. If `column` is specified, only get the position and size of that column, otherwise get the rectangle containing all columns.
+		Returns the rectangle area for the specified `godot.TreeItem`. If `column` is specified, only get the position and size of that column, otherwise get the rectangle containing all columns.
 	**/
 	@:native("GetItemAreaRect")
 	public overload function getItemAreaRect(item:godot.Object):godot.Rect2;
 
 	/**		
-		Returns the rectangle area for the specified item. If `column` is specified, only get the position and size of that column, otherwise get the rectangle containing all columns.
+		Returns the rectangle area for the specified `godot.TreeItem`. If `column` is specified, only get the position and size of that column, otherwise get the rectangle containing all columns.
 	**/
 	@:native("GetItemAreaRect")
 	public overload function getItemAreaRect(item:godot.Object, column:Int):godot.Rect2;
@@ -437,6 +445,12 @@ extern class Tree extends godot.Control {
 	public function getDropSectionAtPosition(position:godot.Vector2):Int;
 
 	/**		
+		Returns the button id at `position`, or -1 if no button is there.
+	**/
+	@:native("GetButtonIdAtPosition")
+	public function getButtonIdAtPosition(position:godot.Vector2):Int;
+
+	/**		
 		Makes the currently focused cell visible.
 		
 		This will scroll the tree if necessary. In `godot.Tree_SelectModeEnum.row` mode, this will not do horizontal scrolling, as all the cells in the selected row is focused logically.
@@ -446,15 +460,9 @@ extern class Tree extends godot.Control {
 	@:native("EnsureCursorIsVisible")
 	public function ensureCursorIsVisible():Void;
 
-	/**		
-		If `true`, column titles are visible.
-	**/
 	@:native("SetColumnTitlesVisible")
 	public function setColumnTitlesVisible(visible:Bool):Void;
 
-	/**		
-		Returns `true` if the column titles are being shown.
-	**/
 	@:native("AreColumnTitlesVisible")
 	public function areColumnTitlesVisible():Bool;
 
@@ -477,7 +485,7 @@ extern class Tree extends godot.Control {
 	public function getScroll():godot.Vector2;
 
 	/**		
-		Causes the `godot.Tree` to jump to the specified item.
+		Causes the `godot.Tree` to jump to the specified `godot.TreeItem`.
 	**/
 	@:native("ScrollToItem")
 	public function scrollToItem(item:godot.Object):Void;

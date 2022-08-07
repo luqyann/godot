@@ -11,7 +11,7 @@ It consists of a `godot.Basis` (first 3 columns) and a
 `godot.Vector3` for the origin (last column).
 
 For more information, read this documentation article:
-https://docs.godotengine.org/en/3.4/tutorials/math/matrices_and_transforms.html
+https://docs.godotengine.org/en/3.5/tutorials/math/matrices_and_transforms.html
 **/
 #if doc_gen
 @:struct
@@ -182,7 +182,7 @@ extern class Transform_ extends cs.system.ValueType implements cs.system.IEquata
 		Operations take place in global space.
 		
 		@param target The object to look at.
-		@param up The relative up direction
+		@param up The relative up direction.
 		@returns The resulting transform.
 	**/
 	@:native("LookingAt")
@@ -198,15 +198,15 @@ extern class Transform_ extends cs.system.ValueType implements cs.system.IEquata
 	public function orthonormalized():godot.Transform;
 
 	/**		
-		Rotates the transform around the given `axis` by `phi` (in radians),
+		Rotates the transform around the given `axis` by `angle` (in radians),
 		using matrix multiplication. The axis must be a normalized vector.
 		
 		@param axis The axis to rotate around. Must be normalized.
-		@param phi The angle to rotate, in radians.
+		@param angle The angle to rotate, in radians.
 		@returns The rotated transformation matrix.
 	**/
 	@:native("Rotated")
-	public function rotated(axis:godot.Vector3, phi:Single):godot.Transform;
+	public function rotated(axis:godot.Vector3, angle:Single):godot.Transform;
 
 	/**		
 		Scales the transform by the given 3D scaling factor, using matrix multiplication.

@@ -115,8 +115,8 @@ extern abstract Quat(Quat_) from Quat_ to Quat_ {
 	/**
 		Operator overload for -`godot.Quat`.
 	**/
-	@:op(-A) static inline function op_UnaryNegation(left:godot.Quat):godot.Quat {
-		return cs.Syntax.code("-{0}", left);
+	@:op(-A) static inline function op_UnaryNegation(quat:godot.Quat):godot.Quat {
+		return cs.Syntax.code("-{0}", quat);
 	}
 
 	/**

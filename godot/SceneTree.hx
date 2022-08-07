@@ -167,6 +167,12 @@ extern class SceneTree extends godot.MainLoop {
 	}
 
 	/**		
+		Although physics interpolation would normally be globally turned on and off using , this property allows control over interpolation at runtime.
+	**/
+	@:native("PhysicsInterpolation")
+	public var physicsInterpolation:Bool;
+
+	/**		
 		If `true` (default value), enables automatic polling of the `godot.MultiplayerAPI` for this SceneTree during `idle_frame`.
 		
 		If `false`, you need to manually call `godot.MultiplayerAPI.poll` to process network packets and deliver RPCs/RSETs. This allows running RPCs/RSETs in a different loop (e.g. physics, thread, specific time step) and for manual `godot.Mutex` protection when accessing the `godot.MultiplayerAPI` from threads.
@@ -205,7 +211,11 @@ extern class SceneTree extends godot.MainLoop {
 	public var editedSceneRoot:godot.Node;
 
 	/**		
-		If `true`, font oversampling is used.
+		If `true`, font oversampling is enabled. This means that `godot.DynamicFont`s will be rendered at higher or lower size than configured based on the viewport's scaling ratio. For example, in a viewport scaled with a factor 1.5, a font configured with size 14 would be rendered with size 21 (`14 * 1.5`).
+		
+		Note: Font oversampling is only used if the viewport stretch mode is `godot.SceneTree_StretchMode.viewport`, and if the stretch aspect mode is different from `godot.SceneTree_StretchAspect.ignore`.
+		
+		Note: This property is set automatically for the active `godot.SceneTree` when the project starts based on the configuration of `rendering/quality/dynamic_fonts/use_oversampling` in `godot.ProjectSettings`. The property can however be overridden at runtime as needed.
 	**/
 	@:native("UseFontOversampling")
 	public var useFontOversampling:Bool;
@@ -238,6 +248,22 @@ extern class SceneTree extends godot.MainLoop {
 	@:native("DebugCollisionsHint")
 	public var debugCollisionsHint:Bool;
 
+	/**		
+		If `true`, the application quits automatically on going back (e.g. on Android).
+		
+		To handle 'Go Back' button when this option is disabled, use `godot.MainLoop.notificationWmGoBackRequest`.
+	**/
+	@:native("QuitOnGoBack")
+	public var quitOnGoBack:Bool;
+
+	/**		
+		If `true`, the application automatically accepts quitting.
+		
+		For mobile platforms, see `godot.SceneTree.quitOnGoBack`.
+	**/
+	@:native("AutoAcceptQuit")
+	public var autoAcceptQuit:Bool;
+
 	@:native("new")
 	public function new():Void;
 
@@ -250,19 +276,15 @@ extern class SceneTree extends godot.MainLoop {
 	@:native("HasGroup")
 	public function hasGroup(name:std.String):Bool;
 
-	/**		
-		If `true`, the application automatically accepts quitting. Enabled by default.
-		
-		For mobile platforms, see `godot.SceneTree.setQuitOnGoBack`.
-	**/
+	@:native("IsAutoAcceptQuit")
+	public function isAutoAcceptQuit():Bool;
+
 	@:native("SetAutoAcceptQuit")
 	public function setAutoAcceptQuit(enabled:Bool):Void;
 
-	/**		
-		If `true`, the application quits automatically on going back (e.g. on Android). Enabled by default.
-		
-		To handle 'Go Back' button when this option is disabled, use `godot.MainLoop.notificationWmGoBackRequest`.
-	**/
+	@:native("IsQuitOnGoBack")
+	public function isQuitOnGoBack():Bool;
+
 	@:native("SetQuitOnGoBack")
 	public function setQuitOnGoBack(enabled:Bool):Void;
 
@@ -362,6 +384,18 @@ extern class SceneTree extends godot.MainLoop {
 	#end
 
 	/**		
+		Creates and returns a new `godot.SceneTreeTween`.
+	**/
+	@:native("CreateTween")
+	public function createTween():godot.SceneTreeTween;
+
+	/**		
+		Returns an array of currently existing `godot.SceneTreeTween`s in the `godot.SceneTree` (both running and paused).
+	**/
+	@:native("GetProcessedTweens")
+	public function getProcessedTweens():godot.collections.Array;
+
+	/**		
 		Returns the number of nodes in this `godot.SceneTree`.
 	**/
 	@:native("GetNodeCount")
@@ -418,6 +452,12 @@ extern class SceneTree extends godot.MainLoop {
 	@:native("SetScreenStretch")
 	public overload function setScreenStretch(mode:godot.SceneTree_StretchMode, aspect:godot.SceneTree_StretchAspect, minsize:godot.Vector2, scale:Single):Void;
 	#end
+
+	@:native("SetPhysicsInterpolationEnabled")
+	public function setPhysicsInterpolationEnabled(enabled:Bool):Void;
+
+	@:native("IsPhysicsInterpolationEnabled")
+	public function isPhysicsInterpolationEnabled():Bool;
 
 	/**		
 		Queues the given object for deletion, delaying the call to `godot.Object.free` to after the current frame.
@@ -506,6 +546,8 @@ extern class SceneTree extends godot.MainLoop {
 		Returns `OK` on success or `ERR_CANT_CREATE` if the scene cannot be instantiated.
 		
 		Note: The scene change is deferred, which means that the new scene node is added on the next idle frame. You won't be able to access it immediately after the `godot.SceneTree.changeSceneTo` call.
+		
+		Note: Passing a value of `null` into the method will unload the current scene without loading a new one.
 	**/
 	@:native("ChangeSceneTo")
 	public function changeSceneTo(packedScene:godot.PackedScene):godot.Error;

@@ -9,7 +9,7 @@ The VisibilityNotifier detects when it is visible on the screen. It also notifie
 
 If you want nodes to be disabled automatically when they exit the screen, use `godot.VisibilityEnabler` instead.
 
-Note: VisibilityNotifier uses an approximate heuristic for performance reasons. It doesn't take walls and other occlusion into account. The heuristic is an implementation detail and may change in future versions. If you need precise visibility checking, use another method such as adding an `godot.Area` node as a child of a `godot.Camera` node and/or `Vector3.dot`.
+Note: VisibilityNotifier uses an approximate heuristic for performance reasons. It doesn't take walls and other occlusion into account (unless you are using `godot.Portal`s). The heuristic is an implementation detail and may change in future versions. If you need precise visibility checking, use another method such as adding an `godot.Area` node as a child of a `godot.Camera` node and/or `Vector3.dot`.
 **/
 @:libType
 @:csNative
@@ -57,6 +57,14 @@ extern class VisibilityNotifier extends godot.CullInstance {
 	}
 
 	/**		
+		In addition to checking whether a node is on screen or within a `godot.Camera`'s view, VisibilityNotifier can also optionally check whether a node is within a specified maximum distance when using a `godot.Camera` with perspective projection. This is useful for throttling the performance requirements of nodes that are far away.
+		
+		Note: This feature will be disabled if set to 0.0.
+	**/
+	@:native("MaxDistance")
+	public var maxDistance:Single;
+
+	/**		
 		The VisibilityNotifier's bounding box.
 	**/
 	@:native("Aabb")
@@ -78,4 +86,10 @@ extern class VisibilityNotifier extends godot.CullInstance {
 	**/
 	@:native("IsOnScreen")
 	public function isOnScreen():Bool;
+
+	@:native("SetMaxDistance")
+	public function setMaxDistance(distance:Single):Void;
+
+	@:native("GetMaxDistance")
+	public function getMaxDistance():Single;
 }

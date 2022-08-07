@@ -13,146 +13,158 @@ A navigation mesh is a collection of polygons that define which areas of an envi
 @:autoBuild(godot.Godot.buildUserClass())
 extern class NavigationMesh extends godot.Resource {
 	/**		
-		If `true`, marks walkable spans as not walkable if the clearance above the span is less than `godot.NavigationMesh.agent__height`.
+		The position offset applied to the `godot.NavigationMesh.filterBakingAabb` `godot.AABB`.
 	**/
-	@:native("Filter__filterWalkableLowHeightSpans")
-	public var filter__filterWalkableLowHeightSpans:Bool;
+	@:native("FilterBakingAabbOffset")
+	public var filterBakingAabbOffset:godot.Vector3;
+
+	/**		
+		If the baking `godot.AABB` has a volume the navigation mesh baking will be restricted to its enclosing area.
+	**/
+	@:native("FilterBakingAabb")
+	public var filterBakingAabb:godot.AABB;
+
+	/**		
+		If `true`, marks walkable spans as not walkable if the clearance above the span is less than `godot.NavigationMesh.agentHeight`.
+	**/
+	@:native("FilterWalkableLowHeightSpans")
+	public var filterWalkableLowHeightSpans:Bool;
 
 	/**		
 		If `true`, marks spans that are ledges as non-walkable.
 	**/
-	@:native("Filter__ledgeSpans")
-	public var filter__ledgeSpans:Bool;
+	@:native("FilterLedgeSpans")
+	public var filterLedgeSpans:Bool;
 
 	/**		
-		If `true`, marks non-walkable spans as walkable if their maximum is within `godot.NavigationMesh.agent__maxClimb` of a walkable neighbor.
+		If `true`, marks non-walkable spans as walkable if their maximum is within `godot.NavigationMesh.agentMaxClimb` of a walkable neighbor.
 	**/
-	@:native("Filter__lowHangingObstacles")
-	public var filter__lowHangingObstacles:Bool;
+	@:native("FilterLowHangingObstacles")
+	public var filterLowHangingObstacles:Bool;
 
 	/**		
 		The maximum distance the detail mesh surface should deviate from heightfield, in cell unit.
 	**/
-	@:native("Detail__sampleMaxError")
-	public var detail__sampleMaxError:Single;
+	@:native("DetailSampleMaxError")
+	public var detailSampleMaxError:Single;
 
 	/**		
 		The sampling distance to use when generating the detail mesh, in cell unit.
 	**/
-	@:native("Detail__sampleDistance")
-	public var detail__sampleDistance:Single;
+	@:native("DetailSampleDistance")
+	public var detailSampleDistance:Single;
 
 	/**		
 		The maximum number of vertices allowed for polygons generated during the contour to polygon conversion process.
 	**/
-	@:native("Polygon__vertsPerPoly")
-	public var polygon__vertsPerPoly:Single;
+	@:native("PolygonVertsPerPoly")
+	public var polygonVertsPerPoly:Single;
 
 	/**		
 		The maximum distance a simplfied contour's border edges should deviate the original raw contour.
 	**/
-	@:native("Edge__maxError")
-	public var edge__maxError:Single;
+	@:native("EdgeMaxError")
+	public var edgeMaxError:Single;
 
 	/**		
 		The maximum allowed length for contour edges along the border of the mesh.
 		
-		Note: While baking, this value will be rounded up to the nearest multiple of `godot.NavigationMesh.cell__size`.
+		Note: While baking, this value will be rounded up to the nearest multiple of `godot.NavigationMesh.cellSize`.
 	**/
-	@:native("Edge__maxLength")
-	public var edge__maxLength:Single;
+	@:native("EdgeMaxLength")
+	public var edgeMaxLength:Single;
 
 	/**		
 		Any regions with a size smaller than this will be merged with larger regions if possible.
 		
 		Note: This value will be squared to calculate the number of cells. For example, a value of 20 will set the number of cells to 400.
 	**/
-	@:native("Region__mergeSize")
-	public var region__mergeSize:Single;
+	@:native("RegionMergeSize")
+	public var regionMergeSize:Single;
 
 	/**		
 		The minimum size of a region for it to be created.
 		
 		Note: This value will be squared to calculate the minimum number of cells allowed to form isolated island areas. For example, a value of 8 will set the number of cells to 64.
 	**/
-	@:native("Region__minSize")
-	public var region__minSize:Single;
+	@:native("RegionMinSize")
+	public var regionMinSize:Single;
 
 	/**		
 		The maximum slope that is considered walkable, in degrees.
 	**/
-	@:native("Agent__maxSlope")
-	public var agent__maxSlope:Single;
+	@:native("AgentMaxSlope")
+	public var agentMaxSlope:Single;
 
 	/**		
 		The minimum ledge height that is considered to still be traversable.
 		
-		Note: While baking, this value will be rounded down to the nearest multiple of `godot.NavigationMesh.cell__height`.
+		Note: While baking, this value will be rounded down to the nearest multiple of `godot.NavigationMesh.cellHeight`.
 	**/
-	@:native("Agent__maxClimb")
-	public var agent__maxClimb:Single;
+	@:native("AgentMaxClimb")
+	public var agentMaxClimb:Single;
 
 	/**		
 		The distance to erode/shrink the walkable area of the heightfield away from obstructions.
 		
-		Note: While baking, this value will be rounded up to the nearest multiple of `godot.NavigationMesh.cell__size`.
+		Note: While baking, this value will be rounded up to the nearest multiple of `godot.NavigationMesh.cellSize`.
 	**/
-	@:native("Agent__radius")
-	public var agent__radius:Single;
+	@:native("AgentRadius")
+	public var agentRadius:Single;
 
 	/**		
 		The minimum floor to ceiling height that will still allow the floor area to be considered walkable.
 		
-		Note: While baking, this value will be rounded up to the nearest multiple of `godot.NavigationMesh.cell__height`.
+		Note: While baking, this value will be rounded up to the nearest multiple of `godot.NavigationMesh.cellHeight`.
 	**/
-	@:native("Agent__height")
-	public var agent__height:Single;
+	@:native("AgentHeight")
+	public var agentHeight:Single;
 
 	/**		
 		The Y axis cell size to use for fields.
 	**/
-	@:native("Cell__height")
-	public var cell__height:Single;
+	@:native("CellHeight")
+	public var cellHeight:Single;
 
 	/**		
 		The XZ plane cell size to use for fields.
 	**/
-	@:native("Cell__size")
-	public var cell__size:Single;
+	@:native("CellSize")
+	public var cellSize:Single;
 
 	/**		
 		The name of the group to scan for geometry.
 		
-		Only used when `godot.NavigationMesh.geometry__sourceGeometryMode` is `godot.NavigationMesh_SourceGeometryMode.groupsWithChildren` or `godot.NavigationMesh_SourceGeometryMode.groupsExplicit`.
+		Only used when `godot.NavigationMesh.geometrySourceGeometryMode` is `godot.NavigationMesh_SourceGeometryMode.groupsWithChildren` or `godot.NavigationMesh_SourceGeometryMode.groupsExplicit`.
 	**/
-	@:native("Geometry__sourceGroupName")
-	public var geometry__sourceGroupName:std.String;
+	@:native("GeometrySourceGroupName")
+	public var geometrySourceGroupName:std.String;
 
 	/**		
 		The source of the geometry used when baking. See `godot.NavigationMesh_SourceGeometryMode` for possible values.
 	**/
-	@:native("Geometry__sourceGeometryMode")
-	public var geometry__sourceGeometryMode:godot.NavigationMesh_SourceGeometryMode;
+	@:native("GeometrySourceGeometryMode")
+	public var geometrySourceGeometryMode:godot.NavigationMesh_SourceGeometryMode;
 
 	/**		
 		The physics layers to scan for static colliders.
 		
-		Only used when `godot.NavigationMesh.geometry__parsedGeometryType` is `godot.NavigationMesh_ParsedGeometryType.staticColliders` or `godot.NavigationMesh_ParsedGeometryType.both`.
+		Only used when `godot.NavigationMesh.geometryParsedGeometryType` is `godot.NavigationMesh_ParsedGeometryType.staticColliders` or `godot.NavigationMesh_ParsedGeometryType.both`.
 	**/
-	@:native("Geometry__collisionMask")
-	public var geometry__collisionMask:UInt;
+	@:native("GeometryCollisionMask")
+	public var geometryCollisionMask:UInt;
 
 	/**		
 		Determines which type of nodes will be parsed as geometry. See `godot.NavigationMesh_ParsedGeometryType` for possible values.
 	**/
-	@:native("Geometry__parsedGeometryType")
-	public var geometry__parsedGeometryType:godot.NavigationMesh_ParsedGeometryType;
+	@:native("GeometryParsedGeometryType")
+	public var geometryParsedGeometryType:godot.NavigationMesh_ParsedGeometryType;
 
 	/**		
-		Partitioning algorithm for creating the navigation mesh polys. See `godot.NavigationMesh_SamplePartitionType` for possible values.
+		Partitioning algorithm for creating the navigation mesh polys. See `godot.NavigationMesh_SamplePartitionTypeEnum` for possible values.
 	**/
-	@:native("SamplePartitionType__samplePartitionType")
-	public var samplePartitionType__samplePartitionType:godot.NavigationMesh_SamplePartitionType;
+	@:native("SamplePartitionType")
+	public var samplePartitionType:godot.NavigationMesh_SamplePartitionTypeEnum;
 
 	@:native("Polygons")
 	public var polygons:godot.collections.Array;
@@ -164,10 +176,10 @@ extern class NavigationMesh extends godot.Resource {
 	public function new():Void;
 
 	@:native("SetSamplePartitionType")
-	public function setSamplePartitionType(samplePartitionType:godot.NavigationMesh_SamplePartitionType):Void;
+	public function setSamplePartitionType(samplePartitionType:godot.NavigationMesh_SamplePartitionTypeEnum):Void;
 
 	@:native("GetSamplePartitionType")
-	public function getSamplePartitionType():godot.NavigationMesh_SamplePartitionType;
+	public function getSamplePartitionType():godot.NavigationMesh_SamplePartitionTypeEnum;
 
 	@:native("SetParsedGeometryType")
 	public function setParsedGeometryType(geometryType:godot.NavigationMesh_ParsedGeometryType):Void;
@@ -182,15 +194,15 @@ extern class NavigationMesh extends godot.Resource {
 	public function getCollisionMask():UInt;
 
 	/**		
-		If `value` is `true`, sets the specified `bit` in the `godot.NavigationMesh.geometry__collisionMask`.
+		If `value` is `true`, sets the specified `bit` in the `godot.NavigationMesh.geometryCollisionMask`.
 		
-		If `value` is `false`, clears the specified `bit` in the `godot.NavigationMesh.geometry__collisionMask`.
+		If `value` is `false`, clears the specified `bit` in the `godot.NavigationMesh.geometryCollisionMask`.
 	**/
 	@:native("SetCollisionMaskBit")
 	public function setCollisionMaskBit(bit:Int, value:Bool):Void;
 
 	/**		
-		Returns whether the specified `bit` of the `godot.NavigationMesh.geometry__collisionMask` is set.
+		Returns whether the specified `bit` of the `godot.NavigationMesh.geometryCollisionMask` is set.
 	**/
 	@:native("GetCollisionMaskBit")
 	public function getCollisionMaskBit(bit:Int):Bool;
@@ -302,6 +314,18 @@ extern class NavigationMesh extends godot.Resource {
 
 	@:native("GetFilterWalkableLowHeightSpans")
 	public function getFilterWalkableLowHeightSpans():Bool;
+
+	@:native("SetFilterBakingAabb")
+	public function setFilterBakingAabb(bakingAabb:godot.AABB):Void;
+
+	@:native("GetFilterBakingAabb")
+	public function getFilterBakingAabb():godot.AABB;
+
+	@:native("SetFilterBakingAabbOffset")
+	public function setFilterBakingAabbOffset(bakingAabbOffset:godot.Vector3):Void;
+
+	@:native("GetFilterBakingAabbOffset")
+	public function getFilterBakingAabbOffset():godot.Vector3;
 
 	/**		
 		Sets the vertices that can be then indexed to create polygons with the `godot.NavigationMesh.addPolygon` method.

@@ -26,7 +26,7 @@ Using `godot.NavigationPolygon.addPolygon` and indices of the vertices array.
 var polygon = NavigationPolygon.new()
 var vertices = PoolVector2Array([Vector2(0, 0), Vector2(0, 50), Vector2(50, 50), Vector2(50, 0)])
 polygon.set_vertices(vertices)
-var indices = PoolIntArray(0, 3, 1)
+var indices = PoolIntArray([0, 1, 2, 3])
 polygon.add_polygon(indices)
 $NavigationPolygonInstance.navpoly = polygon
 
@@ -86,6 +86,12 @@ extern class NavigationPolygon extends godot.Resource {
 	**/
 	@:native("ClearPolygons")
 	public function clearPolygons():Void;
+
+	/**		
+		Returns the `godot.NavigationMesh` resulting from this navigation polygon. This navmesh can be used to update the navmesh of a region with the `godot.NavigationServer.regionSetNavmesh` API directly (as 2D uses the 3D server behind the scene).
+	**/
+	@:native("GetMesh")
+	public function getMesh():godot.NavigationMesh;
 
 	/**		
 		Appends a `godot.Vector2` that contains the vertices of an outline to the internal array that contains all the outlines. You have to call `godot.NavigationPolygon.makePolygonsFromOutlines` in order for this array to be converted to polygons that the engine will use.

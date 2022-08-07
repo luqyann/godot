@@ -23,4 +23,11 @@ extern enum SceneState_GenEditState {
 		Note: Only available in editor builds.
 	**/
 	Main;
+
+	/**		
+		If passed to `godot.PackedScene.instance`, it's similar to `godot.SceneState_GenEditState.main`, but for the case where the scene is being instantiated to be the base of another one.
+		
+		Note: Only available in editor builds.
+	**/
+	MainInherited;
 }

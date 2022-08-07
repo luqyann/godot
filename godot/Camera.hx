@@ -26,12 +26,14 @@ extern class Camera extends godot.Spatial {
 
 	/**		
 		The camera's frustum offset. This can be changed from the default to create "tilted frustum" effects such as [https://zdoom.org/wiki/Y-shearing](Y-shearing).
+		
+		Note: Only effective if `godot.Camera.projection` is `godot.Camera_ProjectionEnum.frustum`.
 	**/
 	@:native("FrustumOffset")
 	public var frustumOffset:godot.Vector2;
 
 	/**		
-		The camera's size measured as 1/2 the width or height. Only applicable in orthogonal mode. Since `godot.Camera.keepAspect` locks on axis, `size` sets the other axis' size length.
+		The camera's size measured as 1/2 the width or height. Only applicable in orthogonal and frustum modes. Since `godot.Camera.keepAspect` locks on axis, `size` sets the other axis' size length.
 	**/
 	@:native("Size")
 	public var size:Single;
@@ -54,6 +56,8 @@ extern class Camera extends godot.Spatial {
 
 	/**		
 		If `true`, the ancestor `godot.Viewport` is currently using this camera.
+		
+		If multiple cameras are in the scene, one will always be made current. For example, if two `godot.Camera` nodes are present in the scene and only one is current, setting one camera's `godot.Camera.current` to `false` will cause the other camera to be made current.
 	**/
 	@:native("Current")
 	public var current:Bool;
@@ -106,7 +110,7 @@ extern class Camera extends godot.Spatial {
 	public function new():Void;
 
 	/**		
-		Returns a normal vector in world space, that is the result of projecting a point on the `godot.Viewport` rectangle by the camera projection. This is useful for casting rays in the form of (origin, normal) for object intersection or picking.
+		Returns a normal vector in world space, that is the result of projecting a point on the `godot.Viewport` rectangle by the inverse camera projection. This is useful for casting rays in the form of (origin, normal) for object intersection or picking.
 	**/
 	@:native("ProjectRayNormal")
 	public function projectRayNormal(screenPoint:godot.Vector2):godot.Vector3;
@@ -118,7 +122,7 @@ extern class Camera extends godot.Spatial {
 	public function projectLocalRayNormal(screenPoint:godot.Vector2):godot.Vector3;
 
 	/**		
-		Returns a 3D position in world space, that is the result of projecting a point on the `godot.Viewport` rectangle by the camera projection. This is useful for casting rays in the form of (origin, normal) for object intersection or picking.
+		Returns a 3D position in world space, that is the result of projecting a point on the `godot.Viewport` rectangle by the inverse camera projection. This is useful for casting rays in the form of (origin, normal) for object intersection or picking.
 	**/
 	@:native("ProjectRayOrigin")
 	public function projectRayOrigin(screenPoint:godot.Vector2):godot.Vector3;
@@ -167,7 +171,7 @@ extern class Camera extends godot.Spatial {
 	public function setOrthogonal(size:Single, zNear:Single, zFar:Single):Void;
 
 	/**		
-		Sets the camera projection to frustum mode (see `godot.Camera_ProjectionEnum.frustum`), by specifying a `size`, an `offset`, and the `z_near` and `z_far` clip planes in world space units.
+		Sets the camera projection to frustum mode (see `godot.Camera_ProjectionEnum.frustum`), by specifying a `size`, an `offset`, and the `z_near` and `z_far` clip planes in world space units. See also `godot.Camera.frustumOffset`.
 	**/
 	@:native("SetFrustum")
 	public function setFrustum(size:Single, offset:godot.Vector2, zNear:Single, zFar:Single):Void;
@@ -199,7 +203,7 @@ extern class Camera extends godot.Spatial {
 	#end
 
 	@:native("SetCurrent")
-	public function setCurrent(arg0:Bool):Void;
+	public function setCurrent(enable:Bool):Void;
 
 	@:native("IsCurrent")
 	public function isCurrent():Bool;
@@ -226,25 +230,25 @@ extern class Camera extends godot.Spatial {
 	public function getZnear():Single;
 
 	@:native("SetFov")
-	public function setFov(arg0:Single):Void;
+	public function setFov(fov:Single):Void;
 
 	@:native("SetFrustumOffset")
-	public function setFrustumOffset(arg0:godot.Vector2):Void;
+	public function setFrustumOffset(frustumOffset:godot.Vector2):Void;
 
 	@:native("SetSize")
-	public function setSize(arg0:Single):Void;
+	public function setSize(size:Single):Void;
 
 	@:native("SetZfar")
-	public function setZfar(arg0:Single):Void;
+	public function setZfar(zfar:Single):Void;
 
 	@:native("SetZnear")
-	public function setZnear(arg0:Single):Void;
+	public function setZnear(znear:Single):Void;
 
 	@:native("GetProjection")
 	public function getProjection():godot.Camera_ProjectionEnum;
 
 	@:native("SetProjection")
-	public function setProjection(arg0:godot.Camera_ProjectionEnum):Void;
+	public function setProjection(projection:godot.Camera_ProjectionEnum):Void;
 
 	@:native("SetHOffset")
 	public function setHOffset(ofs:Single):Void;

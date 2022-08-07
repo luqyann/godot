@@ -75,10 +75,22 @@ extern class BitMap extends godot.Resource {
 	public function getSize():godot.Vector2;
 
 	/**		
+		Resizes the image to `new_size`.
+	**/
+	@:native("Resize")
+	public function resize(newSize:godot.Vector2):Void;
+
+	/**		
 		Applies morphological dilation or erosion to the bitmap. If `pixels` is positive, dilation is applied to the bitmap. If `pixels` is negative, erosion is applied to the bitmap. `rect` defines the area where the morphological operation is applied. Pixels located outside the `rect` are unaffected by `godot.BitMap.growMask`.
 	**/
 	@:native("GrowMask")
 	public function growMask(pixels:Int, rect:godot.Rect2):Void;
+
+	/**		
+		Returns an image of the same size as the bitmap and with a `godot.Image_Format` of type `FORMAT_L8`. `true` bits of the bitmap are being converted into white pixels, and `false` bits into black.
+	**/
+	@:native("ConvertToImage")
+	public function convertToImage():godot.Image;
 
 	#if doc_gen
 	@:native("OpaqueToPolygons")

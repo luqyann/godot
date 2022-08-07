@@ -119,6 +119,12 @@ extern class OptionButton extends godot.Button {
 	public function setItemMetadata(idx:Int, metadata:Dynamic):Void;
 
 	/**		
+		Sets the tooltip of the item at index `idx`.
+	**/
+	@:native("SetItemTooltip")
+	public function setItemTooltip(idx:Int, tooltip:std.String):Void;
+
+	/**		
 		Returns the text of the item at index `idx`.
 	**/
 	@:native("GetItemText")
@@ -149,6 +155,12 @@ extern class OptionButton extends godot.Button {
 	public function getItemMetadata(idx:Int):Dynamic;
 
 	/**		
+		Returns the tooltip of the item at index `idx`.
+	**/
+	@:native("GetItemTooltip")
+	public function getItemTooltip(idx:Int):std.String;
+
+	/**		
 		Returns `true` if the item at index `idx` is disabled.
 	**/
 	@:native("IsItemDisabled")
@@ -174,6 +186,8 @@ extern class OptionButton extends godot.Button {
 
 	/**		
 		Selects an item by index and makes it the current item. This will work even if the item is disabled.
+		
+		Passing `-1` as the index deselects any currently selected item.
 	**/
 	@:native("Select")
 	public function select(idx:Int):Void;
@@ -182,7 +196,7 @@ extern class OptionButton extends godot.Button {
 	public function getSelected():Int;
 
 	/**		
-		Returns the ID of the selected item, or `0` if no item is selected.
+		Returns the ID of the selected item, or `-1` if no item is selected.
 	**/
 	@:native("GetSelectedId")
 	public function getSelectedId():Int;

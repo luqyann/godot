@@ -11,7 +11,7 @@ extern enum NavigationMesh_ParsedGeometryType {
 	MeshInstances;
 
 	/**		
-		Parses `godot.StaticBody` colliders as geometry. The collider should be in any of the layers specified by `godot.NavigationMesh.geometry__collisionMask`.
+		Parses `godot.StaticBody` colliders as geometry. The collider should be in any of the layers specified by `godot.NavigationMesh.geometryCollisionMask`.
 	**/
 	StaticColliders;
 

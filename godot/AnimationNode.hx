@@ -17,7 +17,7 @@ extern class AnimationNode extends godot.Resource {
 	/**
 		`removed_from_graph` signal.
 		
-		Called when the node was removed from the graph.
+		Emitted when the node was removed from the graph.
 	**/
 	public var onRemovedFromGraph(get, never):Signal<Void->Void>;
 	@:dox(hide) @:noCompletion inline function get_onRemovedFromGraph():Signal<Void->Void> {
@@ -123,7 +123,7 @@ extern class AnimationNode extends godot.Resource {
 	public function setFilterPath(path:godot.NodePath, enable:Bool):Void;
 
 	/**		
-		Returns `true` whether a given path is filtered.
+		Returns whether the given path is filtered.
 	**/
 	@:native("IsPathFiltered")
 	public function isPathFiltered(path:godot.NodePath):Bool;
@@ -193,7 +193,7 @@ extern class AnimationNode extends godot.Resource {
 	#end
 
 	/**		
-		Sets a custom parameter. These are used as local storage, because resources can be reused across the tree or scenes.
+		Sets a custom parameter. These are used as local memory, because resources can be reused across the tree or scenes.
 	**/
 	@:native("SetParameter")
 	public function setParameter(name:std.String, value:Dynamic):Void;

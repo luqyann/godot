@@ -1040,6 +1040,44 @@ class SignalHandlerResourceBoolVoid extends Reference {
 @:nativeGen
 @:dox(hide)
 @:noCompletion
+class SignalHandlerRIDVoid extends Reference {
+	static final refs = new Map<String, Map<Object, Array<RID->Void>>>();
+
+	public static function isSignalConnected(source:Object, signal:String, callback:RID->Void):Bool {
+		return SignalHandler.isSignalConnected(refs, source, signal, callback);
+	}
+
+	public static function disconnectSignal(source:Object, signal:String, callback:RID->Void) {
+		SignalHandler.disconnectSignal(refs, source, signal, callback);
+	}
+
+	public static function connectSignal(source:Object, signal:String, callback:RID->Void) {
+		SignalHandler.connectSignal(refs, SignalHandlerRIDVoid.new, source, signal, callback);
+	}
+
+	final callback:RID->Void;
+
+	function new(source:Object, signal:String, callback:RID->Void) {
+		super();
+		this.callback = callback;
+
+		final key = "" + source.getInstanceId() + "-" + signal;
+
+		if (!refs.exists(key)) {
+			refs.set(key, new Map<Object, Array<RID->Void>>());
+		}
+
+		refs.get(key).set(this, [callback]);
+	}
+
+	@:keep function handleSignal(arg0:RID) {
+		callback(arg0);
+	}
+}
+
+@:nativeGen
+@:dox(hide)
+@:noCompletion
 class SignalHandlerRIDNodeIntIntVoid extends Reference {
 	static final refs = new Map<String, Map<Object, Array<RID->Node->Int->Int->Void>>>();
 
@@ -1724,6 +1762,44 @@ class SignalHandlerIntPoolByteArrayVoid extends Reference {
 @:nativeGen
 @:dox(hide)
 @:noCompletion
+class SignalHandlerIntPoolByteArrayIntVoid extends Reference {
+	static final refs = new Map<String, Map<Object, Array<Int->std.Array<cs.types.UInt8>->Int->Void>>>();
+
+	public static function isSignalConnected(source:Object, signal:String, callback:Int->std.Array<cs.types.UInt8>->Int->Void):Bool {
+		return SignalHandler.isSignalConnected(refs, source, signal, callback);
+	}
+
+	public static function disconnectSignal(source:Object, signal:String, callback:Int->std.Array<cs.types.UInt8>->Int->Void) {
+		SignalHandler.disconnectSignal(refs, source, signal, callback);
+	}
+
+	public static function connectSignal(source:Object, signal:String, callback:Int->std.Array<cs.types.UInt8>->Int->Void) {
+		SignalHandler.connectSignal(refs, SignalHandlerIntPoolByteArrayIntVoid.new, source, signal, callback);
+	}
+
+	final callback:Int->std.Array<cs.types.UInt8>->Int->Void;
+
+	function new(source:Object, signal:String, callback:Int->std.Array<cs.types.UInt8>->Int->Void) {
+		super();
+		this.callback = callback;
+
+		final key = "" + source.getInstanceId() + "-" + signal;
+
+		if (!refs.exists(key)) {
+			refs.set(key, new Map<Object, Array<Int->std.Array<cs.types.UInt8>->Int->Void>>());
+		}
+
+		refs.get(key).set(this, [callback]);
+	}
+
+	@:keep function handleSignal(arg0:Int, arg1:std.Array<cs.types.UInt8>, arg2:Int) {
+		callback(arg0, arg1, arg2);
+	}
+}
+
+@:nativeGen
+@:dox(hide)
+@:noCompletion
 class SignalHandlerIntIntStringVoid extends Reference {
 	static final refs = new Map<String, Map<Object, Array<Int->Int->std.String->Void>>>();
 
@@ -2059,6 +2135,44 @@ class SignalHandlerBoolVoid extends Reference {
 	}
 
 	@:keep function handleSignal(arg0:Bool) {
+		callback(arg0);
+	}
+}
+
+@:nativeGen
+@:dox(hide)
+@:noCompletion
+class SignalHandlerArrayVoid extends Reference {
+	static final refs = new Map<String, Map<Object, Array<godot.collections.Array->Void>>>();
+
+	public static function isSignalConnected(source:Object, signal:String, callback:godot.collections.Array->Void):Bool {
+		return SignalHandler.isSignalConnected(refs, source, signal, callback);
+	}
+
+	public static function disconnectSignal(source:Object, signal:String, callback:godot.collections.Array->Void) {
+		SignalHandler.disconnectSignal(refs, source, signal, callback);
+	}
+
+	public static function connectSignal(source:Object, signal:String, callback:godot.collections.Array->Void) {
+		SignalHandler.connectSignal(refs, SignalHandlerArrayVoid.new, source, signal, callback);
+	}
+
+	final callback:godot.collections.Array->Void;
+
+	function new(source:Object, signal:String, callback:godot.collections.Array->Void) {
+		super();
+		this.callback = callback;
+
+		final key = "" + source.getInstanceId() + "-" + signal;
+
+		if (!refs.exists(key)) {
+			refs.set(key, new Map<Object, Array<godot.collections.Array->Void>>());
+		}
+
+		refs.get(key).set(this, [callback]);
+	}
+
+	@:keep function handleSignal(arg0:godot.collections.Array) {
 		callback(arg0);
 	}
 }

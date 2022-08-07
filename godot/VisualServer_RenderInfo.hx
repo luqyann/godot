@@ -26,6 +26,17 @@ extern enum VisualServer_RenderInfo {
 	ShaderChangesInFrame;
 
 	/**		
+		The peak amount of shaders that have been under compilation in the frame.
+		
+		This is useful to know when asynchronous shader compilation has finished for the current shaders on screen.
+		
+		Note: For complete certainty, only assume there are no outstanding compilations when this value is zero for at least two frames in a row.
+		
+		Unimplemented in the GLES2 rendering backend, always returns 0.
+	**/
+	ShaderCompilesInFrame;
+
+	/**		
 		The amount of surface changes in the frame.
 	**/
 	SurfaceChangesInFrame;

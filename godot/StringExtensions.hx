@@ -249,7 +249,7 @@ extern class StringExtensions {
 	#if doc_gen
 	/**		
 		Find the first occurrence of a substring. Optionally, the search starting position can be passed.
-		
+		@see `godot.StringExtensions.find`@see `godot.StringExtensions.findLast`@see `godot.StringExtensions.findLast`@see `godot.StringExtensions.findN`
 		@param instance The string that will be searched.
 		@param what The substring to find.
 		@param from The search starting position.
@@ -261,7 +261,7 @@ extern class StringExtensions {
 	#else
 	/**		
 		Find the first occurrence of a substring. Optionally, the search starting position can be passed.
-		
+		@see `godot.StringExtensions.find`@see `godot.StringExtensions.findLast`@see `godot.StringExtensions.findLast`@see `godot.StringExtensions.findN`
 		@param instance The string that will be searched.
 		@param what The substring to find.
 		@param from The search starting position.
@@ -273,7 +273,7 @@ extern class StringExtensions {
 
 	/**		
 		Find the first occurrence of a substring. Optionally, the search starting position can be passed.
-		
+		@see `godot.StringExtensions.find`@see `godot.StringExtensions.findLast`@see `godot.StringExtensions.findLast`@see `godot.StringExtensions.findN`
 		@param instance The string that will be searched.
 		@param what The substring to find.
 		@param from The search starting position.
@@ -285,7 +285,7 @@ extern class StringExtensions {
 
 	/**		
 		Find the first occurrence of a substring. Optionally, the search starting position can be passed.
-		
+		@see `godot.StringExtensions.find`@see `godot.StringExtensions.findLast`@see `godot.StringExtensions.findLast`@see `godot.StringExtensions.findN`
 		@param instance The string that will be searched.
 		@param what The substring to find.
 		@param from The search starting position.
@@ -498,7 +498,7 @@ extern class StringExtensions {
 
 	/**		
 		Returns `true` if the string is a path to a file or
-		directory and its startign point is explicitly defined. This includes
+		directory and its starting point is explicitly defined. This includes
 		`res://`, `user://`, `C:\`, `/`, etc.
 		@see `godot.StringExtensions.isRelPath`
 		@param instance The string to check.

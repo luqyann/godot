@@ -7,7 +7,9 @@ import cs.system.*;
 /**
 Contains mouse and pen motion information. Supports relative, absolute positions and speed. See `godot.Node._Input`.
 
-Note: By default, this event is only emitted once per frame rendered at most. If you need more precise input reporting, call `godot.Input.setUseAccumulatedInput` with `false` to make events emitted as often as possible. If you use InputEventMouseMotion to draw lines, consider implementing [https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm](Bresenham's line algorithm) as well to avoid visible gaps in lines if the user is moving the mouse quickly.
+Note: The behavior of this event is affected by the value of `godot.Input.useAccumulatedInput`. When set to `true` (default), mouse/pen motion events received from the OS will be merged to emit an accumulated event only once per frame rendered at most. When set to `false`, the events will be emitted as received, which means that they can be emitted multiple times per frame rendered, allowing for precise input reporting at the expense of CPU usage.
+
+Note: If you use InputEventMouseMotion to draw lines, consider implementing [https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm](Bresenham's line algorithm) as well to avoid visible gaps in lines if the user is moving the mouse quickly.
 **/
 @:libType
 @:csNative
@@ -27,6 +29,14 @@ extern class InputEventMouseMotion extends godot.InputEventMouse {
 	**/
 	@:native("Relative")
 	public var relative:godot.Vector2;
+
+	/**		
+		Returns `true` when using the eraser end of a stylus pen.
+		
+		Note: This property is implemented on Linux, macOS and Windows.
+	**/
+	@:native("PenInverted")
+	public var penInverted:Bool;
 
 	/**		
 		Represents the pressure the user puts on the pen. Ranges from `0.0` to `1.0`.
@@ -54,6 +64,12 @@ extern class InputEventMouseMotion extends godot.InputEventMouse {
 
 	@:native("GetPressure")
 	public function getPressure():Single;
+
+	@:native("SetPenInverted")
+	public function setPenInverted(penInverted:Bool):Void;
+
+	@:native("GetPenInverted")
+	public function getPenInverted():Bool;
 
 	@:native("SetRelative")
 	public function setRelative(relative:godot.Vector2):Void;

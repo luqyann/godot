@@ -5,15 +5,49 @@ package godot;
 import cs.system.*;
 
 /**
-Provides navigation and pathfinding within a collection of `godot.NavigationMesh`es. By default, these will be automatically collected from child `godot.NavigationMeshInstance` nodes, but they can also be added on the fly with `godot.Navigation.navmeshAdd`. In addition to basic pathfinding, this class also assists with aligning navigation agents with the meshes they are navigating on.
+Deprecated. `godot.Navigation` node and `godot.Navigation.getSimplePath` are deprecated and will be removed in a future version. Use `godot.NavigationServer.mapGetPath` instead.
 
-Note: The current navigation system has many known issues and will not always return optimal paths as expected. These issues will be fixed in Godot 4.0.
+Provides navigation and pathfinding within a collection of `godot.NavigationMesh`es. By default, these will be automatically collected from child `godot.NavigationMeshInstance` nodes. In addition to basic pathfinding, this class also assists with aligning navigation agents with the meshes they are navigating on.
 **/
 @:libType
 @:csNative
 @:native("Godot.Navigation")
 @:autoBuild(godot.Godot.buildUserClass())
 extern class Navigation extends godot.Spatial {
+	/**
+		`map_changed` signal.
+		
+		Emitted when a navigation map is updated, when a region moves or is modified.
+	**/
+	public var onMapChanged(get, never):Signal<(map:RID)->Void>;
+	@:dox(hide) @:noCompletion inline function get_onMapChanged():Signal<(map:RID)->Void> {
+		return new Signal(this, "map_changed", Signal.SignalHandlerRIDVoid.connectSignal, Signal.SignalHandlerRIDVoid.disconnectSignal, Signal.SignalHandlerRIDVoid.isSignalConnected);
+	}
+
+	/**		
+		A bitfield determining all navigation map layers the navigation can use on a `godot.Navigation.getSimplePath` path query.
+	**/
+	@:native("NavigationLayers")
+	public var navigationLayers:UInt;
+
+	/**		
+		This value is used to detect the near edges to connect compatible regions.
+	**/
+	@:native("EdgeConnectionMargin")
+	public var edgeConnectionMargin:Single;
+
+	/**		
+		The cell height to use for fields.
+	**/
+	@:native("CellHeight")
+	public var cellHeight:Single;
+
+	/**		
+		The XZ plane cell size to use for fields.
+	**/
+	@:native("CellSize")
+	public var cellSize:Single;
+
 	/**		
 		Defines which direction is up. By default, this is `(0, 1, 0)`, which is the world's "up" direction.
 	**/
@@ -23,61 +57,35 @@ extern class Navigation extends godot.Spatial {
 	@:native("new")
 	public function new():Void;
 
-	#if doc_gen
 	/**		
-		Adds a `godot.NavigationMesh`. Returns an ID for use with `godot.Navigation.navmeshRemove` or `godot.Navigation.navmeshSetTransform`. If given, a `godot.Transform2D` is applied to the polygon. The optional `owner` is used as return value for `godot.Navigation.getClosestPointOwner`.
+		Returns the `godot.RID` of the navigation map on the `godot.NavigationServer`.
 	**/
-	@:native("NavmeshAdd")
-	public function navmeshAdd(mesh:godot.NavigationMesh, xform:godot.Transform, ?owner:godot.Object):Int;
-	#else
-	/**		
-		Adds a `godot.NavigationMesh`. Returns an ID for use with `godot.Navigation.navmeshRemove` or `godot.Navigation.navmeshSetTransform`. If given, a `godot.Transform2D` is applied to the polygon. The optional `owner` is used as return value for `godot.Navigation.getClosestPointOwner`.
-	**/
-	@:native("NavmeshAdd")
-	public overload function navmeshAdd(mesh:godot.NavigationMesh, xform:godot.Transform):Int;
-
-	/**		
-		Adds a `godot.NavigationMesh`. Returns an ID for use with `godot.Navigation.navmeshRemove` or `godot.Navigation.navmeshSetTransform`. If given, a `godot.Transform2D` is applied to the polygon. The optional `owner` is used as return value for `godot.Navigation.getClosestPointOwner`.
-	**/
-	@:native("NavmeshAdd")
-	public overload function navmeshAdd(mesh:godot.NavigationMesh, xform:godot.Transform, owner:godot.Object):Int;
-	#end
-
-	/**		
-		Sets the transform applied to the `godot.NavigationMesh` with the given ID.
-	**/
-	@:native("NavmeshSetTransform")
-	public function navmeshSetTransform(id:Int, xform:godot.Transform):Void;
-
-	/**		
-		Removes the `godot.NavigationMesh` with the given ID.
-	**/
-	@:native("NavmeshRemove")
-	public function navmeshRemove(id:Int):Void;
+	@:native("GetRid")
+	public function getRid():godot.RID;
 
 	#if doc_gen
 	/**		
-		Returns the path between two given points. Points are in local coordinate space. If `optimize` is `true` (the default), the agent properties associated with each `godot.NavigationMesh` (radius, height, etc.) are considered in the path calculation, otherwise they are ignored.
+		Deprecated. `godot.Navigation` node and `godot.Navigation.getSimplePath` are deprecated and will be removed in a future version. Use `godot.NavigationServer.mapGetPath` instead.
 		
-		Note: This method has known issues and will often return non-optimal paths. These issues will be fixed in Godot 4.0.
+		Returns the path between two given points. Points are in local coordinate space. If `optimize` is `true` (the default), the agent properties associated with each `godot.NavigationMesh` (radius, height, etc.) are considered in the path calculation, otherwise they are ignored.
 	**/
 	public extern inline function getSimplePath(start:godot.Vector3, end:godot.Vector3, ?optimize:Bool):std.Array<godot.Vector3> {
 		return cs.Lib.array(cs.Syntax.code("{0}.GetSimplePath({1}, {2}, {3})", this, start, end, optimize));
 	}
 	#else
 	/**		
-		Returns the path between two given points. Points are in local coordinate space. If `optimize` is `true` (the default), the agent properties associated with each `godot.NavigationMesh` (radius, height, etc.) are considered in the path calculation, otherwise they are ignored.
+		Deprecated. `godot.Navigation` node and `godot.Navigation.getSimplePath` are deprecated and will be removed in a future version. Use `godot.NavigationServer.mapGetPath` instead.
 		
-		Note: This method has known issues and will often return non-optimal paths. These issues will be fixed in Godot 4.0.
+		Returns the path between two given points. Points are in local coordinate space. If `optimize` is `true` (the default), the agent properties associated with each `godot.NavigationMesh` (radius, height, etc.) are considered in the path calculation, otherwise they are ignored.
 	**/
 	public overload extern inline function getSimplePath(start:godot.Vector3, end:godot.Vector3):std.Array<godot.Vector3> {
 		return cs.Lib.array(cs.Syntax.code("{0}.GetSimplePath({1}, {2})", this, start, end));
 	}
 
 	/**		
-		Returns the path between two given points. Points are in local coordinate space. If `optimize` is `true` (the default), the agent properties associated with each `godot.NavigationMesh` (radius, height, etc.) are considered in the path calculation, otherwise they are ignored.
+		Deprecated. `godot.Navigation` node and `godot.Navigation.getSimplePath` are deprecated and will be removed in a future version. Use `godot.NavigationServer.mapGetPath` instead.
 		
-		Note: This method has known issues and will often return non-optimal paths. These issues will be fixed in Godot 4.0.
+		Returns the path between two given points. Points are in local coordinate space. If `optimize` is `true` (the default), the agent properties associated with each `godot.NavigationMesh` (radius, height, etc.) are considered in the path calculation, otherwise they are ignored.
 	**/
 	public overload extern inline function getSimplePath(start:godot.Vector3, end:godot.Vector3, optimize:Bool):std.Array<godot.Vector3> {
 		return cs.Lib.array(cs.Syntax.code("{0}.GetSimplePath({1}, {2}, {3})", this, start, end, optimize));
@@ -117,14 +125,38 @@ extern class Navigation extends godot.Spatial {
 	public function getClosestPointNormal(toPoint:godot.Vector3):godot.Vector3;
 
 	/**		
-		Returns the owner of the `godot.NavigationMesh` which contains the navigation point closest to the point given. This is usually a `godot.NavigationMeshInstance`. For meshes added via `godot.Navigation.navmeshAdd`, returns the owner that was given (or `null` if the `owner` parameter was omitted).
+		Returns the owner of the `godot.NavigationMesh` which contains the navigation point closest to the point given. This is usually a `godot.NavigationMeshInstance`.
 	**/
 	@:native("GetClosestPointOwner")
-	public function getClosestPointOwner(toPoint:godot.Vector3):godot.Object;
+	public function getClosestPointOwner(toPoint:godot.Vector3):godot.RID;
 
 	@:native("SetUpVector")
 	public function setUpVector(up:godot.Vector3):Void;
 
 	@:native("GetUpVector")
 	public function getUpVector():godot.Vector3;
+
+	@:native("SetCellSize")
+	public function setCellSize(cellSize:Single):Void;
+
+	@:native("GetCellSize")
+	public function getCellSize():Single;
+
+	@:native("SetCellHeight")
+	public function setCellHeight(cellHeight:Single):Void;
+
+	@:native("GetCellHeight")
+	public function getCellHeight():Single;
+
+	@:native("SetEdgeConnectionMargin")
+	public function setEdgeConnectionMargin(margin:Single):Void;
+
+	@:native("GetEdgeConnectionMargin")
+	public function getEdgeConnectionMargin():Single;
+
+	@:native("SetNavigationLayers")
+	public function setNavigationLayers(navigationLayers:UInt):Void;
+
+	@:native("GetNavigationLayers")
+	public function getNavigationLayers():UInt;
 }

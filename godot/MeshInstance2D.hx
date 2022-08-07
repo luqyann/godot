@@ -5,7 +5,7 @@ package godot;
 import cs.system.*;
 
 /**
-Node used for displaying a `godot.Mesh` in 2D. Can be constructed from an existing `godot.Sprite` via a tool in the editor toolbar. Select "Sprite" then "Convert to Mesh2D", select settings in popup and press "Create Mesh2D".
+Node used for displaying a `godot.Mesh` in 2D. A `godot.MeshInstance2D` can be automatically created from an existing `godot.Sprite` via a tool in the editor toolbar. Select the `godot.Sprite` node, then choose Sprite &gt; Convert to MeshInstance2D at the top of the 2D editor viewport.
 **/
 @:libType
 @:csNative
@@ -25,7 +25,7 @@ extern class MeshInstance2D extends godot.Node2D {
 	/**		
 		The normal map that will be used if using the default `godot.CanvasItemMaterial`.
 		
-		Note: Godot expects the normal map to use X+, Y-, and Z+ coordinates. See [http://wiki.polycount.com/wiki/Normal_Map_Technical_Details#Common_Swizzle_Coordinates](this page) for a comparison of normal map coordinates expected by popular engines.
+		Note: Godot expects the normal map to use X+, Y+, and Z+ coordinates. See [http://wiki.polycount.com/wiki/Normal_Map_Technical_Details#Common_Swizzle_Coordinates](this page) for a comparison of normal map coordinates expected by popular engines.
 	**/
 	@:native("NormalMap")
 	public var normalMap:godot.Texture;

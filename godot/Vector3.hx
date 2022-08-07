@@ -463,6 +463,35 @@ extern class Vector3_ extends cs.system.ValueType implements cs.system.IEquatabl
 	@:native("LinearInterpolate")
 	public overload function linearInterpolate(to:godot.Vector3, weight:godot.Vector3):godot.Vector3;
 
+	#if doc_gen
+	/**		
+		Returns the vector with a maximum length by limiting its length to `length`.
+		
+		@param length The length to limit to.
+		@returns The vector with its length limited.
+	**/
+	@:native("LimitLength")
+	public function limitLength(?length:Single):godot.Vector3;
+	#else
+	/**		
+		Returns the vector with a maximum length by limiting its length to `length`.
+		
+		@param length The length to limit to.
+		@returns The vector with its length limited.
+	**/
+	@:native("LimitLength")
+	public overload function limitLength():godot.Vector3;
+
+	/**		
+		Returns the vector with a maximum length by limiting its length to `length`.
+		
+		@param length The length to limit to.
+		@returns The vector with its length limited.
+	**/
+	@:native("LimitLength")
+	public overload function limitLength(length:Single):godot.Vector3;
+	#end
+
 	/**		
 		Returns the axis of the vector's largest value. See `godot.Vector3_Axis`.
 		If all components are equal, this method returns `godot.Vector3_Axis.x`.
@@ -549,15 +578,15 @@ extern class Vector3_ extends cs.system.ValueType implements cs.system.IEquatabl
 	public function reflect(normal:godot.Vector3):godot.Vector3;
 
 	/**		
-		Rotates this vector around a given `axis` vector by `phi` radians.
+		Rotates this vector around a given `axis` vector by `angle` (in radians).
 		The `axis` vector must be a normalized vector.
 		
 		@param axis The vector to rotate around. Must be normalized.
-		@param phi The angle to rotate by, in radians.
+		@param angle The angle to rotate by, in radians.
 		@returns The rotated vector.
 	**/
 	@:native("Rotated")
-	public function rotated(axis:godot.Vector3, phi:Single):godot.Vector3;
+	public function rotated(axis:godot.Vector3, angle:Single):godot.Vector3;
 
 	/**		
 		Returns this vector with all components rounded to the nearest integer,

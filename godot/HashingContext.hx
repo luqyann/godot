@@ -32,8 +32,6 @@ var res = ctx.finish()
 printt(res.hex_encode(), Array(res))
 
 ```
-
-Note: Not available in HTML5 exports.
 **/
 @:libType
 @:csNative

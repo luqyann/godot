@@ -46,7 +46,7 @@ extern class StyleBoxFlat extends godot.StyleBox {
 	public var antiAliasingSize:Single;
 
 	/**		
-		Antialiasing draws a small ring around the edges, which fades to transparency. As a result, edges look much smoother. This is only noticeable when using rounded corners.
+		Antialiasing draws a small ring around the edges, which fades to transparency. As a result, edges look much smoother. This is only noticeable when using rounded corners or `godot.StyleBoxFlat.skew`.
 		
 		Note: When using beveled corners with 45-degree angles (`godot.StyleBoxFlat.cornerDetail` = 1), it is recommended to set `godot.StyleBoxFlat.antiAliasing` to `false` to ensure crisp visuals and avoid possible visual glitches.
 	**/
@@ -73,24 +73,32 @@ extern class StyleBoxFlat extends godot.StyleBox {
 
 	/**		
 		Expands the stylebox outside of the control rect on the bottom edge. Useful in combination with `godot.StyleBoxFlat.borderWidthBottom` to draw a border outside the control rect.
+		
+		Note: Unlike `godot.StyleBox.contentMarginBottom`, `godot.StyleBoxFlat.expandMarginBottom` does not affect the size of the clickable area for `godot.Control`s. This can negatively impact usability if used wrong, as the user may try to click an area of the StyleBox that cannot actually receive clicks.
 	**/
 	@:native("ExpandMarginBottom")
 	public var expandMarginBottom:Single;
 
 	/**		
 		Expands the stylebox outside of the control rect on the top edge. Useful in combination with `godot.StyleBoxFlat.borderWidthTop` to draw a border outside the control rect.
+		
+		Note: Unlike `godot.StyleBox.contentMarginTop`, `godot.StyleBoxFlat.expandMarginTop` does not affect the size of the clickable area for `godot.Control`s. This can negatively impact usability if used wrong, as the user may try to click an area of the StyleBox that cannot actually receive clicks.
 	**/
 	@:native("ExpandMarginTop")
 	public var expandMarginTop:Single;
 
 	/**		
 		Expands the stylebox outside of the control rect on the right edge. Useful in combination with `godot.StyleBoxFlat.borderWidthRight` to draw a border outside the control rect.
+		
+		Note: Unlike `godot.StyleBox.contentMarginRight`, `godot.StyleBoxFlat.expandMarginRight` does not affect the size of the clickable area for `godot.Control`s. This can negatively impact usability if used wrong, as the user may try to click an area of the StyleBox that cannot actually receive clicks.
 	**/
 	@:native("ExpandMarginRight")
 	public var expandMarginRight:Single;
 
 	/**		
 		Expands the stylebox outside of the control rect on the left edge. Useful in combination with `godot.StyleBoxFlat.borderWidthLeft` to draw a border outside the control rect.
+		
+		Note: Unlike `godot.StyleBox.contentMarginLeft`, `godot.StyleBoxFlat.expandMarginLeft` does not affect the size of the clickable area for `godot.Control`s. This can negatively impact usability if used wrong, as the user may try to click an area of the StyleBox that cannot actually receive clicks.
 	**/
 	@:native("ExpandMarginLeft")
 	public var expandMarginLeft:Single;
@@ -164,6 +172,14 @@ extern class StyleBoxFlat extends godot.StyleBox {
 	**/
 	@:native("BorderWidthLeft")
 	public var borderWidthLeft:Int;
+
+	/**		
+		If set to a non-zero value on either axis, `godot.StyleBoxFlat.skew` distorts the StyleBox horizontally and/or vertically. This can be used for "futuristic"-style UIs. Positive values skew the StyleBox towards the right (X axis) and upwards (Y axis), while negative values skew the StyleBox towards the left (X axis) and downwards (Y axis).
+		
+		Note: To ensure text does not touch the StyleBox's edges, consider increasing the `godot.StyleBox`'s content margin (see `godot.StyleBox.contentMarginBottom`). It is preferable to increase the content margin instead of the expand margin (see `godot.StyleBoxFlat.expandMarginBottom`), as increasing the expand margin does not increase the size of the clickable area for `godot.Control`s.
+	**/
+	@:native("Skew")
+	public var skew:godot.Vector2;
 
 	/**		
 		Toggles drawing of the inner part of the stylebox.
@@ -275,6 +291,12 @@ extern class StyleBoxFlat extends godot.StyleBox {
 
 	@:native("IsDrawCenterEnabled")
 	public function isDrawCenterEnabled():Bool;
+
+	@:native("SetSkew")
+	public function setSkew(skew:godot.Vector2):Void;
+
+	@:native("GetSkew")
+	public function getSkew():godot.Vector2;
 
 	@:native("SetShadowColor")
 	public function setShadowColor(color:godot.Color):Void;

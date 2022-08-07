@@ -11,12 +11,12 @@ extern enum Camera_DopplerTrackingEnum {
 	Disabled;
 
 	/**		
-		Simulate [https://en.wikipedia.org/wiki/Doppler_effect](Doppler effect) by tracking positions of objects that are changed in `_process`. Changes in the relative velocity of this camera compared to those objects affect how Audio is perceived (changing the Audio's `pitch shift`).
+		Simulate [https://en.wikipedia.org/wiki/Doppler_effect](Doppler effect) by tracking positions of objects that are changed in `_process`. Changes in the relative velocity of this camera compared to those objects affect how audio is perceived (changing the audio's `godot.AudioStreamPlayer3D.pitchScale`).
 	**/
 	IdleStep;
 
 	/**		
-		Simulate [https://en.wikipedia.org/wiki/Doppler_effect](Doppler effect) by tracking positions of objects that are changed in `_physics_process`. Changes in the relative velocity of this camera compared to those objects affect how Audio is perceived (changing the Audio's `pitch shift`).
+		Simulate [https://en.wikipedia.org/wiki/Doppler_effect](Doppler effect) by tracking positions of objects that are changed in `_physics_process`. Changes in the relative velocity of this camera compared to those objects affect how audio is perceived (changing the audio's `godot.AudioStreamPlayer3D.pitchScale`).
 	**/
 	PhysicsStep;
 }

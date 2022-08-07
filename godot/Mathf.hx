@@ -236,10 +236,13 @@ extern class Mathf {
 		Returns a normalized value considering the given range.
 		This is the opposite of `godot.Mathf.lerp`.
 		
-		@param from The interpolated value.
+		@param from The start value for interpolation.
 		@param to The destination value for interpolation.
-		@param weight A value on the range of 0.0 to 1.0, representing the amount of interpolation.
-		@returns The resulting value of the inverse interpolation.
+		@param weight The interpolated value.
+		@returns
+		The resulting value of the inverse interpolation.
+		The returned value will be between 0.0 and 1.0 if `weight` is
+		between `from` and `to` (inclusive).
 	**/
 	@:native("InverseLerp")
 	public static function inverseLerp(from:Single, to:Single, weight:Single):Single;
@@ -438,6 +441,20 @@ extern class Mathf {
 	public static function rad2Deg(rad:Single):Single;
 
 	/**		
+		Maps a `value` from [`inFrom`, `inTo`]
+		to [`outFrom`, `outTo`].
+		
+		@param value The value to map.
+		@param inFrom The start value for the input interpolation.
+		@param inTo The destination value for the input interpolation.
+		@param outFrom The start value for the output interpolation.
+		@param outTo The destination value for the output interpolation.
+		@returns The resulting mapped value mapped.
+	**/
+	@:native("RangeLerp")
+	public static function rangeLerp(value:Single, inFrom:Single, inTo:Single, outFrom:Single, outTo:Single):Single;
+
+	/**		
 		Rounds `s` to the nearest whole number,
 		with halfway cases rounded towards the nearest multiple of two.
 		
@@ -526,7 +543,7 @@ extern class Mathf {
 		
 		@param s The value to stepify.
 		@param step The step size to snap to.
-		@returns
+		@returns The snapped value.
 	**/
 	@:native("Stepify")
 	public static function stepify(s:Single, step:Single):Single;
@@ -589,7 +606,7 @@ extern class Mathf {
 	/**		
 		Returns the amount of digits after the decimal place.
 		
-		@param s The input `cs.system.Decimal` value.
+		@param s The input `decimal` value.
 		@returns The amount of digits.
 	**/
 	@:native("DecimalCount")

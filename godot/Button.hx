@@ -40,6 +40,12 @@ extern class Button extends godot.BaseButton {
 	public var expandIcon:Bool;
 
 	/**		
+		Specifies if the icon should be aligned to the left, right, or center of a button. Uses the same `godot.Button_TextAlign` constants as the text alignment. If centered, text will draw on top of the icon.
+	**/
+	@:native("IconAlign")
+	public var iconAlign:godot.Button_TextAlign;
+
+	/**		
 		Text alignment policy for the button's text, use one of the `godot.Button_TextAlign` constants.
 	**/
 	@:native("Align")
@@ -59,6 +65,8 @@ extern class Button extends godot.BaseButton {
 
 	/**		
 		Button's icon, if text is present the icon will be placed before the text.
+		
+		To edit margin and spacing of the icon, use `hseparation` theme property of `godot.Button` and `content_margin_*` properties of the used `godot.StyleBox`es.
 	**/
 	@:native("Icon")
 	public var icon:godot.Texture;
@@ -84,14 +92,11 @@ extern class Button extends godot.BaseButton {
 	@:native("GetButtonIcon")
 	public function getButtonIcon():godot.Texture;
 
-	@:native("SetExpandIcon")
-	public function setExpandIcon(arg0:Bool):Void;
-
-	@:native("IsExpandIcon")
-	public function isExpandIcon():Bool;
-
 	@:native("SetFlat")
 	public function setFlat(enabled:Bool):Void;
+
+	@:native("IsFlat")
+	public function isFlat():Bool;
 
 	@:native("SetClipText")
 	public function setClipText(enabled:Bool):Void;
@@ -105,6 +110,15 @@ extern class Button extends godot.BaseButton {
 	@:native("GetTextAlign")
 	public function getTextAlign():godot.Button_TextAlign;
 
-	@:native("IsFlat")
-	public function isFlat():Bool;
+	@:native("SetIconAlign")
+	public function setIconAlign(iconAlign:godot.Button_TextAlign):Void;
+
+	@:native("GetIconAlign")
+	public function getIconAlign():godot.Button_TextAlign;
+
+	@:native("SetExpandIcon")
+	public function setExpandIcon(enabled:Bool):Void;
+
+	@:native("IsExpandIcon")
+	public function isExpandIcon():Bool;
 }

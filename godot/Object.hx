@@ -214,7 +214,7 @@ extern class Object implements cs.system.IDisposable {
 	public function isClass(class_:std.String):Bool;
 
 	/**		
-		Assigns a new value to the given property. If the `property` does not exist, nothing will happen.
+		Assigns a new value to the given property. If the `property` does not exist or the given value's type doesn't match, nothing will happen.
 		
 		Note: In C#, the property name must be specified as snake_case if it is defined by a built-in Godot node. This doesn't apply to user-defined properties where you should use the same convention as in the C# source (typically PascalCase).
 	**/
@@ -245,6 +245,8 @@ extern class Object implements cs.system.IDisposable {
 
 	/**		
 		Gets the object's property indexed by the given `godot.NodePath`. The node path should be relative to the current object and can use the colon character (`:`) to access nested properties. Examples: `"position:x"` or `"material:next_pass:blend_mode"`.
+		
+		Note: Even though the method takes `godot.NodePath` argument, it doesn't support actual paths to `godot.Node`s in the scene tree, only colon-separated sub-property paths. For the purpose of nodes, use `godot.Node.getNodeAndResource` instead.
 	**/
 	@:native("GetIndexed")
 	public function getIndexed(property:godot.NodePath):Dynamic;
@@ -325,11 +327,31 @@ extern class Object implements cs.system.IDisposable {
 	@:native("RemoveMeta")
 	public function removeMeta(name:std.String):Void;
 
+	#if doc_gen
 	/**		
 		Returns the object's metadata entry for the given `name`.
+		
+		Throws error if the entry does not exist, unless `default` is not `null` (in which case the default value will be returned).
 	**/
 	@:native("GetMeta")
-	public function getMeta(name:std.String):Dynamic;
+	public function getMeta(name:std.String, ?default_:Dynamic):Dynamic;
+	#else
+	/**		
+		Returns the object's metadata entry for the given `name`.
+		
+		Throws error if the entry does not exist, unless `default` is not `null` (in which case the default value will be returned).
+	**/
+	@:native("GetMeta")
+	public overload function getMeta(name:std.String):Dynamic;
+
+	/**		
+		Returns the object's metadata entry for the given `name`.
+		
+		Throws error if the entry does not exist, unless `default` is not `null` (in which case the default value will be returned).
+	**/
+	@:native("GetMeta")
+	public overload function getMeta(name:std.String, default_:Dynamic):Dynamic;
+	#end
 
 	/**		
 		Returns `true` if a metadata entry is found with the given `name`.
@@ -479,7 +501,7 @@ extern class Object implements cs.system.IDisposable {
 	/**		
 		Connects a `signal` to a `method` on a `target` object. Pass optional `binds` to the call as an `godot.Collections_Array` of parameters. These parameters will be passed to the method after any parameter used in the call to `godot.Object.emitSignal`. Use `flags` to set deferred or one-shot connections. See `godot.Object_ConnectFlags` constants.
 		
-		A `signal` can only be connected once to a `method`. It will throw an error if already connected, unless the signal was connected with `godot.Object_ConnectFlags.referenceCounted`. To avoid this, first, use `godot.Object.isConnected` to check for existing connections.
+		A `signal` can only be connected once to a `method`. It will print an error if already connected, unless the signal was connected with `godot.Object_ConnectFlags.referenceCounted`. To avoid this, first, use `godot.Object.isConnected` to check for existing connections.
 		
 		If the `target` is destroyed in the game's lifecycle, the connection will be lost.
 		
@@ -512,7 +534,7 @@ extern class Object implements cs.system.IDisposable {
 	/**		
 		Connects a `signal` to a `method` on a `target` object. Pass optional `binds` to the call as an `godot.Collections_Array` of parameters. These parameters will be passed to the method after any parameter used in the call to `godot.Object.emitSignal`. Use `flags` to set deferred or one-shot connections. See `godot.Object_ConnectFlags` constants.
 		
-		A `signal` can only be connected once to a `method`. It will throw an error if already connected, unless the signal was connected with `godot.Object_ConnectFlags.referenceCounted`. To avoid this, first, use `godot.Object.isConnected` to check for existing connections.
+		A `signal` can only be connected once to a `method`. It will print an error if already connected, unless the signal was connected with `godot.Object_ConnectFlags.referenceCounted`. To avoid this, first, use `godot.Object.isConnected` to check for existing connections.
 		
 		If the `target` is destroyed in the game's lifecycle, the connection will be lost.
 		
@@ -545,7 +567,7 @@ extern class Object implements cs.system.IDisposable {
 	/**		
 		Connects a `signal` to a `method` on a `target` object. Pass optional `binds` to the call as an `godot.Collections_Array` of parameters. These parameters will be passed to the method after any parameter used in the call to `godot.Object.emitSignal`. Use `flags` to set deferred or one-shot connections. See `godot.Object_ConnectFlags` constants.
 		
-		A `signal` can only be connected once to a `method`. It will throw an error if already connected, unless the signal was connected with `godot.Object_ConnectFlags.referenceCounted`. To avoid this, first, use `godot.Object.isConnected` to check for existing connections.
+		A `signal` can only be connected once to a `method`. It will print an error if already connected, unless the signal was connected with `godot.Object_ConnectFlags.referenceCounted`. To avoid this, first, use `godot.Object.isConnected` to check for existing connections.
 		
 		If the `target` is destroyed in the game's lifecycle, the connection will be lost.
 		
@@ -578,7 +600,7 @@ extern class Object implements cs.system.IDisposable {
 	/**		
 		Connects a `signal` to a `method` on a `target` object. Pass optional `binds` to the call as an `godot.Collections_Array` of parameters. These parameters will be passed to the method after any parameter used in the call to `godot.Object.emitSignal`. Use `flags` to set deferred or one-shot connections. See `godot.Object_ConnectFlags` constants.
 		
-		A `signal` can only be connected once to a `method`. It will throw an error if already connected, unless the signal was connected with `godot.Object_ConnectFlags.referenceCounted`. To avoid this, first, use `godot.Object.isConnected` to check for existing connections.
+		A `signal` can only be connected once to a `method`. It will print an error if already connected, unless the signal was connected with `godot.Object_ConnectFlags.referenceCounted`. To avoid this, first, use `godot.Object.isConnected` to check for existing connections.
 		
 		If the `target` is destroyed in the game's lifecycle, the connection will be lost.
 		
@@ -612,7 +634,7 @@ extern class Object implements cs.system.IDisposable {
 	/**		
 		Disconnects a `signal` from a `method` on the given `target`.
 		
-		If you try to disconnect a connection that does not exist, the method will throw an error. Use `godot.Object.isConnected` to ensure that the connection exists.
+		If you try to disconnect a connection that does not exist, the method will print an error. Use `godot.Object.isConnected` to ensure that the connection exists.
 	**/
 	@:native("Disconnect")
 	public function disconnect(signal:std.String, target:godot.Object, method:std.String):Void;

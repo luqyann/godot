@@ -93,7 +93,7 @@ extern abstract NodePath(NodePath_) from NodePath_ to NodePath_ {
 		
 		```
 		
-		@param path
+		@param path A string that represents a path in a scene tree.
 	**/
 	public overload inline function new(path:std.String) {
 		this = new NodePath_(path);
@@ -170,7 +170,7 @@ extern class NodePath_ implements cs.system.IDisposable {
 		
 		```
 		
-		@param path
+		@param path A string that represents a path in a scene tree.
 	**/
 	@:native("new")
 	public overload function new(path:std.String):Void;

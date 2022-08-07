@@ -39,7 +39,7 @@ extern class AStar2D extends godot.Reference {
 
 	#if doc_gen
 	/**		
-		Adds a new point at the given position with the given identifier. The `id` must be 0 or larger, and the `weight_scale` must be 1 or larger.
+		Adds a new point at the given position with the given identifier. The `id` must be 0 or larger, and the `weight_scale` must be 0.0 or greater.
 		
 		The `weight_scale` is multiplied by the result of `godot.AStar2D._ComputeCost` when determining the overall cost of traveling across a segment from a neighboring point to this point. Thus, all else being equal, the algorithm prefers points with lower `weight_scale`s to form a path.
 		
@@ -56,7 +56,7 @@ extern class AStar2D extends godot.Reference {
 	public function addPoint(id:Int, position:godot.Vector2, ?weightScale:Single):Void;
 	#else
 	/**		
-		Adds a new point at the given position with the given identifier. The `id` must be 0 or larger, and the `weight_scale` must be 1 or larger.
+		Adds a new point at the given position with the given identifier. The `id` must be 0 or larger, and the `weight_scale` must be 0.0 or greater.
 		
 		The `weight_scale` is multiplied by the result of `godot.AStar2D._ComputeCost` when determining the overall cost of traveling across a segment from a neighboring point to this point. Thus, all else being equal, the algorithm prefers points with lower `weight_scale`s to form a path.
 		
@@ -73,7 +73,7 @@ extern class AStar2D extends godot.Reference {
 	public overload function addPoint(id:Int, position:godot.Vector2):Void;
 
 	/**		
-		Adds a new point at the given position with the given identifier. The `id` must be 0 or larger, and the `weight_scale` must be 1 or larger.
+		Adds a new point at the given position with the given identifier. The `id` must be 0 or larger, and the `weight_scale` must be 0.0 or greater.
 		
 		The `weight_scale` is multiplied by the result of `godot.AStar2D._ComputeCost` when determining the overall cost of traveling across a segment from a neighboring point to this point. Thus, all else being equal, the algorithm prefers points with lower `weight_scale`s to form a path.
 		
@@ -227,17 +227,45 @@ extern class AStar2D extends godot.Reference {
 	public overload function connectPoints(id:Int, toId:Int, bidirectional:Bool):Void;
 	#end
 
+	#if doc_gen
 	/**		
-		Deletes the segment between the given points.
+		Deletes the segment between the given points. If `bidirectional` is `false`, only movement from `id` to `to_id` is prevented, and a unidirectional segment possibly remains.
 	**/
 	@:native("DisconnectPoints")
-	public function disconnectPoints(id:Int, toId:Int):Void;
+	public function disconnectPoints(id:Int, toId:Int, ?bidirectional:Bool):Void;
+	#else
+	/**		
+		Deletes the segment between the given points. If `bidirectional` is `false`, only movement from `id` to `to_id` is prevented, and a unidirectional segment possibly remains.
+	**/
+	@:native("DisconnectPoints")
+	public overload function disconnectPoints(id:Int, toId:Int):Void;
 
 	/**		
-		Returns whether there is a connection/segment between the given points.
+		Deletes the segment between the given points. If `bidirectional` is `false`, only movement from `id` to `to_id` is prevented, and a unidirectional segment possibly remains.
+	**/
+	@:native("DisconnectPoints")
+	public overload function disconnectPoints(id:Int, toId:Int, bidirectional:Bool):Void;
+	#end
+
+	#if doc_gen
+	/**		
+		Returns whether there is a connection/segment between the given points. If `bidirectional` is `false`, returns whether movement from `id` to `to_id` is possible through this segment.
 	**/
 	@:native("ArePointsConnected")
-	public function arePointsConnected(id:Int, toId:Int):Bool;
+	public function arePointsConnected(id:Int, toId:Int, ?bidirectional:Bool):Bool;
+	#else
+	/**		
+		Returns whether there is a connection/segment between the given points. If `bidirectional` is `false`, returns whether movement from `id` to `to_id` is possible through this segment.
+	**/
+	@:native("ArePointsConnected")
+	public overload function arePointsConnected(id:Int, toId:Int):Bool;
+
+	/**		
+		Returns whether there is a connection/segment between the given points. If `bidirectional` is `false`, returns whether movement from `id` to `to_id` is possible through this segment.
+	**/
+	@:native("ArePointsConnected")
+	public overload function arePointsConnected(id:Int, toId:Int, bidirectional:Bool):Bool;
+	#end
 
 	/**		
 		Returns the number of points currently in the points pool.

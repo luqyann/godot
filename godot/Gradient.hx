@@ -24,6 +24,12 @@ extern class Gradient extends godot.Resource {
 	@:native("Offsets")
 	public var offsets:cs.NativeArray<Single>;
 
+	/**		
+		Defines how the colors between points of the gradient are interpolated. See `godot.Gradient_InterpolationModeEnum` for available modes.
+	**/
+	@:native("InterpolationMode")
+	public var interpolationMode:godot.Gradient_InterpolationModeEnum;
+
 	@:native("new")
 	public function new():Void;
 
@@ -88,4 +94,10 @@ extern class Gradient extends godot.Resource {
 	public extern inline function getColors():std.Array<godot.Color> {
 		return cs.Lib.array(cs.Syntax.code("{0}.GetColors()", this));
 	}
+
+	@:native("SetInterpolationMode")
+	public function setInterpolationMode(interpolationMode:godot.Gradient_InterpolationModeEnum):Void;
+
+	@:native("GetInterpolationMode")
+	public function getInterpolationMode():godot.Gradient_InterpolationModeEnum;
 }

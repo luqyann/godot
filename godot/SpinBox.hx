@@ -24,6 +24,8 @@ The above code will create a `godot.SpinBox`, disable context menu on it and set
 See `godot.Range` class for more options over the `godot.SpinBox`.
 
 Note: `godot.SpinBox` relies on an underlying `godot.LineEdit` node. To theme a `godot.SpinBox`'s background, add theme items for `godot.LineEdit` and customize them.
+
+Note: If you want to implement drag and drop for the underlying `godot.LineEdit`, you can use `godot.Control.setDragForwarding` on the node returned by `godot.SpinBox.getLineEdit`.
 **/
 @:libType
 @:csNative

@@ -213,7 +213,7 @@ extern class Image extends godot.Resource {
 	public function isEmpty():Bool;
 
 	/**		
-		Loads an image from file `path`. See [https://docs.godotengine.org/en/3.4/getting_started/workflow/assets/importing_images.html#supported-image-formats](Supported image formats) for a list of supported image formats and limitations.
+		Loads an image from file `path`. See [$DOCS_URL/tutorials/assets_pipeline/importing_images.html#supported-image-formats](Supported image formats) for a list of supported image formats and limitations.
 		
 		Warning: This method should only be used in the editor or in cases when you need to load external images at run-time, such as images located at the `user://` directory, and may not work in exported projects.
 		
@@ -339,34 +339,40 @@ extern class Image extends godot.Resource {
 	#end
 
 	/**		
-		Copies `src_rect` from `src` image to this image at coordinates `dst`.
+		Copies `src_rect` from `src` image to this image at coordinates `dst`, clipped accordingly to both image bounds. This image and `src` image must have the same format. `src_rect` with not positive size is treated as empty.
 	**/
 	@:native("BlitRect")
 	public function blitRect(src:godot.Image, srcRect:godot.Rect2, dst:godot.Vector2):Void;
 
 	/**		
-		Blits `src_rect` area from `src` image to this image at the coordinates given by `dst`. `src` pixel is copied onto `dst` if the corresponding `mask` pixel's alpha value is not 0. `src` image and `mask` image must have the same size (width and height) but they can have different formats.
+		Blits `src_rect` area from `src` image to this image at the coordinates given by `dst`, clipped accordingly to both image bounds. `src` pixel is copied onto `dst` if the corresponding `mask` pixel's alpha value is not 0. This image and `src` image must have the same format. `src` image and `mask` image must have the same size (width and height) but they can have different formats. `src_rect` with not positive size is treated as empty.
 	**/
 	@:native("BlitRectMask")
 	public function blitRectMask(src:godot.Image, mask:godot.Image, srcRect:godot.Rect2, dst:godot.Vector2):Void;
 
 	/**		
-		Alpha-blends `src_rect` from `src` image to this image at coordinates `dest`.
+		Alpha-blends `src_rect` from `src` image to this image at coordinates `dest`, clipped accordingly to both image bounds. This image and `src` image must have the same format. `src_rect` with not positive size is treated as empty.
 	**/
 	@:native("BlendRect")
 	public function blendRect(src:godot.Image, srcRect:godot.Rect2, dst:godot.Vector2):Void;
 
 	/**		
-		Alpha-blends `src_rect` from `src` image to this image using `mask` image at coordinates `dst`. Alpha channels are required for both `src` and `mask`. `dst` pixels and `src` pixels will blend if the corresponding mask pixel's alpha value is not 0. `src` image and `mask` image must have the same size (width and height) but they can have different formats.
+		Alpha-blends `src_rect` from `src` image to this image using `mask` image at coordinates `dst`, clipped accordingly to both image bounds. Alpha channels are required for both `src` and `mask`. `dst` pixels and `src` pixels will blend if the corresponding mask pixel's alpha value is not 0. This image and `src` image must have the same format. `src` image and `mask` image must have the same size (width and height) but they can have different formats. `src_rect` with not positive size is treated as empty.
 	**/
 	@:native("BlendRectMask")
 	public function blendRectMask(src:godot.Image, mask:godot.Image, srcRect:godot.Rect2, dst:godot.Vector2):Void;
 
 	/**		
-		Fills the image with a given `godot.Color`.
+		Fills the image with `color`.
 	**/
 	@:native("Fill")
 	public function fill(color:godot.Color):Void;
+
+	/**		
+		Fills `rect` with `color`.
+	**/
+	@:native("FillRect")
+	public function fillRect(rect:godot.Rect2, color:godot.Color):Void;
 
 	/**		
 		Returns a `godot.Rect2` enclosing the visible portion of the image, considering each pixel with a non-zero alpha channel as visible.

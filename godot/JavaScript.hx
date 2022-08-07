@@ -7,13 +7,23 @@ import cs.system.*;
 /**
 The JavaScript singleton is implemented only in the HTML5 export. It's used to access the browser's JavaScript context. This allows interaction with embedding pages or calling third-party JavaScript APIs.
 
-Note: This singleton can be disabled at build-time to improve security. By default, the JavaScript singleton is enabled. Official export templates also have the JavaScript singleton enabled. See [https://docs.godotengine.org/en/3.4/development/compiling/compiling_for_web.html](Compiling for the Web) in the documentation for more information.
+Note: This singleton can be disabled at build-time to improve security. By default, the JavaScript singleton is enabled. Official export templates also have the JavaScript singleton enabled. See [$DOCS_URL/development/compiling/compiling_for_web.html](Compiling for the Web) in the documentation for more information.
 **/
 @:libType
 @:csNative
 @:native("Godot.JavaScript")
 @:autoBuild(godot.Godot.buildUserClass())
 extern class JavaScript {
+	/**
+		`pwa_update_available` signal.
+		
+		Emitted when an update for this progressive web app has been detected but is waiting to be activated because a previous version is active. See `pwaUpdate` to force the update to take place immediately.
+	**/
+	public static var onPwaUpdateAvailable(get, never):Signal<Void->Void>;
+	@:dox(hide) @:noCompletion inline static function get_onPwaUpdateAvailable():Signal<Void->Void> {
+		return new Signal(SINGLETON, "pwa_update_available", Signal.SignalHandlerVoidVoid.connectSignal, Signal.SignalHandlerVoidVoid.disconnectSignal, Signal.SignalHandlerVoidVoid.isSignalConnected);
+	}
+
 	@:native("Singleton")
 	public static var SINGLETON(default, never):godot.Object;
 
@@ -98,4 +108,22 @@ extern class JavaScript {
 	@:native("DownloadBuffer")
 	public static overload function downloadBuffer(buffer:HaxeArray<cs.types.UInt8>, name:std.String, mime:std.String):Void;
 	#end
+
+	/**		
+		Returns `true` if a new version of the progressive web app is waiting to be activated.
+		
+		Note: Only relevant when exported as a Progressive Web App.
+	**/
+	@:native("PwaNeedsUpdate")
+	public static function pwaNeedsUpdate():Bool;
+
+	/**		
+		Performs the live update of the progressive web app. Forcing the new version to be installed and the page to be reloaded.
+		
+		Note: Your application will be reloaded in all browser tabs.
+		
+		Note: Only relevant when exported as a Progressive Web App and `godot.JavaScript.pwaNeedsUpdate` returns `true`.
+	**/
+	@:native("PwaUpdate")
+	public static function pwaUpdate():godot.Error;
 }

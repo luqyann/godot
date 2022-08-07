@@ -33,7 +33,7 @@ extern class NetworkedMultiplayerENet extends godot.NetworkedMultiplayerPeer {
 	public var dtlsHostname:std.String;
 
 	/**		
-		Enable or disable certificate verification when `godot.NetworkedMultiplayerENet.useDtls` `true`.
+		Enable or disable certificate verification when `godot.NetworkedMultiplayerENet.useDtls` is `true`.
 	**/
 	@:native("DtlsVerify")
 	public var dtlsVerify:Bool;

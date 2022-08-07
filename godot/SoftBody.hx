@@ -6,6 +6,8 @@ import cs.system.*;
 
 /**
 A deformable physics body. Used to create elastic or deformable objects such as cloth, rubber, or other flexible materials.
+
+Note: There are many known bugs in `godot.SoftBody`. Therefore, it's not recommended to use them for things that can affect gameplay (such as a player character made entirely out of soft bodies).
 **/
 @:libType
 @:csNative
@@ -58,7 +60,7 @@ extern class SoftBody extends godot.MeshInstance {
 	public var parentCollisionIgnore:godot.NodePath;
 
 	/**		
-		The physics layers this SoftBody scans for collisions. See [https://docs.godotengine.org/en/3.4/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
+		The physics layers this SoftBody scans for collisions. See [$DOCS_URL/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
 	**/
 	@:native("CollisionMask")
 	public var collisionMask:UInt;
@@ -68,7 +70,7 @@ extern class SoftBody extends godot.MeshInstance {
 		
 		Collidable objects can exist in any of 32 different layers. These layers work like a tagging system, and are not visual. A collidable can use these layers to select with which objects it can collide, using the collision_mask property.
 		
-		A contact is detected if object A is in any of the layers that object B scans, or object B is in any layer scanned by object A. See [https://docs.godotengine.org/en/3.4/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
+		A contact is detected if object A is in any of the layers that object B scans, or object B is in any layer scanned by object A. See [$DOCS_URL/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
 	**/
 	@:native("CollisionLayer")
 	public var collisionLayer:UInt;

@@ -44,4 +44,6 @@ extern enum MethodFlags {
 		Deprecated method flag, unused.
 	**/
 	FromScript;
+
+	Vararg;
 }

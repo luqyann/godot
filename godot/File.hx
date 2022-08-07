@@ -26,7 +26,7 @@ return content
 
 ```
 
-In the example above, the file will be saved in the user data folder as specified in the [https://docs.godotengine.org/en/3.4/tutorials/io/data_paths.html](Data paths) documentation.
+In the example above, the file will be saved in the user data folder as specified in the [$DOCS_URL/tutorials/io/data_paths.html](Data paths) documentation.
 
 Note: To access project resources once exported, it is recommended to use `godot.ResourceLoader` instead of the `godot.File` API, as some files are converted to engine-specific formats and their original source files might not be present in the exported PCK package.
 
@@ -309,13 +309,31 @@ extern class File extends godot.Reference {
 	}
 	#end
 
+	#if doc_gen
 	/**		
-		Returns the whole file as a `String`.
+		Returns the whole file as a `String`. Text is interpreted as being UTF-8 encoded.
 		
-		Text is interpreted as being UTF-8 encoded.
+		If `skip_cr` is `true`, carriage return characters (`\r`, CR) will be ignored when parsing the UTF-8, so that only line feed characters (`\n`, LF) represent a new line (Unix convention).
 	**/
 	@:native("GetAsText")
-	public function getAsText():std.String;
+	public function getAsText(?skipCr:Bool):std.String;
+	#else
+	/**		
+		Returns the whole file as a `String`. Text is interpreted as being UTF-8 encoded.
+		
+		If `skip_cr` is `true`, carriage return characters (`\r`, CR) will be ignored when parsing the UTF-8, so that only line feed characters (`\n`, LF) represent a new line (Unix convention).
+	**/
+	@:native("GetAsText")
+	public overload function getAsText():std.String;
+
+	/**		
+		Returns the whole file as a `String`. Text is interpreted as being UTF-8 encoded.
+		
+		If `skip_cr` is `true`, carriage return characters (`\r`, CR) will be ignored when parsing the UTF-8, so that only line feed characters (`\n`, LF) represent a new line (Unix convention).
+	**/
+	@:native("GetAsText")
+	public overload function getAsText(skipCr:Bool):std.String;
+	#end
 
 	/**		
 		Returns an MD5 String representing the file at the given path or an empty `String` on failure.
@@ -484,6 +502,8 @@ extern class File extends godot.Reference {
 
 	/**		
 		Appends `string` to the file without a line return, encoding the text as UTF-8.
+		
+		Note: This method is intended to be used to write text files. The string is stored as a UTF-8 encoded buffer without string length or terminating zero, which means that it can't be loaded back easily. If you want to store a retrievable string in a binary file, consider using `godot.File.storePascalString` instead. For retrieving strings from a text file, you can use `get_buffer(length).get_string_from_utf8()` (if you know the length) or `godot.File.getAsText`.
 	**/
 	@:native("StoreString")
 	public function storeString(string:std.String):Void;

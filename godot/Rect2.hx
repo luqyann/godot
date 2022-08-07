@@ -178,6 +178,15 @@ extern class Rect2_ extends cs.system.ValueType implements cs.system.IEquatable_
 	public function getArea():Single;
 
 	/**		
+		Returns the center of the `godot.Rect2`, which is equal
+		to `godot.Rect2.position` + (`godot.Rect2.size` / 2).
+		
+		@returns The center.
+	**/
+	@:native("GetCenter")
+	public function getCenter():godot.Vector2;
+
+	/**		
 		Returns a copy of the `godot.Rect2` grown a given amount of units towards
 		all the sides.
 		@see `godot.Rect2.growIndividual`@see `godot.Rect2.growMargin`

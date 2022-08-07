@@ -17,6 +17,8 @@ yield(get_tree().create_timer(1.0), "timeout")
 print("Timer ended.")
 
 ```
+
+The timer will be dereferenced after its time elapses. To preserve the timer, you can keep a reference to it. See `godot.Reference`.
 **/
 @:libType
 @:csNative
@@ -34,7 +36,7 @@ extern abstract class SceneTreeTimer extends godot.Reference {
 	}
 
 	/**		
-		The time remaining.
+		The time remaining (in seconds).
 	**/
 	@:native("TimeLeft")
 	public var timeLeft:Single;

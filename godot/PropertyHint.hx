@@ -21,7 +21,9 @@ extern enum PropertyHint {
 	ExpRange;
 
 	/**		
-		Hints that an integer, float or string property is an enumerated value to pick in a list specified via a hint string such as `"Hello,Something,Else"`.
+		Hints that an integer, float or string property is an enumerated value to pick in a list specified via a hint string.
+		
+		The hint string is a comma separated list of names such as `"Hello,Something,Else"`. For integer and float properties, the first name in the list has value 0, the next 1, and so on. Explicit values can also be specified by appending `:integer` to the name, e.g. `"Zero,One,Three:3,Four,Six:6"`.
 	**/
 	Enum;
 
@@ -56,6 +58,11 @@ extern enum PropertyHint {
 	Layers2dPhysics;
 
 	/**		
+		Hints that an integer property is a bitmask using the optionally named 2D navigation layers.
+	**/
+	Layers2dNavigation;
+
+	/**		
 		Hints that an integer property is a bitmask using the optionally named 3D render layers.
 	**/
 	Layers3dRender;
@@ -64,6 +71,11 @@ extern enum PropertyHint {
 		Hints that an integer property is a bitmask using the optionally named 3D physics layers.
 	**/
 	Layers3dPhysics;
+
+	/**		
+		Hints that an integer property is a bitmask using the optionally named 3D navigation layers.
+	**/
+	Layers3dNavigation;
 
 	/**		
 		Hints that a string property is a path to a file. Editing it will show a file dialog for picking the path. The hint string can be a set of filters with wildcards like `"*.png,*.jpg"`.
@@ -114,4 +126,11 @@ extern enum PropertyHint {
 		Hints that an image is compressed using lossless compression.
 	**/
 	ImageCompressLossless;
+
+	/**		
+		Hints that a string property can be an enumerated value to pick in a list specified via a hint string such as `"Hello,Something,Else"`.
+		
+		Unlike `PROPERTY_HINT_ENUM` a property with this hint still accepts arbitrary values and can be empty. The list of values serves to suggest possible values.
+	**/
+	EnumSuggestion;
 }

@@ -20,6 +20,8 @@ extern class CollisionPolygon2D extends godot.Node2D {
 
 	/**		
 		If `true`, only edges that face up, relative to `godot.CollisionPolygon2D`'s rotation, will collide with other objects.
+		
+		Note: This property has no effect if this `godot.CollisionPolygon2D` is a child of an `godot.Area2D` node.
 	**/
 	@:native("OneWayCollision")
 	public var oneWayCollision:Bool;

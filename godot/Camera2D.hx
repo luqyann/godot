@@ -101,7 +101,7 @@ extern class Camera2D extends godot.Node2D {
 	/**		
 		If `true`, the camera smoothly stops when reaches its limits.
 		
-		This has no effect if smoothing is disabled.
+		This property has no effect if `godot.Camera2D.smoothingEnabled` is `false`.
 		
 		Note: To immediately update the camera's position to be within limits without smoothing, even with this setting enabled, invoke `godot.Camera2D.resetSmoothing`.
 	**/
@@ -157,7 +157,7 @@ extern class Camera2D extends godot.Node2D {
 	public var current:Bool;
 
 	/**		
-		If `true`, the camera rotates with the target.
+		If `true`, the camera view rotates with the target.
 	**/
 	@:native("Rotating")
 	public var rotating:Bool;
@@ -271,13 +271,17 @@ extern class Camera2D extends godot.Node2D {
 	public function getDragMargin(margin:godot.Margin):Single;
 
 	/**		
-		Returns the camera position.
+		Returns the camera's `position` (the tracked point the camera attempts to follow), relative to the origin.
+		
+		Note: The returned value is not the same as `godot.Node2D.position` or `godot.Node2D.globalPosition`, as it is affected by the `drag` properties.
 	**/
 	@:native("GetCameraPosition")
 	public function getCameraPosition():godot.Vector2;
 
 	/**		
 		Returns the location of the `godot.Camera2D`'s screen-center, relative to the origin.
+		
+		Note: The real `position` of the camera may be different, see `godot.Camera2D.getCameraPosition`.
 	**/
 	@:native("GetCameraScreenCenter")
 	public function getCameraScreenCenter():godot.Vector2;
@@ -315,7 +319,7 @@ extern class Camera2D extends godot.Node2D {
 	/**		
 		Sets the camera's position immediately to its current smoothing destination.
 		
-		This has no effect if smoothing is disabled.
+		This method has no effect if `godot.Camera2D.smoothingEnabled` is `false`.
 	**/
 	@:native("ResetSmoothing")
 	public function resetSmoothing():Void;

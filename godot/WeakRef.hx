@@ -16,7 +16,7 @@ extern class WeakRef extends godot.Reference {
 	public function new():Void;
 
 	/**		
-		Returns the `godot.Object` this weakref is referring to.
+		Returns the `godot.Object` this weakref is referring to. Returns `null` if that object no longer exists.
 	**/
 	@:native("GetRef")
 	public function getRef():Dynamic;

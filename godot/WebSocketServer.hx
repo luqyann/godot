@@ -89,6 +89,32 @@ extern class WebSocketServer extends godot.WebSocketMultiplayerPeer {
 
 	#if doc_gen
 	/**		
+		Sets additional headers to be sent to clients during the HTTP handshake.
+		
+		@param headers If the parameter is null, then the default value is Array.Empty&lt;string&gt;()
+	**/
+	@:native("SetExtraHeaders")
+	public function setExtraHeaders(?headers:std.Array<std.String>):Void;
+	#else
+	/**		
+		Sets additional headers to be sent to clients during the HTTP handshake.
+		
+		@param headers If the parameter is null, then the default value is Array.Empty&lt;string&gt;()
+	**/
+	@:native("SetExtraHeaders")
+	public overload function setExtraHeaders():Void;
+
+	/**		
+		Sets additional headers to be sent to clients during the HTTP handshake.
+		
+		@param headers If the parameter is null, then the default value is Array.Empty&lt;string&gt;()
+	**/
+	@:native("SetExtraHeaders")
+	public overload function setExtraHeaders(headers:HaxeArray<std.String>):Void;
+	#end
+
+	#if doc_gen
+	/**		
 		Starts listening on the given port.
 		
 		You can specify the desired subprotocols via the "protocols" array. If the list empty (default), no sub-protocol will be requested.
@@ -199,25 +225,25 @@ extern class WebSocketServer extends godot.WebSocketMultiplayerPeer {
 	public function getBindIp():std.String;
 
 	@:native("SetBindIp")
-	public function setBindIp(arg0:std.String):Void;
+	public function setBindIp(ip:std.String):Void;
 
 	@:native("GetPrivateKey")
 	public function getPrivateKey():godot.CryptoKey;
 
 	@:native("SetPrivateKey")
-	public function setPrivateKey(arg0:godot.CryptoKey):Void;
+	public function setPrivateKey(key:godot.CryptoKey):Void;
 
 	@:native("GetSslCertificate")
 	public function getSslCertificate():godot.X509Certificate;
 
 	@:native("SetSslCertificate")
-	public function setSslCertificate(arg0:godot.X509Certificate):Void;
+	public function setSslCertificate(certificate:godot.X509Certificate):Void;
 
 	@:native("GetCaChain")
 	public function getCaChain():godot.X509Certificate;
 
 	@:native("SetCaChain")
-	public function setCaChain(arg0:godot.X509Certificate):Void;
+	public function setCaChain(caChain:godot.X509Certificate):Void;
 
 	@:native("GetHandshakeTimeout")
 	public function getHandshakeTimeout():Single;

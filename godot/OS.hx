@@ -164,6 +164,12 @@ extern class OS {
 	public static function getClipboard():std.String;
 
 	/**		
+		Returns `true` if there is content on the clipboard.
+	**/
+	@:native("HasClipboard")
+	public static function hasClipboard():Bool;
+
+	/**		
 		Add a new item with text "label" to global menu. Use "_dock" menu to add item to the macOS dock icon menu.
 		
 		Note: This method is implemented on macOS.
@@ -266,19 +272,19 @@ extern class OS {
 
 	#if doc_gen
 	/**		
-		Returns the position of the specified screen by index. If `screen` is [/code]-1[/code] (the default value), the current screen will be used.
+		Returns the position of the specified screen by index. If `screen` is `-1` (the default value), the current screen will be used.
 	**/
 	@:native("GetScreenPosition")
 	public static function getScreenPosition(?screen:Int):godot.Vector2;
 	#else
 	/**		
-		Returns the position of the specified screen by index. If `screen` is [/code]-1[/code] (the default value), the current screen will be used.
+		Returns the position of the specified screen by index. If `screen` is `-1` (the default value), the current screen will be used.
 	**/
 	@:native("GetScreenPosition")
 	public static overload function getScreenPosition():godot.Vector2;
 
 	/**		
-		Returns the position of the specified screen by index. If `screen` is [/code]-1[/code] (the default value), the current screen will be used.
+		Returns the position of the specified screen by index. If `screen` is `-1` (the default value), the current screen will be used.
 	**/
 	@:native("GetScreenPosition")
 	public static overload function getScreenPosition(screen:Int):godot.Vector2;
@@ -286,19 +292,19 @@ extern class OS {
 
 	#if doc_gen
 	/**		
-		Returns the dimensions in pixels of the specified screen. If `screen` is [/code]-1[/code] (the default value), the current screen will be used.
+		Returns the dimensions in pixels of the specified screen. If `screen` is `-1` (the default value), the current screen will be used.
 	**/
 	@:native("GetScreenSize")
 	public static function getScreenSize(?screen:Int):godot.Vector2;
 	#else
 	/**		
-		Returns the dimensions in pixels of the specified screen. If `screen` is [/code]-1[/code] (the default value), the current screen will be used.
+		Returns the dimensions in pixels of the specified screen. If `screen` is `-1` (the default value), the current screen will be used.
 	**/
 	@:native("GetScreenSize")
 	public static overload function getScreenSize():godot.Vector2;
 
 	/**		
-		Returns the dimensions in pixels of the specified screen. If `screen` is [/code]-1[/code] (the default value), the current screen will be used.
+		Returns the dimensions in pixels of the specified screen. If `screen` is `-1` (the default value), the current screen will be used.
 	**/
 	@:native("GetScreenSize")
 	public static overload function getScreenSize(screen:Int):godot.Vector2;
@@ -306,7 +312,7 @@ extern class OS {
 
 	#if doc_gen
 	/**		
-		Returns the dots per inch density of the specified screen. If `screen` is [/code]-1[/code] (the default value), the current screen will be used.
+		Returns the dots per inch density of the specified screen. If `screen` is `-1` (the default value), the current screen will be used.
 		
 		Note: On macOS, returned value is inaccurate if fractional display scaling mode is used.
 		
@@ -329,7 +335,7 @@ extern class OS {
 	public static function getScreenDpi(?screen:Int):Int;
 	#else
 	/**		
-		Returns the dots per inch density of the specified screen. If `screen` is [/code]-1[/code] (the default value), the current screen will be used.
+		Returns the dots per inch density of the specified screen. If `screen` is `-1` (the default value), the current screen will be used.
 		
 		Note: On macOS, returned value is inaccurate if fractional display scaling mode is used.
 		
@@ -352,7 +358,7 @@ extern class OS {
 	public static overload function getScreenDpi():Int;
 
 	/**		
-		Returns the dots per inch density of the specified screen. If `screen` is [/code]-1[/code] (the default value), the current screen will be used.
+		Returns the dots per inch density of the specified screen. If `screen` is `-1` (the default value), the current screen will be used.
 		
 		Note: On macOS, returned value is inaccurate if fractional display scaling mode is used.
 		
@@ -377,7 +383,7 @@ extern class OS {
 
 	#if doc_gen
 	/**		
-		Return the scale factor of the specified screen by index. If `screen` is [/code]-1[/code] (the default value), the current screen will be used.
+		Return the scale factor of the specified screen by index. If `screen` is `-1` (the default value), the current screen will be used.
 		
 		Note: On macOS returned value is `2.0` for hiDPI (Retina) screen, and `1.0` for all other cases.
 		
@@ -387,7 +393,7 @@ extern class OS {
 	public static function getScreenScale(?screen:Int):Single;
 	#else
 	/**		
-		Return the scale factor of the specified screen by index. If `screen` is [/code]-1[/code] (the default value), the current screen will be used.
+		Return the scale factor of the specified screen by index. If `screen` is `-1` (the default value), the current screen will be used.
 		
 		Note: On macOS returned value is `2.0` for hiDPI (Retina) screen, and `1.0` for all other cases.
 		
@@ -397,7 +403,7 @@ extern class OS {
 	public static overload function getScreenScale():Single;
 
 	/**		
-		Return the scale factor of the specified screen by index. If `screen` is [/code]-1[/code] (the default value), the current screen will be used.
+		Return the scale factor of the specified screen by index. If `screen` is `-1` (the default value), the current screen will be used.
 		
 		Note: On macOS returned value is `2.0` for hiDPI (Retina) screen, and `1.0` for all other cases.
 		
@@ -416,6 +422,62 @@ extern class OS {
 	**/
 	@:native("GetScreenMaxScale")
 	public static function getScreenMaxScale():Single;
+
+	#if doc_gen
+	/**		
+		Returns the current refresh rate of the specified screen. If `screen` is `-1` (the default value), the current screen will be used.
+		
+		Note: Returns `-1.0` if Godot fails to find the refresh rate for the specified screen. On HTML5, `godot.OS.getScreenRefreshRate` will always return `-1.0` as there is no way to retrieve the refresh rate on that platform.
+		
+		To fallback to a default refresh rate if the method fails, try:
+		
+		```
+		
+		var refresh_rate = OS.get_screen_refresh_rate()
+		if refresh_rate &lt; 0:
+		refresh_rate = 60.0
+		
+		```
+	**/
+	@:native("GetScreenRefreshRate")
+	public static function getScreenRefreshRate(?screen:Int):Single;
+	#else
+	/**		
+		Returns the current refresh rate of the specified screen. If `screen` is `-1` (the default value), the current screen will be used.
+		
+		Note: Returns `-1.0` if Godot fails to find the refresh rate for the specified screen. On HTML5, `godot.OS.getScreenRefreshRate` will always return `-1.0` as there is no way to retrieve the refresh rate on that platform.
+		
+		To fallback to a default refresh rate if the method fails, try:
+		
+		```
+		
+		var refresh_rate = OS.get_screen_refresh_rate()
+		if refresh_rate &lt; 0:
+		refresh_rate = 60.0
+		
+		```
+	**/
+	@:native("GetScreenRefreshRate")
+	public static overload function getScreenRefreshRate():Single;
+
+	/**		
+		Returns the current refresh rate of the specified screen. If `screen` is `-1` (the default value), the current screen will be used.
+		
+		Note: Returns `-1.0` if Godot fails to find the refresh rate for the specified screen. On HTML5, `godot.OS.getScreenRefreshRate` will always return `-1.0` as there is no way to retrieve the refresh rate on that platform.
+		
+		To fallback to a default refresh rate if the method fails, try:
+		
+		```
+		
+		var refresh_rate = OS.get_screen_refresh_rate()
+		if refresh_rate &lt; 0:
+		refresh_rate = 60.0
+		
+		```
+	**/
+	@:native("GetScreenRefreshRate")
+	public static overload function getScreenRefreshRate(screen:Int):Single;
+	#end
 
 	@:native("GetWindowPosition")
 	public static function getWindowPosition():godot.Vector2;
@@ -446,6 +508,14 @@ extern class OS {
 	**/
 	@:native("GetWindowSafeArea")
 	public static function getWindowSafeArea():godot.Rect2;
+
+	/**		
+		Returns an `godot.Collections_Array` of `godot.Rect2`, each of which is the bounding rectangle for a display cutout or notch. These are non-functional areas on edge-to-edge screens used by cameras and sensors. Returns an empty array if the device does not have cutouts. See also `godot.OS.getWindowSafeArea`.
+		
+		Note: Currently only implemented on Android. Other platforms will return an empty array even if they do have display cutouts or notches.
+	**/
+	@:native("GetDisplayCutouts")
+	public static function getDisplayCutouts():godot.collections.Array;
 
 	@:native("SetWindowFullscreen")
 	public static function setWindowFullscreen(enabled:Bool):Void;
@@ -649,10 +719,18 @@ extern class OS {
 	public static function getLowProcessorUsageModeSleepUsec():Int;
 
 	/**		
-		Returns the number of threads available on the host machine.
+		Returns the number of logical CPU cores available on the host machine. On CPUs with HyperThreading enabled, this number will be greater than the number of physical CPU cores.
 	**/
 	@:native("GetProcessorCount")
 	public static function getProcessorCount():Int;
+
+	/**		
+		Returns the name of the CPU model on the host machine (e.g. "Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz").
+		
+		Note: This method is only implemented on Windows, macOS, Linux and iOS. On Android, HTML5 and UWP, `godot.OS.getProcessorName` returns an empty string.
+	**/
+	@:native("GetProcessorName")
+	public static function getProcessorName():std.String;
 
 	/**		
 		Returns the path to the current engine executable.
@@ -672,6 +750,8 @@ extern class OS {
 		
 		If `blocking` is `false`, the Godot thread will continue while the new process runs. It is not possible to retrieve the shell output in non-blocking mode, so `output` will be empty.
 		
+		On Windows, if `open_console` is `true` and process is console app, new terminal window will be opened, it's ignored on other platforms.
+		
 		The return value also depends on the blocking mode. When blocking, the method will return an exit code of the process. When non-blocking, the method returns a process ID, which you can use to monitor the process (and potentially terminate it with `godot.OS.kill`). If the process forking (non-blocking) or opening (blocking) fails, the method will return `-1` or another exit code.
 		
 		Example of blocking mode and retrieving the shell output:
@@ -701,10 +781,16 @@ extern class OS {
 		
 		Note: This method is implemented on Android, iOS, Linux, macOS and Windows.
 		
+		Note: To execute a Windows command interpreter built-in command, specify `cmd.exe` in `path`, `/c` as the first argument, and the desired command as the second argument.
+		
+		Note: To execute a PowerShell built-in command, specify `powershell.exe` in `path`, `-Command` as the first argument, and the desired command as the second argument.
+		
+		Note: To execute a Unix shell built-in command, specify shell executable name in `path`, `-c` as the first argument, and the desired command as the second argument.
+		
 		@param output If the parameter is null, then the default value is new Godot.Collections.Array { }
 	**/
 	@:native("Execute")
-	public static function execute(path:std.String, arguments:std.Array<std.String>, ?blocking:Bool, ?output:godot.collections.Array, ?readStderr:Bool):Int;
+	public static function execute(path:std.String, arguments:std.Array<std.String>, ?blocking:Bool, ?output:godot.collections.Array, ?readStderr:Bool, ?openConsole:Bool):Int;
 	#else
 	/**		
 		Execute the file at the given path with the arguments passed as an array of strings. Platform path resolution will take place. The resolved file must exist and be executable.
@@ -717,6 +803,8 @@ extern class OS {
 		
 		If `blocking` is `false`, the Godot thread will continue while the new process runs. It is not possible to retrieve the shell output in non-blocking mode, so `output` will be empty.
 		
+		On Windows, if `open_console` is `true` and process is console app, new terminal window will be opened, it's ignored on other platforms.
+		
 		The return value also depends on the blocking mode. When blocking, the method will return an exit code of the process. When non-blocking, the method returns a process ID, which you can use to monitor the process (and potentially terminate it with `godot.OS.kill`). If the process forking (non-blocking) or opening (blocking) fails, the method will return `-1` or another exit code.
 		
 		Example of blocking mode and retrieving the shell output:
@@ -745,6 +833,12 @@ extern class OS {
 		```
 		
 		Note: This method is implemented on Android, iOS, Linux, macOS and Windows.
+		
+		Note: To execute a Windows command interpreter built-in command, specify `cmd.exe` in `path`, `/c` as the first argument, and the desired command as the second argument.
+		
+		Note: To execute a PowerShell built-in command, specify `powershell.exe` in `path`, `-Command` as the first argument, and the desired command as the second argument.
+		
+		Note: To execute a Unix shell built-in command, specify shell executable name in `path`, `-c` as the first argument, and the desired command as the second argument.
 		
 		@param output If the parameter is null, then the default value is new Godot.Collections.Array { }
 	**/
@@ -762,6 +856,8 @@ extern class OS {
 		
 		If `blocking` is `false`, the Godot thread will continue while the new process runs. It is not possible to retrieve the shell output in non-blocking mode, so `output` will be empty.
 		
+		On Windows, if `open_console` is `true` and process is console app, new terminal window will be opened, it's ignored on other platforms.
+		
 		The return value also depends on the blocking mode. When blocking, the method will return an exit code of the process. When non-blocking, the method returns a process ID, which you can use to monitor the process (and potentially terminate it with `godot.OS.kill`). If the process forking (non-blocking) or opening (blocking) fails, the method will return `-1` or another exit code.
 		
 		Example of blocking mode and retrieving the shell output:
@@ -790,6 +886,12 @@ extern class OS {
 		```
 		
 		Note: This method is implemented on Android, iOS, Linux, macOS and Windows.
+		
+		Note: To execute a Windows command interpreter built-in command, specify `cmd.exe` in `path`, `/c` as the first argument, and the desired command as the second argument.
+		
+		Note: To execute a PowerShell built-in command, specify `powershell.exe` in `path`, `-Command` as the first argument, and the desired command as the second argument.
+		
+		Note: To execute a Unix shell built-in command, specify shell executable name in `path`, `-c` as the first argument, and the desired command as the second argument.
 		
 		@param output If the parameter is null, then the default value is new Godot.Collections.Array { }
 	**/
@@ -807,6 +909,8 @@ extern class OS {
 		
 		If `blocking` is `false`, the Godot thread will continue while the new process runs. It is not possible to retrieve the shell output in non-blocking mode, so `output` will be empty.
 		
+		On Windows, if `open_console` is `true` and process is console app, new terminal window will be opened, it's ignored on other platforms.
+		
 		The return value also depends on the blocking mode. When blocking, the method will return an exit code of the process. When non-blocking, the method returns a process ID, which you can use to monitor the process (and potentially terminate it with `godot.OS.kill`). If the process forking (non-blocking) or opening (blocking) fails, the method will return `-1` or another exit code.
 		
 		Example of blocking mode and retrieving the shell output:
@@ -835,6 +939,12 @@ extern class OS {
 		```
 		
 		Note: This method is implemented on Android, iOS, Linux, macOS and Windows.
+		
+		Note: To execute a Windows command interpreter built-in command, specify `cmd.exe` in `path`, `/c` as the first argument, and the desired command as the second argument.
+		
+		Note: To execute a PowerShell built-in command, specify `powershell.exe` in `path`, `-Command` as the first argument, and the desired command as the second argument.
+		
+		Note: To execute a Unix shell built-in command, specify shell executable name in `path`, `-c` as the first argument, and the desired command as the second argument.
 		
 		@param output If the parameter is null, then the default value is new Godot.Collections.Array { }
 	**/
@@ -852,6 +962,8 @@ extern class OS {
 		
 		If `blocking` is `false`, the Godot thread will continue while the new process runs. It is not possible to retrieve the shell output in non-blocking mode, so `output` will be empty.
 		
+		On Windows, if `open_console` is `true` and process is console app, new terminal window will be opened, it's ignored on other platforms.
+		
 		The return value also depends on the blocking mode. When blocking, the method will return an exit code of the process. When non-blocking, the method returns a process ID, which you can use to monitor the process (and potentially terminate it with `godot.OS.kill`). If the process forking (non-blocking) or opening (blocking) fails, the method will return `-1` or another exit code.
 		
 		Example of blocking mode and retrieving the shell output:
@@ -881,14 +993,73 @@ extern class OS {
 		
 		Note: This method is implemented on Android, iOS, Linux, macOS and Windows.
 		
+		Note: To execute a Windows command interpreter built-in command, specify `cmd.exe` in `path`, `/c` as the first argument, and the desired command as the second argument.
+		
+		Note: To execute a PowerShell built-in command, specify `powershell.exe` in `path`, `-Command` as the first argument, and the desired command as the second argument.
+		
+		Note: To execute a Unix shell built-in command, specify shell executable name in `path`, `-c` as the first argument, and the desired command as the second argument.
+		
 		@param output If the parameter is null, then the default value is new Godot.Collections.Array { }
 	**/
 	@:native("Execute")
 	public static overload function execute(path:std.String, arguments:HaxeArray<std.String>, blocking:Bool, output:godot.collections.Array, readStderr:Bool):Int;
+
+	/**		
+		Execute the file at the given path with the arguments passed as an array of strings. Platform path resolution will take place. The resolved file must exist and be executable.
+		
+		The arguments are used in the given order and separated by a space, so `OS.execute("ping", ["-w", "3", "godotengine.org"], false)` will resolve to `ping -w 3 godotengine.org` in the system's shell.
+		
+		This method has slightly different behavior based on whether the `blocking` mode is enabled.
+		
+		If `blocking` is `true`, the Godot thread will pause its execution while waiting for the process to terminate. The shell output of the process will be written to the `output` array as a single string. When the process terminates, the Godot thread will resume execution.
+		
+		If `blocking` is `false`, the Godot thread will continue while the new process runs. It is not possible to retrieve the shell output in non-blocking mode, so `output` will be empty.
+		
+		On Windows, if `open_console` is `true` and process is console app, new terminal window will be opened, it's ignored on other platforms.
+		
+		The return value also depends on the blocking mode. When blocking, the method will return an exit code of the process. When non-blocking, the method returns a process ID, which you can use to monitor the process (and potentially terminate it with `godot.OS.kill`). If the process forking (non-blocking) or opening (blocking) fails, the method will return `-1` or another exit code.
+		
+		Example of blocking mode and retrieving the shell output:
+		
+		```
+		
+		var output = []
+		var exit_code = OS.execute("ls", ["-l", "/tmp"], true, output)
+		
+		```
+		
+		Example of non-blocking mode, running another instance of the project and storing its process ID:
+		
+		```
+		
+		var pid = OS.execute(OS.get_executable_path(), [], false)
+		
+		```
+		
+		If you wish to access a shell built-in or perform a composite command, a platform-specific shell can be invoked. For example:
+		
+		```
+		
+		OS.execute("CMD.exe", ["/C", "cd %TEMP% &amp;&amp; dir"], true, output)
+		
+		```
+		
+		Note: This method is implemented on Android, iOS, Linux, macOS and Windows.
+		
+		Note: To execute a Windows command interpreter built-in command, specify `cmd.exe` in `path`, `/c` as the first argument, and the desired command as the second argument.
+		
+		Note: To execute a PowerShell built-in command, specify `powershell.exe` in `path`, `-Command` as the first argument, and the desired command as the second argument.
+		
+		Note: To execute a Unix shell built-in command, specify shell executable name in `path`, `-c` as the first argument, and the desired command as the second argument.
+		
+		@param output If the parameter is null, then the default value is new Godot.Collections.Array { }
+	**/
+	@:native("Execute")
+	public static overload function execute(path:std.String, arguments:HaxeArray<std.String>, blocking:Bool, output:godot.collections.Array, readStderr:Bool, openConsole:Bool):Int;
 	#end
 
 	/**		
-		Kill (terminate) the process identified by the given process ID (`pid`), e.g. the one returned by `godot.OS.execute` in non-blocking mode.
+		Kill (terminate) the process identified by the given process ID (`pid`), e.g. the one returned by `godot.OS.execute` in non-blocking mode. See also `godot.OS.crash`.
 		
 		Note: This method can also be used to kill processes that were not spawned by the game.
 		
@@ -904,7 +1075,7 @@ extern class OS {
 		
 		- `OS.shell_open("https://godotengine.org")` opens the default web browser on the official Godot website.
 		
-		- `OS.shell_open("mailto:example@example.com")` opens the default email client with the "To" field set to `example@example.com`. See [https://blog.escapecreative.com/customizing-mailto-links/](Customizing `mailto:` Links) for a list of fields that can be added.
+		- `OS.shell_open("mailto:example@example.com")` opens the default email client with the "To" field set to `example@example.com`. See [https://datatracker.ietf.org/doc/html/rfc2368](RFC 2368 - The `mailto` URL scheme) for a list of fields that can be added.
 		
 		Use `godot.ProjectSettings.globalizePath` to convert a `res://` or `user://` path into a system path for use with this method.
 		
@@ -912,6 +1083,16 @@ extern class OS {
 	**/
 	@:native("ShellOpen")
 	public static function shellOpen(uri:std.String):godot.Error;
+
+	/**		
+		Returns `true` if the child process ID (`pid`) is still running or `false` if it has terminated.
+		
+		Must be a valid ID generated from `godot.OS.execute`.
+		
+		Note: This method is implemented on Android, iOS, Linux, macOS and Windows.
+	**/
+	@:native("IsProcessRunning")
+	public static function isProcessRunning(pid:Int):Bool;
 
 	/**		
 		Returns the project's process ID.
@@ -969,6 +1150,10 @@ extern class OS {
 		if argument.find("=") &gt; -1:
 		var key_value = argument.split("=")
 		arguments[key_value[0].lstrip("--")] = key_value[1]
+		else:
+		# Options without an argument will be present in the dictionary,
+		# with the value set to an empty string.
+		arguments[argument.lstrip("--")] = ""
 		
 		```
 	**/
@@ -978,18 +1163,24 @@ extern class OS {
 
 	#if doc_gen
 	/**		
+		Deprecated, use `godot.Time.getDatetimeDictFromSystem` instead.
+		
 		Returns current datetime as a dictionary of keys: `year`, `month`, `day`, `weekday`, `dst` (Daylight Savings Time), `hour`, `minute`, `second`.
 	**/
 	@:native("GetDatetime")
 	public static function getDatetime(?utc:Bool):godot.collections.Dictionary;
 	#else
 	/**		
+		Deprecated, use `godot.Time.getDatetimeDictFromSystem` instead.
+		
 		Returns current datetime as a dictionary of keys: `year`, `month`, `day`, `weekday`, `dst` (Daylight Savings Time), `hour`, `minute`, `second`.
 	**/
 	@:native("GetDatetime")
 	public static overload function getDatetime():godot.collections.Dictionary;
 
 	/**		
+		Deprecated, use `godot.Time.getDatetimeDictFromSystem` instead.
+		
 		Returns current datetime as a dictionary of keys: `year`, `month`, `day`, `weekday`, `dst` (Daylight Savings Time), `hour`, `minute`, `second`.
 	**/
 	@:native("GetDatetime")
@@ -998,18 +1189,24 @@ extern class OS {
 
 	#if doc_gen
 	/**		
+		Deprecated, use `godot.Time.getDateDictFromSystem` instead.
+		
 		Returns current date as a dictionary of keys: `year`, `month`, `day`, `weekday`, `dst` (Daylight Savings Time).
 	**/
 	@:native("GetDate")
 	public static function getDate(?utc:Bool):godot.collections.Dictionary;
 	#else
 	/**		
+		Deprecated, use `godot.Time.getDateDictFromSystem` instead.
+		
 		Returns current date as a dictionary of keys: `year`, `month`, `day`, `weekday`, `dst` (Daylight Savings Time).
 	**/
 	@:native("GetDate")
 	public static overload function getDate():godot.collections.Dictionary;
 
 	/**		
+		Deprecated, use `godot.Time.getDateDictFromSystem` instead.
+		
 		Returns current date as a dictionary of keys: `year`, `month`, `day`, `weekday`, `dst` (Daylight Savings Time).
 	**/
 	@:native("GetDate")
@@ -1018,18 +1215,24 @@ extern class OS {
 
 	#if doc_gen
 	/**		
+		Deprecated, use `godot.Time.getTimeDictFromSystem` instead.
+		
 		Returns current time as a dictionary of keys: hour, minute, second.
 	**/
 	@:native("GetTime")
 	public static function getTime(?utc:Bool):godot.collections.Dictionary;
 	#else
 	/**		
+		Deprecated, use `godot.Time.getTimeDictFromSystem` instead.
+		
 		Returns current time as a dictionary of keys: hour, minute, second.
 	**/
 	@:native("GetTime")
 	public static overload function getTime():godot.collections.Dictionary;
 
 	/**		
+		Deprecated, use `godot.Time.getTimeDictFromSystem` instead.
+		
 		Returns current time as a dictionary of keys: hour, minute, second.
 	**/
 	@:native("GetTime")
@@ -1051,6 +1254,8 @@ extern class OS {
 	public static function getUnixTime():cs.types.UInt64;
 
 	/**		
+		Deprecated, use `godot.Time.getDatetimeDictFromUnixTime` instead.
+		
 		Gets a dictionary of time values corresponding to the given UNIX epoch time (in seconds).
 		
 		The returned Dictionary's values will be the same as `godot.OS.getDatetime`, with the exception of Daylight Savings Time as it cannot be determined from the epoch.
@@ -1129,12 +1334,16 @@ extern class OS {
 	public static function delayMsec(msec:Int):Void;
 
 	/**		
+		Deprecated, use `godot.Time.getTicksMsec` instead.
+		
 		Returns the amount of time passed in milliseconds since the engine started.
 	**/
 	@:native("GetTicksMsec")
 	public static function getTicksMsec():cs.types.UInt64;
 
 	/**		
+		Deprecated, use `godot.Time.getTicksUsec` instead.
+		
 		Returns the amount of time passed in microseconds since the engine started.
 	**/
 	@:native("GetTicksUsec")
@@ -1227,6 +1436,14 @@ extern class OS {
 	**/
 	@:native("KeyboardGetLayoutName")
 	public static function keyboardGetLayoutName(index:Int):std.String;
+
+	/**		
+		Converts a physical (US QWERTY) `scancode` to one in the active keyboard layout.
+		
+		Note: This method is implemented on Linux, macOS and Windows.
+	**/
+	@:native("KeyboardGetScancodeFromPhysical")
+	public static function keyboardGetScancodeFromPhysical(scancode:UInt):UInt;
 
 	/**		
 		Returns `true` if the host OS allows drawing.
@@ -1389,7 +1606,7 @@ extern class OS {
 	#end
 
 	/**		
-		Returns the amount of static memory being used by the program in bytes.
+		Returns the amount of static memory being used by the program in bytes (only works in debug).
 	**/
 	@:native("GetStaticMemoryUsage")
 	public static function getStaticMemoryUsage():cs.types.UInt64;
@@ -1405,6 +1622,23 @@ extern class OS {
 	**/
 	@:native("GetDynamicMemoryUsage")
 	public static function getDynamicMemoryUsage():cs.types.UInt64;
+
+	/**		
+		Moves the file or directory to the system's recycle bin. See also `godot.Directory.remove`.
+		
+		The method takes only global paths, so you may need to use `godot.ProjectSettings.globalizePath`. Do not use it for files in `res://` as it will not work in exported project.
+		
+		Note: If the user has disabled the recycle bin on their system, the file will be permanently deleted instead.
+		
+		```
+		
+		var file_to_remove = "user://slot1.sav"
+		OS.move_to_trash(ProjectSettings.globalize_path(file_to_remove))
+		
+		```
+	**/
+	@:native("MoveToTrash")
+	public static function moveToTrash(path:std.String):godot.Error;
 
 	/**		
 		Returns the absolute directory path where user data is written (`user://`).
@@ -1455,7 +1689,7 @@ extern class OS {
 	#end
 
 	/**		
-		Returns the global user configuration directory according to the operating system's standards. On desktop platforms, this path can be overridden by setting the `XDG_CONFIG_HOME` environment variable before starting the project. See [https://docs.godotengine.org/en/latest/tutorials/io/data_paths.html](File paths in Godot projects) in the documentation for more information. See also `godot.OS.getCacheDir` and `godot.OS.getDataDir`.
+		Returns the global user configuration directory according to the operating system's standards. On desktop platforms, this path can be overridden by setting the `XDG_CONFIG_HOME` environment variable before starting the project. See [$DOCS_URL/tutorials/io/data_paths.html](File paths in Godot projects) in the documentation for more information. See also `godot.OS.getCacheDir` and `godot.OS.getDataDir`.
 		
 		Not to be confused with `godot.OS.getUserDataDir`, which returns the project-specific user data path.
 	**/
@@ -1463,7 +1697,7 @@ extern class OS {
 	public static function getConfigDir():std.String;
 
 	/**		
-		Returns the global user data directory according to the operating system's standards. On desktop platforms, this path can be overridden by setting the `XDG_DATA_HOME` environment variable before starting the project. See [https://docs.godotengine.org/en/latest/tutorials/io/data_paths.html](File paths in Godot projects) in the documentation for more information. See also `godot.OS.getCacheDir` and `godot.OS.getConfigDir`.
+		Returns the global user data directory according to the operating system's standards. On desktop platforms, this path can be overridden by setting the `XDG_DATA_HOME` environment variable before starting the project. See [$DOCS_URL/tutorials/io/data_paths.html](File paths in Godot projects) in the documentation for more information. See also `godot.OS.getCacheDir` and `godot.OS.getConfigDir`.
 		
 		Not to be confused with `godot.OS.getUserDataDir`, which returns the project-specific user data path.
 	**/
@@ -1471,7 +1705,7 @@ extern class OS {
 	public static function getDataDir():std.String;
 
 	/**		
-		Returns the global cache data directory according to the operating system's standards. On desktop platforms, this path can be overridden by setting the `XDG_CACHE_HOME` environment variable before starting the project. See [https://docs.godotengine.org/en/latest/tutorials/io/data_paths.html](File paths in Godot projects) in the documentation for more information. See also `godot.OS.getConfigDir` and `godot.OS.getDataDir`.
+		Returns the global cache data directory according to the operating system's standards. On desktop platforms, this path can be overridden by setting the `XDG_CACHE_HOME` environment variable before starting the project. See [$DOCS_URL/tutorials/io/data_paths.html](File paths in Godot projects) in the documentation for more information. See also `godot.OS.getConfigDir` and `godot.OS.getDataDir`.
 		
 		Not to be confused with `godot.OS.getUserDataDir`, which returns the project-specific user data path.
 	**/
@@ -1593,6 +1827,12 @@ extern class OS {
 	#end
 
 	/**		
+		Crashes the engine (or the editor if called within a `tool` script). This should only be used for testing the system's crash handler, not for any other purpose. For general error reporting, use (in order of preference) `@GDScript.assert`, `@GDScript.push_error` or `godot.OS.alert`. See also `godot.OS.kill`.
+	**/
+	@:native("Crash")
+	public static function crash(message:std.String):Void;
+
+	/**		
 		Sets the name of the current thread.
 	**/
 	@:native("SetThreadName")
@@ -1605,6 +1845,14 @@ extern class OS {
 	**/
 	@:native("GetThreadCallerId")
 	public static function getThreadCallerId():cs.types.UInt64;
+
+	/**		
+		Returns the ID of the main thread. See `godot.OS.getThreadCallerId`.
+		
+		Note: Thread IDs are not deterministic and may be reused across application restarts.
+	**/
+	@:native("GetMainThreadId")
+	public static function getMainThreadId():cs.types.UInt64;
 
 	@:native("SetUseVsync")
 	public static function setUseVsync(enable:Bool):Void;
@@ -1625,7 +1873,7 @@ extern class OS {
 	public static function isDeltaSmoothingEnabled():Bool;
 
 	/**		
-		Returns `true` if the feature for the given feature tag is supported in the currently running instance, depending on the platform, build etc. Can be used to check whether you're currently running a debug build, on a certain platform or arch, etc. Refer to the [https://docs.godotengine.org/en/3.4/getting_started/workflow/export/feature_tags.html](Feature Tags) documentation for more details.
+		Returns `true` if the feature for the given feature tag is supported in the currently running instance, depending on the platform, build etc. Can be used to check whether you're currently running a debug build, on a certain platform or arch, etc. Refer to the [$DOCS_URL/tutorials/export/feature_tags.html](Feature Tags) documentation for more details.
 		
 		Note: Tag names are case-sensitive.
 	**/

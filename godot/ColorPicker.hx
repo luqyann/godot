@@ -79,7 +79,7 @@ extern class ColorPicker extends godot.BoxContainer {
 	public var hsvMode:Bool;
 
 	/**		
-		If `true`, shows an alpha channel slider (transparency).
+		If `true`, shows an alpha channel slider (opacity).
 	**/
 	@:native("EditAlpha")
 	public var editAlpha:Bool;

@@ -56,7 +56,7 @@ extern enum PropertyUsageFlags {
 	DefaultIntl;
 
 	/**		
-		Used to group properties together in the editor.
+		Used to group properties together in the editor. See `Godot.EditorInspector`.
 	**/
 	Group;
 

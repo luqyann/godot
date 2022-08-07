@@ -95,7 +95,7 @@ extern class VehicleWheel extends godot.Spatial {
 	public var brake:Single;
 
 	/**		
-		Accelerates the wheel by applying an engine force. The wheel is only speed up if it is in contact with a surface. The `godot.RigidBody.mass` of the vehicle has an effect on the acceleration of the vehicle. For a vehicle with a mass set to 1000, try a value in the 25 - 50 range for acceleration.
+		Accelerates the wheel by applying an engine force. The wheel is only sped up if it is in contact with a surface. The `godot.RigidBody.mass` of the vehicle has an effect on the acceleration of the vehicle. For a vehicle with a mass set to 1000, try a value in the 25 - 50 range for acceleration.
 		
 		Note: The simulation does not take the effect of gears into account, you will need to add logic for this if you wish to simulate gears.
 		
@@ -172,6 +172,14 @@ extern class VehicleWheel extends godot.Spatial {
 	**/
 	@:native("IsInContact")
 	public function isInContact():Bool;
+
+	/**		
+		Returns the contacting body node if valid in the tree, as `godot.Spatial`. At the moment, `godot.GridMap` is not supported so the node will be always of type `godot.PhysicsBody`.
+		
+		Returns `null` if the wheel is not in contact with a surface, or the contact body is not a `godot.PhysicsBody`.
+	**/
+	@:native("GetContactBody")
+	public function getContactBody():godot.Spatial;
 
 	@:native("SetRollInfluence")
 	public function setRollInfluence(rollInfluence:Single):Void;

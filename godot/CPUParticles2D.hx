@@ -71,6 +71,12 @@ extern class CPUParticles2D extends godot.Node2D {
 	public var hueVariation:Single;
 
 	/**		
+		Each particle's initial color will vary along this `godot.GradientTexture` (multiplied with `godot.CPUParticles2D.color`).
+	**/
+	@:native("ColorInitialRamp")
+	public var colorInitialRamp:godot.Gradient;
+
+	/**		
 		Each particle's color will vary along this `godot.Gradient` (multiplied with `godot.CPUParticles2D.color`).
 	**/
 	@:native("ColorRamp")
@@ -221,7 +227,7 @@ extern class CPUParticles2D extends godot.Node2D {
 	public var angularVelocityRandom:Single;
 
 	/**		
-		Initial angular velocity applied to each particle. Sets the speed of rotation of the particle.
+		Initial angular velocity applied to each particle in degrees per second. Sets the speed of rotation of the particle.
 	**/
 	@:native("AngularVelocity")
 	public var angularVelocity:Single;
@@ -550,6 +556,12 @@ extern class CPUParticles2D extends godot.Node2D {
 
 	@:native("GetColorRamp")
 	public function getColorRamp():godot.Gradient;
+
+	@:native("SetColorInitialRamp")
+	public function setColorInitialRamp(ramp:godot.Gradient):Void;
+
+	@:native("GetColorInitialRamp")
+	public function getColorInitialRamp():godot.Gradient;
 
 	/**		
 		Enables or disables the given flag (see `godot.CPUParticles2D_Flags` for options).

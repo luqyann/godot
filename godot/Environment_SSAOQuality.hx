@@ -11,12 +11,12 @@ extern enum Environment_SSAOQuality {
 	Low;
 
 	/**		
-		Low quality for the screen-space ambient occlusion effect.
+		Medium quality for the screen-space ambient occlusion effect.
 	**/
 	Medium;
 
 	/**		
-		Low quality for the screen-space ambient occlusion effect (slowest).
+		High quality for the screen-space ambient occlusion effect (slowest).
 	**/
 	High;
 }

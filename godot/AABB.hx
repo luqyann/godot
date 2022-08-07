@@ -141,6 +141,15 @@ extern class AABB_ extends cs.system.ValueType implements cs.system.IEquatable_1
 	public function abs():godot.AABB;
 
 	/**		
+		Returns the center of the `godot.AABB`, which is equal
+		to `godot.AABB.position` + (`godot.AABB.size` / 2).
+		
+		@returns The center.
+	**/
+	@:native("GetCenter")
+	public function getCenter():godot.Vector3;
+
+	/**		
 		Returns `true` if this `godot.AABB` completely encloses another one.
 		
 		@param with The other `godot.AABB` that may be enclosed.

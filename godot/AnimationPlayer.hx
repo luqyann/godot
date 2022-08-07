@@ -433,18 +433,24 @@ extern class AnimationPlayer extends godot.Node {
 	#if doc_gen
 	/**		
 		Seeks the animation to the `seconds` point in time (in seconds). If `update` is `true`, the animation updates too, otherwise it updates at process time. Events between the current frame and `seconds` are skipped.
+		
+		Note: Seeking to the end of the animation doesn't emit `animation_finished`. If you want to skip animation and emit the signal, use `godot.AnimationPlayer.advance`.
 	**/
 	@:native("Seek")
 	public function seek(seconds:Single, ?update:Bool):Void;
 	#else
 	/**		
 		Seeks the animation to the `seconds` point in time (in seconds). If `update` is `true`, the animation updates too, otherwise it updates at process time. Events between the current frame and `seconds` are skipped.
+		
+		Note: Seeking to the end of the animation doesn't emit `animation_finished`. If you want to skip animation and emit the signal, use `godot.AnimationPlayer.advance`.
 	**/
 	@:native("Seek")
 	public overload function seek(seconds:Single):Void;
 
 	/**		
 		Seeks the animation to the `seconds` point in time (in seconds). If `update` is `true`, the animation updates too, otherwise it updates at process time. Events between the current frame and `seconds` are skipped.
+		
+		Note: Seeking to the end of the animation doesn't emit `animation_finished`. If you want to skip animation and emit the signal, use `godot.AnimationPlayer.advance`.
 	**/
 	@:native("Seek")
 	public overload function seek(seconds:Single, update:Bool):Void;

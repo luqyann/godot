@@ -31,13 +31,25 @@ extern class TileMap extends godot.Node2D {
 	public var occluderLightMask:Int;
 
 	/**		
-		The collision mask(s) for all colliders in the TileMap. See [https://docs.godotengine.org/en/3.4/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
+		The navigation layers the TileMap generates its navigation regions in.
+	**/
+	@:native("NavigationLayers")
+	public var navigationLayers:UInt;
+
+	/**		
+		If `true`, this TileMap bakes a navigation region.
+	**/
+	@:native("BakeNavigation")
+	public var bakeNavigation:Bool;
+
+	/**		
+		The collision mask(s) for all colliders in the TileMap. See [$DOCS_URL/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
 	**/
 	@:native("CollisionMask")
 	public var collisionMask:UInt;
 
 	/**		
-		The collision layer(s) for all colliders in the TileMap. See [https://docs.godotengine.org/en/3.4/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
+		The collision layer(s) for all colliders in the TileMap. See [$DOCS_URL/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
 	**/
 	@:native("CollisionLayer")
 	public var collisionLayer:UInt;
@@ -285,6 +297,18 @@ extern class TileMap extends godot.Node2D {
 	@:native("GetCollisionBounce")
 	public function getCollisionBounce():Single;
 
+	@:native("SetBakeNavigation")
+	public function setBakeNavigation(bakeNavigation:Bool):Void;
+
+	@:native("IsBakingNavigation")
+	public function isBakingNavigation():Bool;
+
+	@:native("SetNavigationLayers")
+	public function setNavigationLayers(navigationLayers:UInt):Void;
+
+	@:native("GetNavigationLayers")
+	public function getNavigationLayers():UInt;
+
 	@:native("SetOccluderLightMask")
 	public function setOccluderLightMask(mask:Int):Void;
 
@@ -293,7 +317,7 @@ extern class TileMap extends godot.Node2D {
 
 	#if doc_gen
 	/**		
-		Sets the tile index for the cell given by a Vector2.
+		Sets the tile index for the given cell.
 		
 		An index of `-1` clears the cell.
 		
@@ -320,7 +344,7 @@ extern class TileMap extends godot.Node2D {
 	public function setCell(x:Int, y:Int, tile:Int, ?flipX:Bool, ?flipY:Bool, ?transpose:Bool, ?autotileCoord:Null<godot.Vector2>):Void;
 	#else
 	/**		
-		Sets the tile index for the cell given by a Vector2.
+		Sets the tile index for the given cell.
 		
 		An index of `-1` clears the cell.
 		
@@ -347,7 +371,7 @@ extern class TileMap extends godot.Node2D {
 	public overload function setCell(x:Int, y:Int, tile:Int):Void;
 
 	/**		
-		Sets the tile index for the cell given by a Vector2.
+		Sets the tile index for the given cell.
 		
 		An index of `-1` clears the cell.
 		
@@ -374,7 +398,7 @@ extern class TileMap extends godot.Node2D {
 	public overload function setCell(x:Int, y:Int, tile:Int, flipX:Bool):Void;
 
 	/**		
-		Sets the tile index for the cell given by a Vector2.
+		Sets the tile index for the given cell.
 		
 		An index of `-1` clears the cell.
 		
@@ -401,7 +425,7 @@ extern class TileMap extends godot.Node2D {
 	public overload function setCell(x:Int, y:Int, tile:Int, flipX:Bool, flipY:Bool):Void;
 
 	/**		
-		Sets the tile index for the cell given by a Vector2.
+		Sets the tile index for the given cell.
 		
 		An index of `-1` clears the cell.
 		
@@ -428,7 +452,7 @@ extern class TileMap extends godot.Node2D {
 	public overload function setCell(x:Int, y:Int, tile:Int, flipX:Bool, flipY:Bool, transpose:Bool):Void;
 
 	/**		
-		Sets the tile index for the cell given by a Vector2.
+		Sets the tile index for the given cell.
 		
 		An index of `-1` clears the cell.
 		
@@ -457,74 +481,100 @@ extern class TileMap extends godot.Node2D {
 
 	#if doc_gen
 	/**		
-		Sets the tile index for the given cell.
+		Sets the tile index for the cell given by a Vector2.
 		
 		An index of `-1` clears the cell.
 		
-		Optionally, the tile can also be flipped or transposed.
+		Optionally, the tile can also be flipped, transposed, or given autotile coordinates. The autotile coordinate refers to the column and row of the subtile.
 		
 		Note: Data such as navigation polygons and collision shapes are not immediately updated for performance reasons.
 		
 		If you need these to be immediately updated, you can call `godot.TileMap.updateDirtyQuadrants`.
+		
+		@param autotileCoord If the parameter is null, then the default value is new Vector2(0, 0)
 	**/
 	@:native("SetCellv")
-	public function setCellv(position:godot.Vector2, tile:Int, ?flipX:Bool, ?flipY:Bool, ?transpose:Bool):Void;
+	public function setCellv(position:godot.Vector2, tile:Int, ?flipX:Bool, ?flipY:Bool, ?transpose:Bool, ?autotileCoord:Null<godot.Vector2>):Void;
 	#else
 	/**		
-		Sets the tile index for the given cell.
+		Sets the tile index for the cell given by a Vector2.
 		
 		An index of `-1` clears the cell.
 		
-		Optionally, the tile can also be flipped or transposed.
+		Optionally, the tile can also be flipped, transposed, or given autotile coordinates. The autotile coordinate refers to the column and row of the subtile.
 		
 		Note: Data such as navigation polygons and collision shapes are not immediately updated for performance reasons.
 		
 		If you need these to be immediately updated, you can call `godot.TileMap.updateDirtyQuadrants`.
+		
+		@param autotileCoord If the parameter is null, then the default value is new Vector2(0, 0)
 	**/
 	@:native("SetCellv")
 	public overload function setCellv(position:godot.Vector2, tile:Int):Void;
 
 	/**		
-		Sets the tile index for the given cell.
+		Sets the tile index for the cell given by a Vector2.
 		
 		An index of `-1` clears the cell.
 		
-		Optionally, the tile can also be flipped or transposed.
+		Optionally, the tile can also be flipped, transposed, or given autotile coordinates. The autotile coordinate refers to the column and row of the subtile.
 		
 		Note: Data such as navigation polygons and collision shapes are not immediately updated for performance reasons.
 		
 		If you need these to be immediately updated, you can call `godot.TileMap.updateDirtyQuadrants`.
+		
+		@param autotileCoord If the parameter is null, then the default value is new Vector2(0, 0)
 	**/
 	@:native("SetCellv")
 	public overload function setCellv(position:godot.Vector2, tile:Int, flipX:Bool):Void;
 
 	/**		
-		Sets the tile index for the given cell.
+		Sets the tile index for the cell given by a Vector2.
 		
 		An index of `-1` clears the cell.
 		
-		Optionally, the tile can also be flipped or transposed.
+		Optionally, the tile can also be flipped, transposed, or given autotile coordinates. The autotile coordinate refers to the column and row of the subtile.
 		
 		Note: Data such as navigation polygons and collision shapes are not immediately updated for performance reasons.
 		
 		If you need these to be immediately updated, you can call `godot.TileMap.updateDirtyQuadrants`.
+		
+		@param autotileCoord If the parameter is null, then the default value is new Vector2(0, 0)
 	**/
 	@:native("SetCellv")
 	public overload function setCellv(position:godot.Vector2, tile:Int, flipX:Bool, flipY:Bool):Void;
 
 	/**		
-		Sets the tile index for the given cell.
+		Sets the tile index for the cell given by a Vector2.
 		
 		An index of `-1` clears the cell.
 		
-		Optionally, the tile can also be flipped or transposed.
+		Optionally, the tile can also be flipped, transposed, or given autotile coordinates. The autotile coordinate refers to the column and row of the subtile.
 		
 		Note: Data such as navigation polygons and collision shapes are not immediately updated for performance reasons.
 		
 		If you need these to be immediately updated, you can call `godot.TileMap.updateDirtyQuadrants`.
+		
+		@param autotileCoord If the parameter is null, then the default value is new Vector2(0, 0)
 	**/
 	@:native("SetCellv")
 	public overload function setCellv(position:godot.Vector2, tile:Int, flipX:Bool, flipY:Bool, transpose:Bool):Void;
+
+	/**		
+		Sets the tile index for the cell given by a Vector2.
+		
+		An index of `-1` clears the cell.
+		
+		Optionally, the tile can also be flipped, transposed, or given autotile coordinates. The autotile coordinate refers to the column and row of the subtile.
+		
+		Note: Data such as navigation polygons and collision shapes are not immediately updated for performance reasons.
+		
+		If you need these to be immediately updated, you can call `godot.TileMap.updateDirtyQuadrants`.
+		
+		@param autotileCoord If the parameter is null, then the default value is new Vector2(0, 0)
+	**/
+	@:native("SetCellv")
+	public overload function setCellv(position:godot.Vector2, tile:Int, flipX:Bool, flipY:Bool, transpose:Bool, autotileCoord:Nullable1<godot.Vector2>):Void;
 	#end
 
 	/**		

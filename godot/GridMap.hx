@@ -29,7 +29,19 @@ extern class GridMap extends godot.Spatial {
 	}
 
 	/**		
-		The physics layers this GridMap detects collisions in. See [https://docs.godotengine.org/en/3.4/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
+		The navigation layers the GridMap generates its navigation regions in.
+	**/
+	@:native("NavigationLayers")
+	public var navigationLayers:UInt;
+
+	/**		
+		If `true`, this GridMap uses cell navmesh resources to create navigation regions.
+	**/
+	@:native("BakeNavigation")
+	public var bakeNavigation:Bool;
+
+	/**		
+		The physics layers this GridMap detects collisions in. See [$DOCS_URL/tutorials/physics/physics_introduction.html#collision-layers-and-masks](Collision layers and masks) in the documentation for more information.
 	**/
 	@:native("CollisionMask")
 	public var collisionMask:UInt;
@@ -89,6 +101,12 @@ extern class GridMap extends godot.Spatial {
 	public var useInBakedLight:Bool;
 
 	/**		
+		Overrides the default friction and bounce physics properties for the whole `godot.GridMap`.
+	**/
+	@:native("PhysicsMaterial")
+	public var physicsMaterial:godot.PhysicsMaterial;
+
+	/**		
 		The assigned `godot.MeshLibrary`.
 	**/
 	@:native("MeshLibrary")
@@ -138,6 +156,24 @@ extern class GridMap extends godot.Spatial {
 	**/
 	@:native("GetCollisionLayerBit")
 	public function getCollisionLayerBit(bit:Int):Bool;
+
+	@:native("SetPhysicsMaterial")
+	public function setPhysicsMaterial(material:godot.PhysicsMaterial):Void;
+
+	@:native("GetPhysicsMaterial")
+	public function getPhysicsMaterial():godot.PhysicsMaterial;
+
+	@:native("SetBakeNavigation")
+	public function setBakeNavigation(bakeNavigation:Bool):Void;
+
+	@:native("IsBakingNavigation")
+	public function isBakingNavigation():Bool;
+
+	@:native("SetNavigationLayers")
+	public function setNavigationLayers(navigationLayers:UInt):Void;
+
+	@:native("GetNavigationLayers")
+	public function getNavigationLayers():UInt;
 
 	@:native("SetMeshLibrary")
 	public function setMeshLibrary(meshLibrary:godot.MeshLibrary):Void;
@@ -270,6 +306,12 @@ extern class GridMap extends godot.Spatial {
 	**/
 	@:native("GetUsedCells")
 	public function getUsedCells():godot.collections.Array;
+
+	/**		
+		Returns an array of all cells with the given item index specified in `item`.
+	**/
+	@:native("GetUsedCellsByItem")
+	public function getUsedCellsByItem(item:Int):godot.collections.Array;
 
 	/**		
 		Returns an array of `godot.Transform` and `godot.Mesh` references corresponding to the non-empty cells in the grid. The transforms are specified in world space.

@@ -10,7 +10,7 @@ It can represent transformations such as translation, rotation, or scaling.
 It consists of a three `godot.Vector2` values: x, y, and the origin.
 
 For more information, read this documentation article:
-https://docs.godotengine.org/en/3.4/tutorials/math/matrices_and_transforms.html
+https://docs.godotengine.org/en/3.5/tutorials/math/matrices_and_transforms.html
 **/
 #if doc_gen
 @:struct
@@ -42,12 +42,12 @@ extern abstract Transform2D(Transform2D_) from Transform2D_ to Transform2D_ {
 		Constructs a transformation matrix from the given components.
 		Arguments are named such that xy is equal to calling x.y
 		
-		@param xx The X component of the X column vector, accessed via `t.x.x` or `[0][0]`
-		@param xy The Y component of the X column vector, accessed via `t.x.y` or `[0][1]`
-		@param yx The X component of the Y column vector, accessed via `t.y.x` or `[1][0]`
-		@param yy The Y component of the Y column vector, accessed via `t.y.y` or `[1][1]`
-		@param ox The X component of the origin vector, accessed via `t.origin.x` or `[2][0]`
-		@param oy The Y component of the origin vector, accessed via `t.origin.y` or `[2][1]`
+		@param xx The X component of the X column vector, accessed via `t.x.x` or `[0][0]`.
+		@param xy The Y component of the X column vector, accessed via `t.x.y` or `[0][1]`.
+		@param yx The X component of the Y column vector, accessed via `t.y.x` or `[1][0]`.
+		@param yy The Y component of the Y column vector, accessed via `t.y.y` or `[1][1]`.
+		@param ox The X component of the origin vector, accessed via `t.origin.x` or `[2][0]`.
+		@param oy The Y component of the origin vector, accessed via `t.origin.y` or `[2][1]`.
 	**/
 	public overload inline function new(xx:Single, xy:Single, yx:Single, yy:Single, ox:Single, oy:Single) {
 		this = new Transform2D_(xx, xy, yx, yy, ox, oy);
@@ -196,8 +196,6 @@ extern class Transform2D_ extends cs.system.ValueType implements cs.system.IEqua
 
 	/**		
 		The basis matrix's X vector (column 0). Equivalent to array index `[0]`.
-		
-		Value:
 	**/
 	@:native("x")
 	public var x:godot.Vector2;
@@ -264,13 +262,13 @@ extern class Transform2D_ extends cs.system.ValueType implements cs.system.IEqua
 	public function orthonormalized():godot.Transform2D;
 
 	/**		
-		Rotates the transform by `phi` (in radians), using matrix multiplication.
+		Rotates the transform by `angle` (in radians), using matrix multiplication.
 		
-		@param phi The angle to rotate, in radians.
+		@param angle The angle to rotate, in radians.
 		@returns The rotated transformation matrix.
 	**/
 	@:native("Rotated")
-	public function rotated(phi:Single):godot.Transform2D;
+	public function rotated(angle:Single):godot.Transform2D;
 
 	/**		
 		Scales the transform by the given scaling factor, using matrix multiplication.
@@ -326,12 +324,12 @@ extern class Transform2D_ extends cs.system.ValueType implements cs.system.IEqua
 		Constructs a transformation matrix from the given components.
 		Arguments are named such that xy is equal to calling x.y
 		
-		@param xx The X component of the X column vector, accessed via `t.x.x` or `[0][0]`
-		@param xy The Y component of the X column vector, accessed via `t.x.y` or `[0][1]`
-		@param yx The X component of the Y column vector, accessed via `t.y.x` or `[1][0]`
-		@param yy The Y component of the Y column vector, accessed via `t.y.y` or `[1][1]`
-		@param ox The X component of the origin vector, accessed via `t.origin.x` or `[2][0]`
-		@param oy The Y component of the origin vector, accessed via `t.origin.y` or `[2][1]`
+		@param xx The X component of the X column vector, accessed via `t.x.x` or `[0][0]`.
+		@param xy The Y component of the X column vector, accessed via `t.x.y` or `[0][1]`.
+		@param yx The X component of the Y column vector, accessed via `t.y.x` or `[1][0]`.
+		@param yy The Y component of the Y column vector, accessed via `t.y.y` or `[1][1]`.
+		@param ox The X component of the origin vector, accessed via `t.origin.x` or `[2][0]`.
+		@param oy The Y component of the origin vector, accessed via `t.origin.y` or `[2][1]`.
 	**/
 	@:native("new")
 	public overload function new(xx:Single, xy:Single, yx:Single, yy:Single, ox:Single, oy:Single):Void;

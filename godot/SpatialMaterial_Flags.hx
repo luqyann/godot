@@ -101,6 +101,11 @@ extern enum SpatialMaterial_Flags {
 	UseShadowToOpacity;
 
 	/**		
+		Enables signed distance field rendering shader.
+	**/
+	AlbedoTextureSdf;
+
+	/**		
 		Represents the size of the `godot.SpatialMaterial_Flags` enum.
 	**/
 	Max;

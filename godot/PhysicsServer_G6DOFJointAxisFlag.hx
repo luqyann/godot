@@ -6,22 +6,22 @@ package godot;
 @:csNative
 extern enum PhysicsServer_G6DOFJointAxisFlag {
 	/**		
-		If `set` there is linear motion possible within the given limits.
+		If set, linear motion is possible within the given limits.
 	**/
 	LinearLimit;
 
 	/**		
-		If `set` there is rotational motion possible.
+		If set, rotational motion is possible.
 	**/
 	AngularLimit;
 
 	/**		
-		If `set` there is a rotational motor across these axes.
+		If set, there is a rotational motor across these axes.
 	**/
 	Motor;
 
 	/**		
-		If `set` there is a linear motor on this axis that targets a specific velocity.
+		If set, there is a linear motor on this axis that targets a specific velocity.
 	**/
 	LinearMotor;
 }

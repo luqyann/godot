@@ -27,13 +27,15 @@ extern class AudioStreamPlayer2D extends godot.Node2D {
 	}
 
 	/**		
-		Areas in which this sound plays.
+		Determines which `godot.Area2D` layers affect the sound for reverb and audio bus effects. Areas can be used to redirect `godot.AudioStream`s so that they play in a certain audio bus. An example of how you might use this is making a "water" area so that sounds played in the water are redirected through an audio bus to make them sound like they are being played underwater.
 	**/
 	@:native("AreaMask")
 	public var areaMask:UInt;
 
 	/**		
 		Bus on which this audio is playing.
+		
+		Note: When setting this property, keep in mind that no validation is performed to see if the given name matches an existing bus. This is because audio bus layouts might be loaded after this property is set. If this given name can't be resolved at runtime, it will fall back to `"Master"`.
 	**/
 	@:native("Bus")
 	public var bus:std.String;
